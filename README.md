@@ -7,6 +7,7 @@ Example RESTful API for loyalty program powered by Spring Boot
 Here is the basic skeleton for your app repo that each of the starter templates conforms to:
 
 ```bash
+├── .buildkite
 ├── api-service
 │   ├── src
 │   │   ├── integration-test
@@ -44,6 +45,9 @@ Here is the basic skeleton for your app repo that each of the starter templates 
 
 - The `build.gradle` in root path is used for defining global configuration. In this case, I
   provided simple SonarQube and Docker build & publish plugins.
+
+- The [Buildkite](https://buildkite.com/) CICD pipeline script can be found beneath the `.buildkite`
+  directory.
 
 ## Style Guide
 
