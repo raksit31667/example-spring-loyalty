@@ -1,4 +1,6 @@
 version: '3'
 services:
-
-volumes:
+  check:
+    image: openjdk:11.0.2-slim
+    working_dir: /app
+    command: ./gradlew clean check
