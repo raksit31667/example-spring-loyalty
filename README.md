@@ -1,5 +1,7 @@
 # example-spring-loyalty
 
+[![Build status](https://badge.buildkite.com/889411af93ce4fb117084d8cd0a0c6dd38603bc151279d5b1a.svg)](https://buildkite.com/raksit31667/example-spring-loyalty)
+
 Example RESTful API for loyalty program powered by Spring Boot
 
 ## Directory structure
