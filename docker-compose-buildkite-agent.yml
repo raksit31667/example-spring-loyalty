@@ -1,0 +1,11 @@
+version: '3'
+services:
+  buildkite-agent:
+    container_name: buildkite-agent
+    image: buildkite/agent:3
+    environment:
+      BUILDKITE_BUILD_PATH: /var/lib/buildkite/builds
+      BUILDKITE_AGENT_TOKEN: ${BUILDKITE_AGENT_TOKEN}
+    volumes:
+      - /var/lib/buildkite/builds:/var/lib/buildkite/builds
+      - /var/run/docker.sock:/var/run/docker.sock
