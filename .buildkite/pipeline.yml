@@ -1,5 +1,8 @@
 steps:
   - label: ":white_check_mark: Check"
-    command: docker-compose run check
+    command: ./gradlew clean check
+    plugins:
+      - docker-compose#v3.8.0:
+          run: base
     artifact_paths:
       - "api-service/build/reports/**/*"
