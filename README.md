@@ -58,3 +58,49 @@ style, we use [IntelliJ Java Google Style](https://google.github.io/styleguide/)
 import to IntelliJ by navigating to **Preference > Editor > Code Style > Java**, then click
 on [Kebab Menu](https://thenounproject.com/term/kebab-menu/198755/) and **Import Scheme**. Finally,
 browse to the XML file underneath `config/codestyle`.
+
+## Environment variables
+
+We use [direnv](https://direnv.net/) that can load and unload environment variables depending on the
+current directory, so that you don't have to export variables repetitively.
+
+After finish installation, copy `.envrc` based from `.envrc.template` and fill all required
+variables, then run this following command in the root directory to apply variables:
+
+```
+direnv allow
+```
+
+## CICD
+
+[Buildkite](https://buildkite.com/) is a platform for running fast, secure, and scalable continuous
+integration pipelines on our own infrastructure, it even works with a local Docker engine. Although
+buildkite agent doesn't have dedicated agent for Java / Gradle, yet it allows builds to use Docker (
+for more details, read
+this [documentation](https://buildkite.com/docs/agent/v3/docker#allowing-builds-to-use-docker).)
+
+### Start local agent
+
+Please be careful that **you have to start `buildkite-agent` in local machine in order to use
+Buildkite.**
+
+Install `buildkite-agent` based on your own machine. Follow the
+instructions [here](https://buildkite.com/docs/agent/v3/installation). The snippet below is the
+example for macOS using Homebrew:
+
+```
+brew install buildkite/buildkite/buildkite-agent
+```
+
+Then, you have to set Buildkite agent token for this pipeline, you can either run this command below
+or use `direnv` by creating `.envrc` based from `.envrc.template`:
+
+```
+export BUILDKITE_AGENT_TOKEN=<your-buildkite-agent-token-here>
+```
+
+Finally, run `buildkite-agent` via `docker-compose` with the following command:
+
+```
+docker compose -f docker-compose-buildkite-agent.yml up
+```
