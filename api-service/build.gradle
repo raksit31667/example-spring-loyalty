@@ -1,0 +1,172 @@
+buildscript {
+    ext {
+        springBootVersion = '2.5.0'
+    }
+    repositories {
+        mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2' }
+        maven { url 'https://repo.spring.io/snapshot' }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath 'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:4.0.0'
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE'
+        classpath "gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:2.6.0"
+        classpath 'com.gorylenko.gradle-git-properties:gradle-git-properties:2.3.1'
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.unbroken-dome.test-sets'
+apply plugin: 'jacoco'
+apply plugin: 'com.google.cloud.tools.jib'
+apply plugin: 'com.gorylenko.gradle-git-properties'
+
+group = 'com.raksit.example'
+version = '0.0.1'
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/snapshot' }
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.projectlombok:lombok:1.18.12'
+    implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.7.3'
+    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
+    testImplementation 'io.rest-assured:rest-assured:3.1.0'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+}
+
+processResources {
+    filesMatching('application.yaml') {
+        expand(project.properties)
+    }
+}
+
+testSets {
+    integrationTest {
+        dirName = 'integration-test'
+    }
+}
+
+test {
+    testLogging.showStandardStreams = false
+    useJUnitPlatform()
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+    reports {
+        html.enabled = true
+    }
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+    finalizedBy jacocoTestReport
+}
+
+integrationTest {
+    testLogging.showStandardStreams = false
+    useJUnitPlatform()
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+    reports {
+        html.enabled = true
+    }
+}
+
+bootRun {
+    if (System.properties.containsKey('spring.profiles.active')) {
+        systemProperty 'spring.profiles.active', System.properties['spring.profiles.active']
+    } else {
+        systemProperty 'spring.profiles.active', 'local'
+    }
+}
+
+checkstyle {
+    toolVersion = "8.33"
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+    maxErrors = 0
+    maxWarnings = 0
+    reportsDir = file("$project.buildDir/reports/checkstyle")
+}
+
+pmd {
+    toolVersion = "6.21.0"
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+    reportsDir = file("$project.buildDir/reports/pmd")
+    ruleSets = ["java-basic", "java-braces"]
+}
+
+jacoco {
+    toolVersion = '0.8.2'
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+def jacocoExcludedClasses = ["com/raksit/example/template/TemplateApplication*"]
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+        }
+    }
+    classDirectories.setFrom(classDirectories.files.collect {
+        fileTree(dir: it, exclude: jacocoExcludedClasses)
+    })
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.destination file("$buildDir/reports/jacoco")
+    }
+    afterEvaluate {
+        classDirectories.setFrom(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExcludedClasses)
+        })
+    }
+}
+
+task docker(type: com.google.cloud.tools.jib.gradle.BuildImageTask) {
+    jibExtension = project.extensions.getByName('jib')
+    doFirst {
+        jib {
+            to {
+                image = "registry-1.docker.io/raksit31667/example-spring-template"
+                auth {
+                    username = dockerUsername
+                    password = dockerPassword
+                }
+            }
+        }
+    }
+}
+
+check.dependsOn(jacocoTestCoverageVerification, integrationTest)
+test.shouldRunAfter(pmdMain)
+integrationTest.shouldRunAfter(jacocoTestCoverageVerification)
+jacocoTestReport.dependsOn(test)
+jacocoTestCoverageVerification.dependsOn(jacocoTestReport)
+

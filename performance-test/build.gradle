@@ -1,0 +1,20 @@
+plugins {
+    id 'com.github.lkishalmi.gatling' version '3.3.1'
+}
+
+gatling {
+    toolVersion = '3.4.1'
+    scalaVersion = '2.12.10'
+}
+
+sourceSets {
+    gatling {
+        scala.srcDir 'src/gatling/scala'
+        resources.srcDir 'src/gatling/resources'
+    }
+}
+
+dependencies {
+    implementation 'io.gatling:gatling-core:3.4.1'
+    implementation 'io.gatling:gatling-http:3.4.1'
+}

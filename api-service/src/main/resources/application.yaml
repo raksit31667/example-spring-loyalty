@@ -1,0 +1,29 @@
+management:
+  health:
+    diskspace:
+      enabled: true
+  info:
+    git:
+      mode: full
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags.*:
+      service: template
+
+info:
+  application:
+    name: ${rootProject.name}
+    version: ${version}
+    jdk:
+      version: \${java.version}
+    spring-boot:
+      version: ${springBootVersion}

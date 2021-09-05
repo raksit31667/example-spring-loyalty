@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: template
+---
+spring:
+  profiles: local
+  main:
+    allow-bean-definition-overriding: true
