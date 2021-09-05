@@ -3,6 +3,6 @@ services:
   check:
     image: openjdk:11.0.2-slim
     working_dir: /app
-    command: ./gradlew clean check
+    command: ./gradlew clean check zipReports
     volumes:
       - .:/app
