@@ -2,4 +2,4 @@ steps:
   - label: ":white_check_mark: Check"
     command: docker-compose run check
     artifact_paths:
-      - "api-service/build/reports/**/*"
+      - "api-service/build/check-reports/**/*"

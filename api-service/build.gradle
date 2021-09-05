@@ -164,6 +164,17 @@ task docker(type: com.google.cloud.tools.jib.gradle.BuildImageTask) {
     }
 }
 
+task zipReports(type: Zip) {
+    archiveFileName = "${rootProject.name}-${project.name}-reports.zip"
+    destinationDirectory = file("$buildDir/check-reports")
+
+    from("$buildDir/reports")
+}
+
+zipReports {
+    dependsOn check
+}
+
 check.dependsOn(jacocoTestCoverageVerification, integrationTest)
 test.shouldRunAfter(pmdMain)
 integrationTest.shouldRunAfter(jacocoTestCoverageVerification)
