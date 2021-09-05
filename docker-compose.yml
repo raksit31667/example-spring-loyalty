@@ -6,3 +6,4 @@ services:
     command: ./gradlew clean check zipReports
     volumes:
       - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
