@@ -1,20 +1,15 @@
 package com.raksit.example.loyalty.user;
 
-import static io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider.DOCKER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
+import com.raksit.example.loyalty.annotation.IntegrationTest;
 import java.util.Optional;
 import java.util.UUID;
-import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-@FlywayTest
-@AutoConfigureEmbeddedDatabase(provider = DOCKER)
+@IntegrationTest
 public class UserRepositoryTest {
 
   @Autowired
