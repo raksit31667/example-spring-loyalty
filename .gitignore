@@ -27,3 +27,6 @@
 
 ### Local Config ###
 /api-service/config/
+
+### Local environment variables ###
+.envrc
