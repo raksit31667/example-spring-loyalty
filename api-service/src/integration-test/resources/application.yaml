@@ -1,0 +1,6 @@
+zonky:
+  test:
+    database:
+      postgres:
+        docker:
+          image: postgres:alpine
