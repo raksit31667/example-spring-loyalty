@@ -1,4 +1,4 @@
-package com.raksit.example.template.tracing;
+package com.raksit.example.loyalty.tracing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskDecorator;

@@ -1,10 +1,10 @@
-package com.raksit.example.template;
+package com.raksit.example.loyalty;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TemplateApplicationTest {
+class LoyaltyApplicationTest {
 
   @Test
   void contextLoads() {

@@ -1,6 +1,6 @@
-# example-spring-template
+# example-spring-loyalty
 
-My template for initializing Spring Boot application
+Example RESTful API for loyalty program powered by Spring Boot
 
 ## Directory structure
 

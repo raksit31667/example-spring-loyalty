@@ -1,4 +1,4 @@
-package com.raksit.example.template
+package com.raksit.example.loyalty
 
 import io.gatling.core.Predef._ // required for Gatling core structure DSL
 import io.gatling.http.Predef._ // required for Gatling HTTP DSL

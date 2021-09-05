@@ -3,7 +3,7 @@
   <springProfile name="local">
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <pattern>[%d][example-spring-template][%-5p][%t][%c{0}][%M][trace_id:%X{x-request-id}][action:%X{action}][application_tier:%X{application_tier}][duration_millis:%X{duration_millis}ms][status:%X{status}] - %m%n</pattern>
+        <pattern>[%d][example-spring-loyalty][%-5p][%t][%c{0}][%M][trace_id:%X{x-request-id}][action:%X{action}][application_tier:%X{application_tier}][duration_millis:%X{duration_millis}ms][status:%X{status}] - %m%n</pattern>
       </encoder>
     </appender>
     <root level="INFO">
@@ -21,7 +21,7 @@
             <pattern>
               {
               "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSZ\"}",
-              "project": "example-spring-template",
+              "project": "example-spring-loyalty",
               "log_level": "%level",
               "thread": "%thread",
               "class_name": "%class",

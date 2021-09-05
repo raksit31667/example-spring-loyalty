@@ -1,4 +1,4 @@
-package com.raksit.example.template.tracing;
+package com.raksit.example.loyalty.tracing;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;

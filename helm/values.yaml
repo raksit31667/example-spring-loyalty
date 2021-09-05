@@ -7,7 +7,7 @@ replicaCount: 1
 environment: default
 
 image:
-  repository: registry-1.docker.io/raksit31667/example-spring-template
+  repository: registry-1.docker.io/raksit31667/example-spring-loyalty
   pullPolicy: Always
 
 imagePullSecrets: []

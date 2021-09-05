@@ -121,7 +121,7 @@ jacoco {
     reportsDir = file("$buildDir/reports/jacoco")
 }
 
-def jacocoExcludedClasses = ["com/raksit/example/template/TemplateApplication*"]
+def jacocoExcludedClasses = ["com/raksit/example/loyalty/LoyaltyApplication*"]
 
 jacocoTestCoverageVerification {
     violationRules {
@@ -154,7 +154,7 @@ task docker(type: com.google.cloud.tools.jib.gradle.BuildImageTask) {
     doFirst {
         jib {
             to {
-                image = "registry-1.docker.io/raksit31667/example-spring-template"
+                image = "registry-1.docker.io/raksit31667/example-spring-loyalty"
                 auth {
                     username = dockerUsername
                     password = dockerPassword
