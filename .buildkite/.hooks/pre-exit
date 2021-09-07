@@ -1,6 +1,0 @@
-#! /bin/bash
-
-echo ':s3: Upload Gradle cache'
-
-docker-compose run upload-gradle-cache
-docker-compose down
