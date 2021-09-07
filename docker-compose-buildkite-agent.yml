@@ -7,6 +7,6 @@ services:
       BUILDKITE_BUILD_PATH: /var/lib/buildkite/builds
       BUILDKITE_AGENT_TOKEN: ${BUILDKITE_AGENT_TOKEN}
     volumes:
-      - ~/.gradle:/private/.gradle
+      - ~/.gradle:/.gradle
       - /var/lib/buildkite/builds:/var/lib/buildkite/builds
       - /var/run/docker.sock:/var/run/docker.sock
