@@ -14,4 +14,4 @@ services:
     command: s3 sync --quiet /gradle-cache s3://example-spring-loyalty-gradle-cache
     volumes:
       - ~/.aws:/root/.aws
-      - gradle-cache:gradle-cache
+      - gradle-cache:./gradle-cache
