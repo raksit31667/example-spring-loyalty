@@ -10,7 +10,7 @@ services:
       - ~/.gradle:/root/.gradle
 
   upload-gradle-cache:
-    image: mesosphere/aws-cli
+    image: amazon/aws-cli
     command: s3 sync --quiet gradle-cache s3://example-spring-loyalty-gradle-cache
     volumes:
       - ~/.aws:/root/.aws
