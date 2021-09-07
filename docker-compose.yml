@@ -7,3 +7,11 @@ services:
     volumes:
       - .:/app
       - /var/run/docker.sock:/var/run/docker.sock
+      - gradle-cache:~/.gradle
+
+  upload-gradle-cache:
+    image: mesosphere/aws-cli
+    command: s3 sync --quiet /gradle-cache s3://example-spring-loyalty-gradle-cache
+    volumes:
+      - ~/.aws:/root/.aws
+      - gradle-cache:gradle-cache
