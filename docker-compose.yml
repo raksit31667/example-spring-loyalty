@@ -4,10 +4,12 @@ services:
     image: openjdk:11.0.2-slim
     working_dir: /app
     command: ./gradlew clean check zipReports
+    environment:
+      GRADLE_USER_HOME: /private/.gradle
     volumes:
       - .:/app
       - /var/run/docker.sock:/var/run/docker.sock
-      - ~/.gradle:/root/.gradle
+      - ~/.gradle:/private/.gradle
 
   upload-gradle-cache:
     image: amazon/aws-cli
