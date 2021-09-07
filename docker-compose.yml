@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/app
       - /var/run/docker.sock:/var/run/docker.sock
-      - gradle-cache:/root/.gradle
+      - ~/.gradle:/root/.gradle
 
   upload-gradle-cache:
     image: mesosphere/aws-cli
