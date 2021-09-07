@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/app
       - /var/run/docker.sock:/var/run/docker.sock
-      - .gradle:/root/.gradle
+      - /tmp/.gradle:/root/.gradle
 
   upload-gradle-cache:
     image: amazon/aws-cli
