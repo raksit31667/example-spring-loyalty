@@ -1,5 +1,0 @@
-#! /bin/bash
-
-echo ':s3: Download Gradle cache'
-
-docker volume create --name gradle-cache
