@@ -5,9 +5,9 @@ services:
     working_dir: /app
     command: ./gradlew clean check zipReports
     volumes:
+      - ~/.gradle:/root/.gradle
       - .:/app
       - /var/run/docker.sock:/var/run/docker.sock
-      - ~/.gradle:/root/.gradle
 
   upload-gradle-cache:
     image: amazon/aws-cli
