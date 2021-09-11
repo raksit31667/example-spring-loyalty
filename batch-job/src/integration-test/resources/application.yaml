@@ -1,0 +1,9 @@
+spring:
+  batch:
+    initialize-schema: always
+zonky:
+  test:
+    database:
+      postgres:
+        docker:
+          image: postgres:alpine
