@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+  <springProfile name="local">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <pattern>[%d][example-spring-loyalty-batch-job][%-5p][%t][%c{0}][%M][trace_id:%X{x-request-id}][action:%X{action}][application_tier:%X{application_tier}][duration_millis:%X{duration_millis}ms][status:%X{status}] - %m%n</pattern>
+      </encoder>
+    </appender>
+    <root level="INFO">
+      <appender-ref ref="STDOUT"/>
+    </root>
+  </springProfile>
+  <springProfile name="dev | qa | uat | prod">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+        <providers>
+          <timestamp>
+            <timeZone>UTC</timeZone>
+          </timestamp>
+          <pattern>
+            <pattern>
+              {
+              "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSZ\"}",
+              "project": "example-spring-loyalty-batch-job",
+              "log_level": "%level",
+              "thread": "%thread",
+              "class_name": "%class",
+              "line_number": "%line",
+              "message": "%message",
+              "stack_trace": "%exception{5}",
+              "status": "%X{status}",
+              "duration_millis": "%X{duration_millis}",
+              "application_tier": "%X{application_tier}",
+              "action": "%X{action}",
+              "trace_id": "%X{x-request-id}"
+              }
+            </pattern>
+          </pattern>
+        </providers>
+      </encoder>
+    </appender>
+    <root level="INFO">
+      <appender-ref ref="STDOUT"/>
+    </root>
+  </springProfile>
+</configuration>

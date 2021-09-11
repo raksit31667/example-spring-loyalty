@@ -1,2 +1,2 @@
 rootProject.name = 'example-spring-loyalty'
-include 'api-service', 'performance-test'
+include 'api-service', 'performance-test', 'batch-job'
