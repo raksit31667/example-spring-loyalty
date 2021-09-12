@@ -2,12 +2,14 @@
     method: GET
     path:
       matcher: ShouldMatch
-      value: /loyalty/users.*
-  response:
-    status: 200
-    headers:
-      Content-Type: application/json
-    body: >
-      {
-        "points": 100
-      }
+      value: /loyalty/users/.*
+  dynamic_response:
+    engine: go_template
+    script: >
+      headers:
+        Content-Type: [application/json]
+      body: >
+        {
+          "id": "{{ substr 15 51 .Request.Path }}",
+          "points": 100
+        }
