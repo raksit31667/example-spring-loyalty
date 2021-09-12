@@ -21,6 +21,10 @@ management:
     tags.*:
       service: example-spring-loyalty-batch-job
 
+spring:
+  batch:
+    initialize-schema: always
+
 info:
   application:
     name: ${rootProject.name}
