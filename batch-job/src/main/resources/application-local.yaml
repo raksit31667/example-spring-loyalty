@@ -6,3 +6,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
+
+legacy:
+  url: http://localhost:9080
