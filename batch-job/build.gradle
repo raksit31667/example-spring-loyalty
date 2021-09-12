@@ -54,6 +54,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
     testImplementation 'io.zonky.test:embedded-database-spring-test:2.1.0'
     testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0'
+    testImplementation 'org.mock-server:mockserver-netty:5.11.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
