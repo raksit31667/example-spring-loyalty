@@ -130,7 +130,9 @@ jacoco {
 
 def jacocoExcludedClasses = [
         "com/raksit/example/loyalty/LoyaltyBatchJobApplication*",
-        "com/raksit/example/loyalty/user/*"
+        "com/raksit/example/loyalty/user/*",
+        "com/raksit/example/loyalty/job/BatchJobConfiguration*",
+        "com/raksit/example/loyalty/legacy/*"
 ]
 
 jacocoTestCoverageVerification {
