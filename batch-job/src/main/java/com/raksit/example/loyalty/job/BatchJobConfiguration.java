@@ -70,6 +70,9 @@ public class BatchJobConfiguration {
         .reader(userRepositoryItemReader)
         .processor(loyaltyUserItemProcessor)
         .writer(userRepositoryItemWriter)
+        .faultTolerant()
+        .skipLimit(Integer.MAX_VALUE)
+        .skip(Exception.class)
         .build();
   }
 
