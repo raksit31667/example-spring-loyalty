@@ -24,6 +24,8 @@ management:
 spring:
   batch:
     initialize-schema: always
+    job:
+      enabled: false
 
 info:
   application:
