@@ -1,7 +1,10 @@
 package com.raksit.example.loyalty.job;
 
+import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
+import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;
+import java.util.HashMap;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -9,24 +12,30 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.support.ListItemWriter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.HashMap;
 
 @Configuration
 @EnableBatchProcessing
 public class BatchJobConfiguration {
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-  @Autowired
-  private StepBuilderFactory stepBuilderFactory;
+  private final LegacyLoyaltyClient legacyLoyaltyClient;
 
-  @Autowired
-  private JobBuilderFactory jobBuilderFactory;
+  private final StepBuilderFactory stepBuilderFactory;
+
+  private final JobBuilderFactory jobBuilderFactory;
+
+  public BatchJobConfiguration(UserRepository userRepository,
+      LegacyLoyaltyClient legacyLoyaltyClient,
+      StepBuilderFactory stepBuilderFactory,
+      JobBuilderFactory jobBuilderFactory) {
+    this.userRepository = userRepository;
+    this.legacyLoyaltyClient = legacyLoyaltyClient;
+    this.stepBuilderFactory = stepBuilderFactory;
+    this.jobBuilderFactory = jobBuilderFactory;
+  }
 
   @Bean
   public RepositoryItemReader<User> userRepositoryItemReader() {
@@ -39,11 +48,18 @@ public class BatchJobConfiguration {
   }
 
   @Bean
-  public Step step1(RepositoryItemReader<User> userRepositoryItemReader) {
+  public LoyaltyUserItemProcessor loyaltyUserItemProcessor() {
+    return new LoyaltyUserItemProcessor(legacyLoyaltyClient);
+  }
+
+  @Bean
+  public Step step1(RepositoryItemReader<User> userRepositoryItemReader,
+      LoyaltyUserItemProcessor loyaltyUserItemProcessor) {
     return stepBuilderFactory
         .get("step1")
-        .chunk(2)
+        .<User, LegacyLoyaltyUser>chunk(3)
         .reader(userRepositoryItemReader)
+        .processor(loyaltyUserItemProcessor)
         .writer(new ListItemWriter<>())
         .build();
   }
