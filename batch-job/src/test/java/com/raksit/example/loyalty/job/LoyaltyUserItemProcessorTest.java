@@ -30,7 +30,7 @@ class LoyaltyUserItemProcessorTest {
     final UUID userId = UUID.randomUUID();
     User userFromDatabase = new User("John", "Doe", "john.doe@example.com", "+6678901234");
     userFromDatabase.setId(userId);
-    final LegacyLoyaltyUser expected = new LegacyLoyaltyUser(100L);
+    final LegacyLoyaltyUser expected = new LegacyLoyaltyUser(userId.toString(), 100L);
     when(legacyLoyaltyClient.findUserById(userId.toString())).thenReturn(expected);
 
     // When

@@ -4,7 +4,6 @@ import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;
-import java.util.HashMap;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -14,6 +13,8 @@ import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
 
 @Configuration
 @EnableBatchProcessing
