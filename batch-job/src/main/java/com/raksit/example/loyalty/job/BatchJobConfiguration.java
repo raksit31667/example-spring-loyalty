@@ -10,7 +10,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
-import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -63,13 +62,14 @@ public class BatchJobConfiguration {
 
   @Bean
   public Step step1(RepositoryItemReader<User> userRepositoryItemReader,
-      LoyaltyUserItemProcessor loyaltyUserItemProcessor) {
+      LoyaltyUserItemProcessor loyaltyUserItemProcessor,
+      RepositoryItemWriter<User> userRepositoryItemWriter) {
     return stepBuilderFactory
         .get("step1")
         .<User, User>chunk(3)
         .reader(userRepositoryItemReader)
         .processor(loyaltyUserItemProcessor)
-        .writer(new ListItemWriter<>())
+        .writer(userRepositoryItemWriter)
         .build();
   }
 
