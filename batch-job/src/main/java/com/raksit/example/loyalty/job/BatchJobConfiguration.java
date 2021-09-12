@@ -1,7 +1,6 @@
 package com.raksit.example.loyalty.job;
 
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
-import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;
 import org.springframework.batch.core.Job;
@@ -10,6 +9,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.data.RepositoryItemReader;
+import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,6 +51,14 @@ public class BatchJobConfiguration {
   @Bean
   public LoyaltyUserItemProcessor loyaltyUserItemProcessor() {
     return new LoyaltyUserItemProcessor(legacyLoyaltyClient);
+  }
+
+  @Bean
+  public RepositoryItemWriter<User> userRepositoryItemWriter() {
+    RepositoryItemWriter<User> repositoryItemWriter = new RepositoryItemWriter<>();
+    repositoryItemWriter.setRepository(userRepository);
+    repositoryItemWriter.setMethodName("save");
+    return repositoryItemWriter;
   }
 
   @Bean
