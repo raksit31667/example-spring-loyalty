@@ -1,0 +1,13 @@
+- request:
+    method: GET
+    path:
+      matcher: ShouldMatch
+      value: /loyalty/users.*
+  response:
+    status: 200
+    headers:
+      Content-Type: application/json
+    body: >
+      {
+        "points": 100
+      }

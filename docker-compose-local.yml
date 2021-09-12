@@ -12,3 +12,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  smocker:
+    image: thiht/smocker
+    restart: always
+    ports:
+      - "9080:8080"
+      - "9081:8081"
