@@ -58,7 +58,7 @@ public class BatchJobConfiguration {
       LoyaltyUserItemProcessor loyaltyUserItemProcessor) {
     return stepBuilderFactory
         .get("step1")
-        .<User, LegacyLoyaltyUser>chunk(3)
+        .<User, User>chunk(3)
         .reader(userRepositoryItemReader)
         .processor(loyaltyUserItemProcessor)
         .writer(new ListItemWriter<>())

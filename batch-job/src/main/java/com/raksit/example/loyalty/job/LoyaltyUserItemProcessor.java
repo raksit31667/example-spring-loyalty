@@ -5,7 +5,7 @@ import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.user.User;
 import org.springframework.batch.item.ItemProcessor;
 
-public class LoyaltyUserItemProcessor implements ItemProcessor<User, LegacyLoyaltyUser> {
+public class LoyaltyUserItemProcessor implements ItemProcessor<User, User> {
 
   private final LegacyLoyaltyClient legacyLoyaltyClient;
 
@@ -14,7 +14,10 @@ public class LoyaltyUserItemProcessor implements ItemProcessor<User, LegacyLoyal
   }
 
   @Override
-  public LegacyLoyaltyUser process(User userFromDatabase) throws Exception {
-    return legacyLoyaltyClient.findUserById(userFromDatabase.getId().toString());
+  public User process(User userFromDatabase) throws Exception {
+    final LegacyLoyaltyUser legacyLoyaltyUser = legacyLoyaltyClient.findUserById(
+        userFromDatabase.getId().toString());
+    userFromDatabase.setPoints(legacyLoyaltyUser.getPoints());
+    return userFromDatabase;
   }
 }

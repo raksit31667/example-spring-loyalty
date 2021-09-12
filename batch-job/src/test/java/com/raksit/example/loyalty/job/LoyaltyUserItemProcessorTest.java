@@ -24,19 +24,24 @@ class LoyaltyUserItemProcessorTest {
   private LoyaltyUserItemProcessor loyaltyUserItemProcessor;
 
   @Test
-  void shouldReturnLegacyLoyaltyUserFromLegacySystem_whenProcess_givenUserReadFromDatabase()
+  void shouldReturnUserWithLoyaltyPointsFromLegacySystem_whenProcess_givenUserReadFromDatabase()
       throws Exception {
     // Given
     final UUID userId = UUID.randomUUID();
     User userFromDatabase = new User("John", "Doe", "john.doe@example.com", "+6678901234");
     userFromDatabase.setId(userId);
-    final LegacyLoyaltyUser expected = new LegacyLoyaltyUser(userId.toString(), 100L);
-    when(legacyLoyaltyClient.findUserById(userId.toString())).thenReturn(expected);
+    when(legacyLoyaltyClient.findUserById(userId.toString())).thenReturn(
+        new LegacyLoyaltyUser(userId.toString(), 100L));
 
     // When
-    LegacyLoyaltyUser actual = loyaltyUserItemProcessor.process(userFromDatabase);
+    User actual = loyaltyUserItemProcessor.process(userFromDatabase);
 
     // Then
-    assertThat(actual, equalTo(expected));
+    assertThat(actual.getId(), equalTo(userId));
+    assertThat(actual.getFirstName(), equalTo("John"));
+    assertThat(actual.getLastName(), equalTo("Doe"));
+    assertThat(actual.getEmail(), equalTo("john.doe@example.com"));
+    assertThat(actual.getPhone(), equalTo("+6678901234"));
+    assertThat(actual.getPoints(), equalTo(100L));
   }
 }
