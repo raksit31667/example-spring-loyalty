@@ -3,10 +3,14 @@ package com.raksit.example.loyalty.job;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.raksit.example.loyalty.annotation.IntegrationTest;
+import com.raksit.example.loyalty.mock.LegacyLoyaltyMockServer;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
@@ -24,6 +28,18 @@ public class MigrateLegacyLoyaltyJobTest {
 
   @Autowired
   private JobLauncherTestUtils jobLauncherTestUtils;
+
+  private LegacyLoyaltyMockServer legacyLoyaltyMockServer;
+
+  @BeforeEach
+  void setUp() throws JsonProcessingException {
+    legacyLoyaltyMockServer = new LegacyLoyaltyMockServer();
+  }
+
+  @AfterEach
+  void tearDown() {
+    legacyLoyaltyMockServer.stop();
+  }
 
   @Test
   void shouldUpdateUserLoyaltyPoints_whenExecute_givenExistingUsers() throws Exception {

@@ -8,4 +8,4 @@ zonky:
         docker:
           image: postgres:alpine
 legacy:
-  url: http://localhost:9080
+  url: http://localhost:9999
