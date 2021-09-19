@@ -1,5 +1,6 @@
 package com.raksit.example.loyalty.job.configuration;
 
+import com.raksit.example.loyalty.job.listener.UserRepositoryItemReadLoggerListener;
 import com.raksit.example.loyalty.job.processor.LoyaltyUserItemProcessor;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
 import com.raksit.example.loyalty.user.User;
@@ -63,7 +64,7 @@ public class BatchJobConfiguration {
   }
 
   @Bean
-  public Step step1(RepositoryItemReader<User> userRepositoryItemReader,
+  public Step step(RepositoryItemReader<User> userRepositoryItemReader,
       LoyaltyUserItemProcessor loyaltyUserItemProcessor,
       RepositoryItemWriter<User> userRepositoryItemWriter) {
     return stepBuilderFactory
@@ -72,16 +73,17 @@ public class BatchJobConfiguration {
         .reader(userRepositoryItemReader)
         .processor(loyaltyUserItemProcessor)
         .writer(userRepositoryItemWriter)
+        .listener(new UserRepositoryItemReadLoggerListener())
         .faultTolerant()
         .skipPolicy(new AlwaysSkipItemSkipPolicy())
         .build();
   }
 
   @Bean
-  public Job migrateLegacyLoyalty(Step step1) {
+  public Job migrateLegacyLoyalty(Step step) {
     return jobBuilderFactory
         .get("migrateLegacyLoyalty")
-        .flow(step1)
+        .flow(step)
         .end()
         .build();
   }
