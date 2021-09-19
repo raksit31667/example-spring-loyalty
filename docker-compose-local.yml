@@ -12,10 +12,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   smocker:
     image: thiht/smocker
     restart: always
     ports:
       - "9080:8080"
       - "9081:8081"
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - "7081:8081"
+    links:
+      - db:postgres
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?sslmode=disable
+    depends_on:
+      - db
