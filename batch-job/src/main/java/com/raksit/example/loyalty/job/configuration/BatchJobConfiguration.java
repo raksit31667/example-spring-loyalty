@@ -1,5 +1,6 @@
-package com.raksit.example.loyalty.job;
+package com.raksit.example.loyalty.job.configuration;
 
+import com.raksit.example.loyalty.job.processor.LoyaltyUserItemProcessor;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;

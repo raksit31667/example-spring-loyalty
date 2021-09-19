@@ -1,4 +1,4 @@
-package com.raksit.example.loyalty.job;
+package com.raksit.example.loyalty.job.processor;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;

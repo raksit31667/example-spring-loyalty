@@ -1,4 +1,4 @@
-package com.raksit.example.loyalty.job;
+package com.raksit.example.loyalty.job.processor;
 
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;

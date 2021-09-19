@@ -1,4 +1,4 @@
-package com.raksit.example.loyalty.job;
+package com.raksit.example.loyalty.job.launcher;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
