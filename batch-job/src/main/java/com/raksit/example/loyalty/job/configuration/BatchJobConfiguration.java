@@ -1,5 +1,6 @@
 package com.raksit.example.loyalty.job.configuration;
 
+import com.raksit.example.loyalty.job.listener.LoyaltyUserItemProcessLoggerListener;
 import com.raksit.example.loyalty.job.listener.UserRepositoryItemReadLoggerListener;
 import com.raksit.example.loyalty.job.processor.LoyaltyUserItemProcessor;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
@@ -74,6 +75,7 @@ public class BatchJobConfiguration {
         .processor(loyaltyUserItemProcessor)
         .writer(userRepositoryItemWriter)
         .listener(new UserRepositoryItemReadLoggerListener())
+        .listener(new LoyaltyUserItemProcessLoggerListener())
         .faultTolerant()
         .skipPolicy(new AlwaysSkipItemSkipPolicy())
         .build();
