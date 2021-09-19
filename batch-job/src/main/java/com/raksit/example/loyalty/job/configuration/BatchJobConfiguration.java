@@ -9,6 +9,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.context.annotation.Bean;
@@ -72,8 +73,7 @@ public class BatchJobConfiguration {
         .processor(loyaltyUserItemProcessor)
         .writer(userRepositoryItemWriter)
         .faultTolerant()
-        .skipLimit(Integer.MAX_VALUE)
-        .skip(Exception.class)
+        .skipPolicy(new AlwaysSkipItemSkipPolicy())
         .build();
   }
 
