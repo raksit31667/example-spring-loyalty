@@ -1,6 +1,8 @@
 package com.raksit.example.loyalty.job.configuration;
 
 import com.raksit.example.loyalty.job.listener.LoyaltyUserItemProcessLoggerListener;
+import com.raksit.example.loyalty.job.listener.MigrateLegacyLoyaltyJobLoggerListener;
+import com.raksit.example.loyalty.job.listener.MigrateLegacyLoyaltyStepLoggerListener;
 import com.raksit.example.loyalty.job.listener.UserRepositoryItemReadLoggerListener;
 import com.raksit.example.loyalty.job.listener.UserRepositoryItemWriteLoggerListener;
 import com.raksit.example.loyalty.job.processor.LoyaltyUserItemProcessor;
@@ -75,6 +77,7 @@ public class BatchJobConfiguration {
         .reader(userRepositoryItemReader)
         .processor(loyaltyUserItemProcessor)
         .writer(userRepositoryItemWriter)
+        .listener(new MigrateLegacyLoyaltyStepLoggerListener())
         .listener(new UserRepositoryItemReadLoggerListener())
         .listener(new LoyaltyUserItemProcessLoggerListener())
         .listener(new UserRepositoryItemWriteLoggerListener())
@@ -89,6 +92,7 @@ public class BatchJobConfiguration {
         .get("migrateLegacyLoyalty")
         .flow(step)
         .end()
+        .listener(new MigrateLegacyLoyaltyJobLoggerListener())
         .build();
   }
 }
