@@ -28,6 +28,19 @@ allprojects {
     }
 }
 
+subprojects {
+    task createFlywayMigrationScript {
+        doLast {
+            def fileDescription = "your_description"
+            if (project.hasProperty("scriptName")) {
+                fileDescription = project.getProperty("scriptName").toLowerCase().replace(" ", "_")
+            }
+            def fileName= "V${new Date().format("yyyyMMddHHmmss", TimeZone.getTimeZone("GMT"))}__${fileDescription}"
+            new File("${project.projectDir}/src/main/resources/db/migration/${fileName}.sql").createNewFile()
+        }
+    }
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "raksit31667_example-spring-loyalty"
