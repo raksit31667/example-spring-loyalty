@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchJobConfiguration {
+public class MigrateLegacyLoyaltyJobConfiguration {
 
   private final UserRepository userRepository;
 
@@ -34,7 +34,7 @@ public class BatchJobConfiguration {
 
   private final JobBuilderFactory jobBuilderFactory;
 
-  public BatchJobConfiguration(UserRepository userRepository,
+  public MigrateLegacyLoyaltyJobConfiguration(UserRepository userRepository,
       LegacyLoyaltyClient legacyLoyaltyClient,
       StepBuilderFactory stepBuilderFactory,
       JobBuilderFactory jobBuilderFactory) {
@@ -63,20 +63,17 @@ public class BatchJobConfiguration {
   public RepositoryItemWriter<User> userRepositoryItemWriter() {
     RepositoryItemWriter<User> repositoryItemWriter = new RepositoryItemWriter<>();
     repositoryItemWriter.setRepository(userRepository);
-    repositoryItemWriter.setMethodName("save");
     return repositoryItemWriter;
   }
 
   @Bean
-  public Step step(RepositoryItemReader<User> userRepositoryItemReader,
-      LoyaltyUserItemProcessor loyaltyUserItemProcessor,
-      RepositoryItemWriter<User> userRepositoryItemWriter) {
+  public Step step() {
     return stepBuilderFactory
         .get("step")
         .<User, User>chunk(3)
-        .reader(userRepositoryItemReader)
-        .processor(loyaltyUserItemProcessor)
-        .writer(userRepositoryItemWriter)
+        .reader(userRepositoryItemReader())
+        .processor(loyaltyUserItemProcessor())
+        .writer(userRepositoryItemWriter())
         .listener(new MigrateLegacyLoyaltyStepLoggerListener())
         .listener(new UserRepositoryItemReadLoggerListener())
         .listener(new LoyaltyUserItemProcessLoggerListener())
