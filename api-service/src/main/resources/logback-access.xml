@@ -20,7 +20,7 @@
             "method": "%m",
             "request_uri": "%U",
             "protocol": "%H",
-            "requestId": "%i{x-request-id}",
+            "trace_id": "%responseHeader{Trace-Id}",
             "thread_name": "%I",
             "service": "example-spring-loyalty-api-service"
             }
