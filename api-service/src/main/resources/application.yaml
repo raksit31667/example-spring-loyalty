@@ -27,3 +27,15 @@ info:
       version: \${java.version}
     spring-boot:
       version: ${springBootVersion}
+
+opentracing:
+  jaeger:
+    service-name: example-spring-loyalty-api-service
+    const-sampler:
+      decision: true
+    enable-w3c-propagation: true
+    log-spans: true
+  spring:
+    cloud:
+      jdbc:
+        enabled: false
