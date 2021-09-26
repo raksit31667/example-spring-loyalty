@@ -37,18 +37,31 @@ repositories {
     maven { url 'https://repo.spring.io/milestone' }
 }
 
+ext {
+    set('springCloudVersion', '2020.0.3')
+    set('springCloudAwsVersion', '2.3.2')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:${springCloudAwsVersion}"
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.postgresql:postgresql'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.projectlombok:lombok:1.18.12'
     implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
     implementation 'io.micrometer:micrometer-registry-prometheus:1.7.3'
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
@@ -132,7 +145,7 @@ jacoco {
 def jacocoExcludedClasses = [
         "com/raksit/example/loyalty/LoyaltyBatchJobApplication*",
         "com/raksit/example/loyalty/user/*",
-        "com/raksit/example/loyalty/job/configuration/MigrateLegacyLoyaltyJobConfiguration*",
+        "com/raksit/example/loyalty/job/configuration/*",
         "com/raksit/example/loyalty/job/launcher/JobLauncherController*",
         "com/raksit/example/loyalty/job/listener/*",
         "com/raksit/example/loyalty/legacy/*"

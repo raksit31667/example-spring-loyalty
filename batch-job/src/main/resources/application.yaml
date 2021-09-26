@@ -35,3 +35,12 @@ info:
       version: \${java.version}
     spring-boot:
       version: ${springBootVersion}
+
+cloud:
+  aws:
+    s3:
+      role-arn: arn:aws:iam::564702493239:role/ExampleSpringLoyalty
+    region:
+      static: ap-southeast-1
+    stack:
+      auto: false
