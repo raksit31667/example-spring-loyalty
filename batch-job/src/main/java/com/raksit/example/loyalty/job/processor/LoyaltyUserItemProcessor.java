@@ -2,10 +2,11 @@ package com.raksit.example.loyalty.job.processor;
 
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
+import com.raksit.example.loyalty.legacy.LoyaltyTransaction;
 import com.raksit.example.loyalty.user.User;
 import org.springframework.batch.item.ItemProcessor;
 
-public class LoyaltyUserItemProcessor implements ItemProcessor<User, User> {
+public class LoyaltyUserItemProcessor implements ItemProcessor<LoyaltyTransaction, User> {
 
   private final LegacyLoyaltyClient legacyLoyaltyClient;
 
@@ -14,10 +15,16 @@ public class LoyaltyUserItemProcessor implements ItemProcessor<User, User> {
   }
 
   @Override
-  public User process(User userFromDatabase) throws Exception {
-    final LegacyLoyaltyUser legacyLoyaltyUser = legacyLoyaltyClient.findUserById(
-        userFromDatabase.getId().toString());
-    userFromDatabase.setPoints(legacyLoyaltyUser.getPoints());
-    return userFromDatabase;
+  public User process(LoyaltyTransaction loyaltyTransaction) {
+    final LegacyLoyaltyUser legacyLoyaltyUser = legacyLoyaltyClient.findUserById(loyaltyTransaction.getMemberId());
+
+    if (!legacyLoyaltyUser.getIsActive()) {
+      return null;
+    }
+
+    final User user = new User(legacyLoyaltyUser.getFirstName(), legacyLoyaltyUser.getLastName(),
+        legacyLoyaltyUser.getEmail(), legacyLoyaltyUser.getPhone());
+    user.setPoints(loyaltyTransaction.getPoints());
+    return user;
   }
 }

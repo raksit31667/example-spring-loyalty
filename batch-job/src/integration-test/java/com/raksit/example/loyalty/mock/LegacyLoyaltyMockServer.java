@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import feign.Request.HttpMethod;
-import java.util.UUID;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.MediaType;
 import org.springframework.http.HttpStatus;
@@ -18,25 +17,25 @@ public class LegacyLoyaltyMockServer {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  public LegacyLoyaltyMockServer() throws JsonProcessingException {
+  public LegacyLoyaltyMockServer() {
     clientAndServer = ClientAndServer.startClientAndServer(9999);
   }
 
-  public void addHappyPathExpectations(final UUID userId) throws JsonProcessingException {
+  public void addHappyPathExpectations(LegacyLoyaltyUser legacyLoyaltyUser) throws JsonProcessingException {
     clientAndServer.when(
         request()
             .withMethod(HttpMethod.GET.name())
-            .withPath("/loyalty/users/" + userId)
+            .withPath("/loyalty/users/" + legacyLoyaltyUser.getId())
     ).respond(
         response()
             .withStatusCode(HttpStatus.OK.value())
             .withContentType(MediaType.APPLICATION_JSON)
             .withBody(
-                OBJECT_MAPPER.writeValueAsString(new LegacyLoyaltyUser(userId.toString(), 100L)))
+                OBJECT_MAPPER.writeValueAsString(legacyLoyaltyUser))
     );
   }
 
-  public void addUnhappyPathExpectations(final UUID userId) {
+  public void addUnhappyPathExpectations(final String userId) {
     clientAndServer.when(
         request()
             .withMethod(HttpMethod.GET.name())

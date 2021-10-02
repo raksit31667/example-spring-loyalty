@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "cloud.aws.s3")
 public class AmazonS3ConfigurationProperties {
 
-  private String s3RoleArn;
+  private String roleArn;
 
   private String bucketName;
 }

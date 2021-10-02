@@ -20,7 +20,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
-import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
@@ -34,8 +33,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
-
-import java.util.HashMap;
 
 @Configuration
 @EnableBatchProcessing
@@ -69,16 +66,6 @@ public class MigrateLegacyLoyaltyJobConfiguration {
     this.amazonS3ConfigurationProperties = amazonS3ConfigurationProperties;
     this.stepBuilderFactory = stepBuilderFactory;
     this.jobBuilderFactory = jobBuilderFactory;
-  }
-
-  @Bean
-  public RepositoryItemReader<User> userRepositoryItemReader() {
-    RepositoryItemReader<User> repositoryItemReader = new RepositoryItemReader<>();
-    repositoryItemReader.setRepository(userRepository);
-    repositoryItemReader.setMethodName("findAll");
-    repositoryItemReader.setPageSize(1);
-    repositoryItemReader.setSort(new HashMap<>());
-    return repositoryItemReader;
   }
 
   @StepScope
@@ -141,8 +128,8 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   public Step step() {
     return stepBuilderFactory
         .get("step")
-        .<User, User>chunk(3)
-        .reader(userRepositoryItemReader())
+        .<LoyaltyTransaction, User>chunk(3)
+        .reader(loyaltyTransactionMultiResourceItemReader())
         .processor(loyaltyUserItemProcessor())
         .writer(userRepositoryItemWriter())
         .listener(new MigrateLegacyLoyaltyStepLoggerListener())

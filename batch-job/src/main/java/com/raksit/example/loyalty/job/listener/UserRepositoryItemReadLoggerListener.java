@@ -1,11 +1,11 @@
 package com.raksit.example.loyalty.job.listener;
 
-import com.raksit.example.loyalty.user.User;
+import com.raksit.example.loyalty.legacy.LoyaltyTransaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemReadListener;
 
 @Slf4j
-public class UserRepositoryItemReadLoggerListener implements ItemReadListener<User> {
+public class UserRepositoryItemReadLoggerListener implements ItemReadListener<LoyaltyTransaction> {
 
   @Override
   public void beforeRead() {
@@ -13,8 +13,8 @@ public class UserRepositoryItemReadLoggerListener implements ItemReadListener<Us
   }
 
   @Override
-  public void afterRead(User user) {
-    log.info("Read successfully: user {} will be processed", user.getId());
+  public void afterRead(LoyaltyTransaction loyaltyTransaction) {
+    log.info("Read successfully: user {} will be processed", loyaltyTransaction.getMemberId());
   }
 
   @Override

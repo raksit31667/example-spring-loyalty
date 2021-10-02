@@ -6,5 +6,9 @@ import lombok.Value;
 public class LegacyLoyaltyUser {
 
   String id;
-  Long points;
+  String firstName;
+  String lastName;
+  String email;
+  String phone;
+  Boolean isActive;
 }

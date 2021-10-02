@@ -1,10 +1,16 @@
 package com.raksit.example.loyalty.job;
 
+import static com.raksit.example.loyalty.extension.AmazonS3ClientExtension.localStackContainer;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.raksit.example.loyalty.annotation.IntegrationTest;
+import com.raksit.example.loyalty.extension.AmazonS3ClientExtension;
+import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.mock.LegacyLoyaltyMockServer;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;
@@ -12,6 +18,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -19,7 +26,13 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.JobRepositoryTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.util.ResourceUtils;
+import org.testcontainers.containers.localstack.LocalStackContainer.Service;
 
+@ExtendWith(AmazonS3ClientExtension.class)
 @SpringBatchTest
 @IntegrationTest
 public class MigrateLegacyLoyaltyJobTest {
@@ -33,11 +46,17 @@ public class MigrateLegacyLoyaltyJobTest {
   @Autowired
   private JobRepositoryTestUtils jobRepositoryTestUtils;
 
+  @Autowired
+  private AmazonS3 amazonS3;
+
   private LegacyLoyaltyMockServer legacyLoyaltyMockServer;
+
+  private static final String S3_BUCKET_NAME = "old-loyalty-transactions";
 
   @BeforeEach
   void setUp() throws JsonProcessingException {
     legacyLoyaltyMockServer = new LegacyLoyaltyMockServer();
+    amazonS3.createBucket(S3_BUCKET_NAME);
   }
 
   @AfterEach
@@ -45,24 +64,33 @@ public class MigrateLegacyLoyaltyJobTest {
     userRepository.deleteAll();
     jobRepositoryTestUtils.removeJobExecutions();
     legacyLoyaltyMockServer.stop();
+    amazonS3.listObjectsV2(S3_BUCKET_NAME)
+        .getObjectSummaries()
+        .stream()
+        .map(S3ObjectSummary::getKey)
+        .forEach(key -> amazonS3.deleteObject(S3_BUCKET_NAME, key));
+    amazonS3.deleteBucket(S3_BUCKET_NAME);
   }
 
   @Test
-  void shouldUpdateUserLoyaltyPoints_whenExecute_givenExistingUsers() throws Exception {
+  void shouldCreateUsers_whenExecute_givenLoyaltyTransactionAndLegacyLoyaltyUserExist() throws Exception {
     // Given
-    User user = userRepository.save(
-        new User("John", "Doe", "john.doe@example.com", "+6678901234"));
+    amazonS3.putObject(S3_BUCKET_NAME, "Loyalty_Transactions_2.csv",
+        ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv"));
 
-    User anotherUser = userRepository.save(
-        new User("Raksit", "Man", "raksit.man@example.com", "+6678904321"));
+    LegacyLoyaltyUser user = new LegacyLoyaltyUser("b724424a",
+        "John", "Doe", "john.doe@example.com", "+6678901234", true);
 
-    legacyLoyaltyMockServer.addHappyPathExpectations(user.getId());
-    legacyLoyaltyMockServer.addHappyPathExpectations(anotherUser.getId());
+    LegacyLoyaltyUser anotherUser = new LegacyLoyaltyUser("4bf594e4",
+        "Raksit", "Man", "raksit.man@example.com", "+6678904321", true);
+
+    legacyLoyaltyMockServer.addHappyPathExpectations(user);
+    legacyLoyaltyMockServer.addHappyPathExpectations(anotherUser);
 
     // When
     JobExecution jobExecution = jobLauncherTestUtils.launchJob(new JobParameters());
-    Optional<User> updatedUser = userRepository.findById(user.getId());
-    Optional<User> updatedAnotherUser = userRepository.findById(anotherUser.getId());
+    Optional<User> updatedUser = userRepository.findByEmail("john.doe@example.com");
+    Optional<User> updatedAnotherUser = userRepository.findByEmail("raksit.man@example.com");
 
     // Then
     assertThat(jobExecution.getJobInstance().getJobName(), equalTo("migrateLegacyLoyalty"));
@@ -70,32 +98,47 @@ public class MigrateLegacyLoyaltyJobTest {
     assertThat(updatedUser.isPresent(), equalTo(true));
     assertThat(updatedUser.get().getPoints(), equalTo(100L));
     assertThat(updatedAnotherUser.isPresent(), equalTo(true));
-    assertThat(updatedAnotherUser.get().getPoints(), equalTo(100L));
+    assertThat(updatedAnotherUser.get().getPoints(), equalTo(200L));
   }
 
   @Test
   void shouldSkipFailedUser_whenExecute_givenSystemCannotUpdatePoints() throws Exception {
     // Given
-    User user = userRepository.save(
-        new User("John", "Doe", "john.doe@example.com", "+6678901234"));
+    amazonS3.putObject(S3_BUCKET_NAME, "Loyalty_Transactions_2.csv",
+        ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv"));
 
-    User anotherUser = userRepository.save(
-        new User("Raksit", "Man", "raksit.man@example.com", "+6678904321"));
+    LegacyLoyaltyUser user = new LegacyLoyaltyUser("b724424a",
+        "John", "Doe", "john.doe@example.com", "+6678901234", true);
+
+    LegacyLoyaltyUser anotherUser = new LegacyLoyaltyUser("4bf594e4",
+        "Raksit", "Man", "raksit.man@example.com", "+6678904321", true);
 
     legacyLoyaltyMockServer.addUnhappyPathExpectations(user.getId());
-    legacyLoyaltyMockServer.addHappyPathExpectations(anotherUser.getId());
+    legacyLoyaltyMockServer.addHappyPathExpectations(anotherUser);
 
     // When
     JobExecution jobExecution = jobLauncherTestUtils.launchJob(new JobParameters());
-    Optional<User> updatedUser = userRepository.findById(user.getId());
-    Optional<User> updatedAnotherUser = userRepository.findById(anotherUser.getId());
+    Optional<User> updatedUser = userRepository.findByEmail("john.doe@example.com");
+    Optional<User> updatedAnotherUser = userRepository.findByEmail("raksit.man@example.com");
 
     // Then
     assertThat(jobExecution.getJobInstance().getJobName(), equalTo("migrateLegacyLoyalty"));
     assertThat(jobExecution.getExitStatus(), equalTo(ExitStatus.COMPLETED));
-    assertThat(updatedUser.isPresent(), equalTo(true));
-    assertThat(updatedUser.get().getPoints(), equalTo(0L));
+    assertThat(updatedUser.isPresent(), equalTo(false));
     assertThat(updatedAnotherUser.isPresent(), equalTo(true));
-    assertThat(updatedAnotherUser.get().getPoints(), equalTo(100L));
+    assertThat(updatedAnotherUser.get().getPoints(), equalTo(200L));
+  }
+
+  @TestConfiguration
+  static class AmazonS3ClientTestConfiguration {
+
+    @Primary
+    @Bean
+    public AmazonS3 amazonS3() {
+      return AmazonS3ClientBuilder.standard()
+          .withEndpointConfiguration(localStackContainer.getEndpointConfiguration(Service.S3))
+          .withCredentials(localStackContainer.getDefaultCredentialsProvider())
+          .build();
+    }
   }
 }

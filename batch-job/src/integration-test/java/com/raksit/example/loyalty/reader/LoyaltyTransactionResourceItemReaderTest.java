@@ -65,7 +65,7 @@ public class LoyaltyTransactionResourceItemReaderTest {
       loyaltyTransactionMultiResourceItemReader.open(stepExecution.getExecutionContext());
       while ((loyaltyTransaction = loyaltyTransactionMultiResourceItemReader.read()) != null) {
         // Then
-        assertThat(loyaltyTransaction.getMemberId(), equalTo("b724424a-1edb-11ec-9621-0242ac130002"));
+        assertThat(loyaltyTransaction.getMemberId(), equalTo("b724424a"));
         assertThat(loyaltyTransaction.getPoints(), equalTo(100L));
       }
       loyaltyTransactionMultiResourceItemReader.close();

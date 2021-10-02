@@ -16,7 +16,7 @@ public class AmazonS3ClientConfiguration {
     return AmazonS3ClientBuilder.standard()
         .withRegion(Regions.AP_SOUTHEAST_1)
         .withCredentials(new STSProfileCredentialsServiceProvider(new RoleInfo()
-            .withRoleArn(amazonS3ConfigurationProperties.getS3RoleArn())
+            .withRoleArn(amazonS3ConfigurationProperties.getRoleArn())
             .withRoleSessionName("example-spring-loyalty")))
         .build();
   }
