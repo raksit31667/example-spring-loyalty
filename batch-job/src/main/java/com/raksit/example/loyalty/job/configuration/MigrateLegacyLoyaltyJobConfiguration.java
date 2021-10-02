@@ -21,6 +21,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
 import org.springframework.batch.item.data.RepositoryItemWriter;
+import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -38,42 +39,17 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 @EnableBatchProcessing
 public class MigrateLegacyLoyaltyJobConfiguration {
 
-  private final UserRepository userRepository;
-
-  private final LegacyLoyaltyClient legacyLoyaltyClient;
-
-  private final AmazonS3 amazonS3;
-
-  private final ApplicationContext applicationContext;
-
-  private final AmazonS3ConfigurationProperties amazonS3ConfigurationProperties;
-
-  private final StepBuilderFactory stepBuilderFactory;
-
-  private final JobBuilderFactory jobBuilderFactory;
-
-  public MigrateLegacyLoyaltyJobConfiguration(UserRepository userRepository,
-      LegacyLoyaltyClient legacyLoyaltyClient,
-      AmazonS3 amazonS3,
-      ApplicationContext applicationContext,
-      AmazonS3ConfigurationProperties amazonS3ConfigurationProperties,
-      StepBuilderFactory stepBuilderFactory,
-      JobBuilderFactory jobBuilderFactory) {
-    this.userRepository = userRepository;
-    this.legacyLoyaltyClient = legacyLoyaltyClient;
-    this.amazonS3 = amazonS3;
-    this.applicationContext = applicationContext;
-    this.amazonS3ConfigurationProperties = amazonS3ConfigurationProperties;
-    this.stepBuilderFactory = stepBuilderFactory;
-    this.jobBuilderFactory = jobBuilderFactory;
-  }
-
   @StepScope
   @Bean
-  public MultiResourceItemReader<LoyaltyTransaction> loyaltyTransactionMultiResourceItemReader() {
+  public MultiResourceItemReader<LoyaltyTransaction> loyaltyTransactionMultiResourceItemReader(
+      AmazonS3 amazonS3,
+      ApplicationContext applicationContext,
+      AmazonS3ConfigurationProperties amazonS3ConfigurationProperties) {
+
     Resource[] resources = amazonS3.listObjectsV2(amazonS3ConfigurationProperties.getBucketName())
         .getObjectSummaries().stream()
-        .map(s3ObjectSummary -> s3ResourcePatternResolver().getResource(getS3ResourceUrl(s3ObjectSummary)))
+        .map(s3ObjectSummary -> s3ResourcePatternResolver(amazonS3, applicationContext)
+            .getResource(getS3ResourceUrl(s3ObjectSummary, amazonS3ConfigurationProperties)))
         .toArray(Resource[]::new);
     return new MultiResourceItemReaderBuilder<LoyaltyTransaction>()
         .name("loyaltyTransactionMultiResourceItemReader")
@@ -104,34 +80,49 @@ public class MigrateLegacyLoyaltyJobConfiguration {
         .build();
   }
 
-  private ResourcePatternResolver s3ResourcePatternResolver() {
+  private ResourcePatternResolver s3ResourcePatternResolver(
+      AmazonS3 amazonS3,
+      ApplicationContext applicationContext) {
+
     return new PathMatchingSimpleStorageResourcePatternResolver(amazonS3, applicationContext);
   }
 
-  private String getS3ResourceUrl(S3ObjectSummary s3ObjectSummary) {
+  private String getS3ResourceUrl(
+      S3ObjectSummary s3ObjectSummary,
+      AmazonS3ConfigurationProperties amazonS3ConfigurationProperties) {
+
     return String.format("s3://%s/%s", amazonS3ConfigurationProperties.getBucketName(), s3ObjectSummary.getKey());
   }
 
   @Bean
-  public LoyaltyUserItemProcessor loyaltyUserItemProcessor() {
+  public LoyaltyUserItemProcessor loyaltyUserItemProcessor(LegacyLoyaltyClient legacyLoyaltyClient) {
     return new LoyaltyUserItemProcessor(legacyLoyaltyClient);
   }
 
   @Bean
-  public RepositoryItemWriter<User> userRepositoryItemWriter() {
-    RepositoryItemWriter<User> repositoryItemWriter = new RepositoryItemWriter<>();
-    repositoryItemWriter.setRepository(userRepository);
-    return repositoryItemWriter;
+  public RepositoryItemWriter<User> userRepositoryItemWriter(UserRepository userRepository) {
+    return new RepositoryItemWriterBuilder<User>().repository(userRepository).build();
   }
 
   @Bean
-  public Step step() {
+  public Step step(
+      UserRepository userRepository,
+      LegacyLoyaltyClient legacyLoyaltyClient,
+      AmazonS3 amazonS3,
+      ApplicationContext applicationContext,
+      AmazonS3ConfigurationProperties amazonS3ConfigurationProperties,
+      StepBuilderFactory stepBuilderFactory) {
+
     return stepBuilderFactory
         .get("step")
         .<LoyaltyTransaction, User>chunk(3)
-        .reader(loyaltyTransactionMultiResourceItemReader())
-        .processor(loyaltyUserItemProcessor())
-        .writer(userRepositoryItemWriter())
+        .reader(loyaltyTransactionMultiResourceItemReader(
+            amazonS3,
+            applicationContext,
+            amazonS3ConfigurationProperties
+        ))
+        .processor(loyaltyUserItemProcessor(legacyLoyaltyClient))
+        .writer(userRepositoryItemWriter(userRepository))
         .listener(new MigrateLegacyLoyaltyStepLoggerListener())
         .listener(new UserRepositoryItemReadLoggerListener())
         .listener(new LoyaltyUserItemProcessLoggerListener())
@@ -142,7 +133,7 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   }
 
   @Bean
-  public Job migrateLegacyLoyalty(Step step) {
+  public Job migrateLegacyLoyalty(Step step, JobBuilderFactory jobBuilderFactory) {
     return jobBuilderFactory
         .get("migrateLegacyLoyalty")
         .flow(step)
