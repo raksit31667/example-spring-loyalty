@@ -1,15 +1,32 @@
 - request:
     method: GET
-    path:
-      matcher: ShouldMatch
-      value: /loyalty/users/.*
-  dynamic_response:
-    engine: go_template
-    script: >
-      headers:
-        Content-Type: [application/json]
-      body: >
-        {
-          "id": "{{ substr 15 51 .Request.Path }}",
-          "points": 100
-        }
+    path: /loyalty/users/4bf594e4
+  response:
+    status: 200
+    headers:
+      Content-Type: application/json
+    body: >
+      {
+        "id": "4bf594e4",
+        "firstName": "Raksit",
+        "lastName": "Man",
+        "email": "raksit.man@example.com",
+        "phone": "+6678904321",
+        "isActive": true
+      }
+- request:
+    method: GET
+    path: /loyalty/users/b724424a
+  response:
+    status: 200
+    headers:
+      Content-Type: application/json
+    body: >
+      {
+        "id": "b724424a",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "+6678901234",
+        "isActive": true
+      }
