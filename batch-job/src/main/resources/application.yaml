@@ -40,6 +40,7 @@ cloud:
   aws:
     s3:
       role-arn: arn:aws:iam::564702493239:role/ExampleSpringLoyalty
+      bucket-name: old-loyalty-transactions
     region:
       static: ap-southeast-1
     stack:

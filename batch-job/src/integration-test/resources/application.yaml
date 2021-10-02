@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   batch:
     initialize-schema: always
 zonky:
@@ -9,3 +11,10 @@ zonky:
           image: postgres:alpine
 legacy:
   url: http://localhost:9999
+
+cloud:
+  aws:
+    s3:
+      bucket-name: old-loyalty-transactions
+    stack:
+      auto: false

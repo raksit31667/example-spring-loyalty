@@ -62,12 +62,14 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.7.3'
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws'
+    implementation 'com.amazonaws:aws-java-sdk-sts:1.12.70'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
     testImplementation 'io.zonky.test:embedded-database-spring-test:2.1.0'
     testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0'
     testImplementation 'org.mock-server:mockserver-netty:5.11.2'
+    testImplementation 'org.testcontainers:localstack:1.16.0'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 

@@ -2,9 +2,11 @@ package com.raksit.example.loyalty.job.configuration;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @Component
@@ -13,4 +15,5 @@ public class AmazonS3ConfigurationProperties {
 
   private String s3RoleArn;
 
+  private String bucketName;
 }
