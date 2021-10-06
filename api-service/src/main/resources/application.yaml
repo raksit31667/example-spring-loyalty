@@ -39,3 +39,10 @@ opentracing:
     cloud:
       jdbc:
         enabled: false
+
+cloud:
+  aws:
+    region:
+      static: ap-southeast-1
+    stack:
+      auto: false

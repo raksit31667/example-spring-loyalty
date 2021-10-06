@@ -4,3 +4,10 @@ zonky:
       postgres:
         docker:
           image: postgres:alpine
+
+cloud:
+  aws:
+    region:
+      static: ap-southeast-1
+    stack:
+      auto: false
