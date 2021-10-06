@@ -1,4 +1,4 @@
 #! /bin/bash -e
 
-docker-compose rm api-service-check --stop
-docker-compose rm batch-job-check --stop
+docker-compose rm  --stop api-service-check
+docker-compose rm --stop batch-job-check
