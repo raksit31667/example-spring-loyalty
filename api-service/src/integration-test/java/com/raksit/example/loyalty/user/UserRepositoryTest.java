@@ -18,14 +18,13 @@ public class UserRepositoryTest {
   @Test
   void shouldSaveUser_whenSave_givenNewUser() {
     // Given
-    UUID id = UUID.randomUUID();
-    userRepository.save(new User(id, "firstName", "lastName", "email", "phone"));
+    final User savedUser = userRepository.save(new User("firstName", "lastName", "email", "phone"));
 
     // When
-    Optional<User> actual = userRepository.findById(id);
+    Optional<User> actual = userRepository.findById(savedUser.getId());
 
     // Then
     assertTrue(actual.isPresent());
-    assertEquals(id, actual.get().getId());
+    assertEquals(savedUser.getId(), actual.get().getId());
   }
 }

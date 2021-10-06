@@ -4,5 +4,7 @@ CREATE TABLE users (
   last_name VARCHAR NOT NULL,
   email VARCHAR NOT NULL,
   phone VARCHAR NOT NULL,
-  points BIGINT
+  points BIGINT,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
 );
