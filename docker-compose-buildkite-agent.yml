@@ -8,5 +8,4 @@ services:
       BUILDKITE_AGENT_TOKEN: ${BUILDKITE_AGENT_TOKEN}
     volumes:
       - /var/lib/buildkite/builds:/var/lib/buildkite/builds
-      - .buildkite/.hooks:/buildkite/hooks:ro
       - /var/run/docker.sock:/var/run/docker.sock
