@@ -39,3 +39,17 @@ services:
       - "14268:14268"
       - "14250:14250"
       - "9411:9411"
+  localstack:
+    image: localstack/localstack
+    environment:
+      - AWS_DEFAULT_REGION=ap-southeast-1
+      - EDGE_PORT=4566
+      - SERVICES=kinesis, dynamodb
+    ports:
+      - '4566:4566'
+    volumes:
+      - localstack:/tmp/localstack
+      - './setup-localstack.sh:/docker-entrypoint-initaws.d/setup-localstack.sh'
+
+volumes:
+  localstack:
