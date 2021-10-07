@@ -1,3 +1,21 @@
+spring:
+  cloud:
+    stream:
+      function:
+        definition: activity-occurred-consumer
+      kinesis:
+        binder:
+          locks:
+            table: example-spring-loyalty-lock
+          checkpoint:
+            table: example-spring-loyalty-checkpoint
+    bindings:
+      activity-occurred-consumer-in-0:
+        consumer:
+          autoStartup: true
+        destination: activity-occurred
+        group: example-spring-loyalty
+
 management:
   health:
     diskspace:
