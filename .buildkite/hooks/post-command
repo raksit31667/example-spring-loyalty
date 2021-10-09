@@ -2,6 +2,6 @@
 
 echo ':s3: Uploading Gradle cache'
 
-docker-compose run upload-gradle-cache
+docker run --rm -v ~/.aws:/root/.aws -v gradle-cache:/cache mesosphere/aws-cli s3 sync --quiet /cache/ s3://java-gradle-cache
 
 docker-compose down
