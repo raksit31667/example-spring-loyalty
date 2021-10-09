@@ -11,14 +11,14 @@ services:
       - gradle-cache:/root/.gradle
 
   download-gradle-cache:
-    image: amazon/aws-cli
+    image: mesosphere/aws-cli
     command: s3 sync --quiet s3://java-gradle-cache /cache/
     volumes:
       - ~/.aws:/root/.aws
       - gradle-cache:/cache
 
   upload-gradle-cache:
-    image: amazon/aws-cli
+    image: mesosphere/aws-cli
     command: s3 sync --quiet /cache/ s3://java-gradle-cache
     volumes:
       - ~/.aws:/root/.aws
