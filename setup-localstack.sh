@@ -1,4 +1,4 @@
-awslocal kinesis create-stream --stream-name activity-occurred --shard-count 1
+awslocal kinesis create-stream --stream-name activity-performed --shard-count 1
 
 awslocal dynamodb create-table \
 --table-name example-spring-loyalty-lock \

@@ -2,7 +2,7 @@ spring:
   cloud:
     stream:
       function:
-        definition: activity-occurred-consumer
+        definition: activity-performed-consumer
       kinesis:
         binder:
           locks:
@@ -10,10 +10,10 @@ spring:
           checkpoint:
             table: example-spring-loyalty-checkpoint
     bindings:
-      activity-occurred-consumer-in-0:
+      activity-performed-consumer-in-0:
         consumer:
           autoStartup: true
-        destination: activity-occurred
+        destination: activity-performed
         group: example-spring-loyalty
 
 management:

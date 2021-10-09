@@ -3,8 +3,8 @@ package com.raksit.example.loyalty.activity.event;
 import lombok.Value;
 
 @Value
-public class ActivityOccurred {
+public class ActivityPerformed {
 
   Activity activity;
-  Long occurredOn;
+  Long performedOn;
 }
