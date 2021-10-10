@@ -4,6 +4,6 @@ echo ':s3: Downloading Gradle cache'
 
 docker volume create --name gradle-cache
 
-docker run --rm -v ~/.aws:/root/.aws -v gradle-cache:/cache mesosphere/aws-cli s3 sync --quiet s3://java-gradle-cache /cache/
+docker run --rm -v ~/.aws:/root/.aws -v gradle-cache:/root/cache mesosphere/aws-cli s3 sync --quiet s3://java-gradle-cache/example-spring-loyalty/ /root/cache
 
 docker-compose down
