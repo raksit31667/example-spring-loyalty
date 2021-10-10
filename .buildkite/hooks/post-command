@@ -2,6 +2,8 @@
 
 echo ':s3: Uploading Gradle cache'
 
-docker run --rm -v ~/.aws:/root/.aws -v gradle-cache:/root/cache mesosphere/aws-cli s3 sync /root/cache/ s3://java-gradle-cache/example-spring-loyalty/
+docker run --rm -v ~/.aws:/root/.aws -v gradle-cache:/root/cache mesosphere/aws-cli \
+ sts assume-role --role-arn "arn:aws:iam::564702493239:role/ExampleSpringLoyalty" --role-session-name "example-spring-loyalty" && \
+ s3 sync /root/cache s3://java-gradle-cache/example-spring-loyalty/
 
 docker-compose down
