@@ -3,6 +3,6 @@
 echo ':s3: Uploading Gradle cache'
 
 docker run --rm -v ~/.aws:/root/.aws -v gradle-cache:/tmp/cache mesosphere/aws-cli \
- s3 sync /tmp/cache s3://java-gradle-cache/example-spring-loyalty/
+ s3 sync --quiet /tmp/cache s3://java-gradle-cache/example-spring-loyalty/
 
 docker-compose down
