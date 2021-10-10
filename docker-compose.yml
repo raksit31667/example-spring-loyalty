@@ -12,3 +12,4 @@ services:
 
 volumes:
   gradle-cache:
+    external: true
