@@ -49,9 +49,10 @@ class ActivityPerformedConsumerTest {
     // Given
     final String userId = UUID.randomUUID().toString();
     final long nowEpochSeconds = System.currentTimeMillis();
+    final String activityId = RandomStringUtils.random(10);
     final ActivityPerformed activityPerformed = ActivityPerformed.builder()
         .activity(Activity.builder()
-            .id(RandomStringUtils.random(10))
+            .id(activityId)
             .name(RandomStringUtils.random(10))
             .userId(userId)
             .build())
@@ -61,7 +62,7 @@ class ActivityPerformedConsumerTest {
     user.setId(UUID.fromString(userId));
     when(userRepository.findById(UUID.fromString(userId)))
         .thenReturn(Optional.of(user));
-    when(activityConfigurationProperties.getPoints(userId))
+    when(activityConfigurationProperties.getPoints(activityId))
         .thenReturn(Optional.of(20L));
 
     // When
@@ -80,9 +81,10 @@ class ActivityPerformedConsumerTest {
     // Given
     final String userId = UUID.randomUUID().toString();
     final long nowEpochSeconds = System.currentTimeMillis();
+    final String activityId = RandomStringUtils.random(10);
     final ActivityPerformed activityPerformed = ActivityPerformed.builder()
         .activity(Activity.builder()
-            .id(RandomStringUtils.random(10))
+            .id(activityId)
             .name(RandomStringUtils.random(10))
             .userId(userId)
             .build())
@@ -103,9 +105,10 @@ class ActivityPerformedConsumerTest {
     // Given
     final String userId = UUID.randomUUID().toString();
     final long nowEpochSeconds = System.currentTimeMillis();
+    final String activityId = RandomStringUtils.random(10);
     final ActivityPerformed activityPerformed = ActivityPerformed.builder()
         .activity(Activity.builder()
-            .id(RandomStringUtils.random(10))
+            .id(activityId)
             .name(RandomStringUtils.random(10))
             .userId(userId)
             .build())
@@ -115,7 +118,7 @@ class ActivityPerformedConsumerTest {
     user.setId(UUID.fromString(userId));
     when(userRepository.findById(UUID.fromString(userId)))
         .thenReturn(Optional.of(user));
-    when(activityConfigurationProperties.getPoints(userId))
+    when(activityConfigurationProperties.getPoints(activityId))
         .thenReturn(Optional.empty());
 
     // When

@@ -44,7 +44,7 @@ public class ActivityPerformedConsumer implements Consumer<ActivityPerformed> {
     }
 
     final Optional<Long> points = activityConfigurationProperties.getPoints(
-        activityPerformed.getActivity().getUserId());
+        activityPerformed.getActivity().getId());
 
     if (points.isEmpty()) {
       return;

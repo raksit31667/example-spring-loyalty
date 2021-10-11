@@ -16,7 +16,7 @@ public class ActivityConfigurationProperties {
 
   private Map<String, Long> pointMap;
 
-  public Optional<Long> getPoints(String userId) {
-    return null;
+  public Optional<Long> getPoints(String activityId) {
+    return Optional.ofNullable(pointMap.get(activityId));
   }
 }
