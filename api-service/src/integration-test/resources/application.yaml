@@ -11,3 +11,7 @@ cloud:
       static: ap-southeast-1
     stack:
       auto: false
+
+activity:
+  point-map:
+    abcd: 20

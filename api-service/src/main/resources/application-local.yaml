@@ -11,3 +11,7 @@ opentracing:
   jaeger:
     udp-sender:
       host: localhost
+
+activity:
+  point-map:
+    abcd: 20
