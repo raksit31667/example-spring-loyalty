@@ -9,6 +9,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
+  batch-job-check:
+    image: openjdk:11.0.2-slim
+    working_dir: /batch-job
+    command: ./gradlew batch-job:clean batch-job:check batch-job:zipReports
+    volumes:
+      - .:/batch-job
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.aws:/root/.aws
+      - gradle-cache:/root/.gradle
 
 volumes:
   gradle-cache:
