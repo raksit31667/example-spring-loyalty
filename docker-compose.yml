@@ -26,7 +26,7 @@ services:
       DOCKER_USERNAME: ${DOCKER_USERNAME}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
     volumes:
-      - .:/batch-job
+      - .:/api-service
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
