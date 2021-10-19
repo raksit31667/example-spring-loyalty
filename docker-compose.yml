@@ -21,7 +21,7 @@ services:
   api-service-build-push-docker:
     image: openjdk:11.0.2-slim
     working_dir: /api-service
-    command: ./gradlew api-service:jib -PdockerUsername=$$DOCKER_USERNAME -PdockerPassword=$$DOCKER_PASSWORD
+    command: ./gradlew api-service:docker -PdockerUsername=$$DOCKER_USERNAME -PdockerPassword=$$DOCKER_PASSWORD
     environment:
       DOCKER_USERNAME: ${DOCKER_USERNAME}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
