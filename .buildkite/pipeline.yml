@@ -1,5 +1,6 @@
 steps:
   - label: ":white_check_mark: API service Check"
+    key: api-service-check
     command: docker-compose run api-service-check
     artifact_paths:
       - "api-service/build/check-reports/*"
@@ -7,3 +8,6 @@ steps:
     command: docker-compose run batch-job-check
     artifact_paths:
       - "batch-job/build/check-reports/*"
+  - label: ":docker: API service Build & Push Docker image"
+    depends_on: api-service-check
+    command: docker-compose run api-service-build-push-docker
