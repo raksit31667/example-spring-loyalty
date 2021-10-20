@@ -30,6 +30,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
+  batch-job-build-push-docker:
+    image: openjdk:11.0.2-slim
+    working_dir: /batch-job
+    command: ./gradlew batch-job:compileJava batch-job:docker -PdockerUsername=$DOCKER_USERNAME -PdockerPassword=$DOCKER_PASSWORD
+    environment:
+      DOCKER_USERNAME: ${DOCKER_USERNAME}
+      DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+    volumes:
+      - .:/batch-job
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.aws:/root/.aws
+      - gradle-cache:/root/.gradle
 volumes:
   gradle-cache:
     external: true
