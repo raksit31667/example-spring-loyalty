@@ -5,6 +5,7 @@ steps:
     artifact_paths:
       - "api-service/build/check-reports/*"
   - label: ":white_check_mark: Batch job Check"
+    key: batch-job-check
     command: docker-compose run batch-job-check
     artifact_paths:
       - "batch-job/build/check-reports/*"
