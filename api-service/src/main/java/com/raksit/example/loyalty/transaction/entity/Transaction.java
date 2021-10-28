@@ -4,6 +4,7 @@ import com.raksit.example.loyalty.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -28,6 +29,9 @@ public class Transaction {
   private Long points;
 
   private Instant performedOn;
+
+  @CreationTimestamp
+  private Instant createdAt;
 
   public Transaction(User user, Long points, Instant performedOn) {
     this.user = user;
