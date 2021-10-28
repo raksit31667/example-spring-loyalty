@@ -40,6 +40,7 @@ public class ActivityPerformedConsumer implements Consumer<ActivityPerformed> {
         UUID.fromString(activityPerformed.getActivity().getUserId()));
 
     if (user.isEmpty()) {
+      log.info("Process skipped: user {} is not in loyalty program", activityPerformed.getActivity().getUserId());
       return;
     }
 
@@ -47,10 +48,13 @@ public class ActivityPerformedConsumer implements Consumer<ActivityPerformed> {
         activityPerformed.getActivity().getId());
 
     if (points.isEmpty()) {
+      log.info("Process skipped: user {} completed activity {} which is not in loyalty program",
+          activityPerformed.getActivity().getUserId(), activityPerformed.getActivity().getId());
       return;
     }
 
     transactionRepository.save(new Transaction(user.get(), points.get(),
         Instant.ofEpochSecond(activityPerformed.getPerformedOn())));
+    log.info("Process completed: user {} earned {} points", user.get().getId(), points.get());
   }
 }
