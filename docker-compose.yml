@@ -1,7 +1,7 @@
 version: '3'
 services:
   api-service-check:
-    image: openjdk:11.0.2-slim
+    image: openjdk:17-jdk-slim
     working_dir: /api-service
     command: ./gradlew api-service:clean api-service:check api-service:zipReports
     volumes:
@@ -10,7 +10,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   batch-job-check:
-    image: openjdk:11.0.2-slim
+    image: openjdk:17-jdk-slim
     working_dir: /batch-job
     command: ./gradlew batch-job:clean batch-job:check batch-job:zipReports
     volumes:
@@ -19,7 +19,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   api-service-build-push-docker:
-    image: openjdk:11.0.2-slim
+    image: openjdk:17-jdk-slim
     working_dir: /api-service
     command: ./gradlew api-service:compileJava api-service:docker -PdockerUsername=$DOCKER_USERNAME -PdockerPassword=$DOCKER_PASSWORD
     environment:
@@ -31,7 +31,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   batch-job-build-push-docker:
-    image: openjdk:11.0.2-slim
+    image: openjdk:17-jdk-slim
     working_dir: /batch-job
     command: ./gradlew batch-job:compileJava batch-job:docker -PdockerUsername=$DOCKER_USERNAME -PdockerPassword=$DOCKER_PASSWORD
     environment:
