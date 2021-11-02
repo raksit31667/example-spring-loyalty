@@ -166,6 +166,9 @@ task docker(type: com.google.cloud.tools.jib.gradle.BuildImageTask) {
     jibExtension = project.extensions.getByName('jib')
     doFirst {
         jib {
+            from {
+                image = "openjdk:17-jdk-slim"
+            }
             to {
                 image = "registry-1.docker.io/raksit31667/example-spring-loyalty-api-service"
                 auth {
