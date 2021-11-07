@@ -19,6 +19,7 @@ spring:
     url: jdbc:postgresql://\${DB_HOSTNAME}:5432/\${DB_NAME}
     username: \${DB_USERNAME}
     password: \${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
 management:
   health:
