@@ -29,7 +29,27 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: { { .Values.environment } }
+              value: dev
+            - name: DB_HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: example-spring-loyalty-db
+                  key: DB_HOSTNAME
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: example-spring-loyalty-db
+                  key: DB_NAME
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: example-spring-loyalty-db
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: example-spring-loyalty-db
+                  key: DB_PASSWORD
           ports:
             - name: http
               containerPort: 8080
