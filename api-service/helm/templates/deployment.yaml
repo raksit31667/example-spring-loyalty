@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "example-spring-loyalty.fullname" . }}
+  name: {{ include "example-spring-loyalty-api-service.fullname" . }}
   labels:
-    {{- include "example-spring-loyalty.labels" . | nindent 4 }}
+    {{- include "example-spring-loyalty-api-service.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "example-spring-loyalty.selectorLabels" . | nindent 6 }}
+      {{- include "example-spring-loyalty-api-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "example-spring-loyalty.selectorLabels" . | nindent 8 }}
+        {{- include "example-spring-loyalty-api-service.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "example-spring-loyalty.serviceAccountName" . }}
+      serviceAccountName: {{ include "example-spring-loyalty-api-service.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

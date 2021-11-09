@@ -1,13 +1,13 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ include "example-spring-loyalty.fullname" . }}
+  name: {{ include "example-spring-loyalty-api-service.fullname" . }}
   labels:
-    {{- include "example-spring-loyalty.labels" . | nindent 4 }}
+    {{- include "example-spring-loyalty-api-service.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ include "example-spring-loyalty.fullname" . }}
+  name: {{ include "example-spring-loyalty-api-service.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "example-spring-loyalty.serviceAccountName" . }}
+    name: {{ include "example-spring-loyalty-api-service.serviceAccountName" . }}

@@ -1,9 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ include "example-spring-loyalty.fullname" . }}
+  name: {{ include "example-spring-loyalty-api-service.fullname" . }}
   labels:
-    {{- include "example-spring-loyalty.labels" . | nindent 4 }}
+    {{- include "example-spring-loyalty-api-service.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
