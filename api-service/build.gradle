@@ -46,6 +46,7 @@ dependencies {
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     implementation 'io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.3.1'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws'
+    implementation 'com.amazonaws:aws-java-sdk-sts:1.12.105'
     implementation 'org.springframework.cloud:spring-cloud-stream-binder-kinesis:2.2.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
