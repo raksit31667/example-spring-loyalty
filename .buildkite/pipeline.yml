@@ -11,7 +11,11 @@ steps:
       - "batch-job/build/check-reports/*"
   - label: ":docker: API service Build & Push Docker image"
     depends_on: api-service-check
-    command: docker-compose run api-service-build-push-docker
+    command:
+      - docker-compose run api-service-build-push-docker
+      - .buildkite/build-push-docker.sh api-service
   - label: ":docker: Batch job Build & Push Docker image"
     depends_on: batch-job-check
-    command: docker-compose run batch-job-build-push-docker
+    command:
+      - docker-compose run batch-job-build-push-docker
+      - .buildkite/build-push-docker.sh batch-job

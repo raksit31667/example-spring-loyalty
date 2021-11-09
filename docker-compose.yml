@@ -21,9 +21,7 @@ services:
   api-service-build-push-docker:
     image: openjdk:17-jdk-slim
     working_dir: /api-service
-    command:
-      - ./gradlew api-service:clean api-service:bootJar --no-daemon
-      - .buildkite/build-push-docker.sh api-service
+    command: ./gradlew api-service:clean api-service:bootJar --no-daemon
     environment:
       DOCKER_USERNAME: ${DOCKER_USERNAME}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
@@ -35,9 +33,7 @@ services:
   batch-job-build-push-docker:
     image: openjdk:17-jdk-slim
     working_dir: /batch-job
-    command:
-      - ./gradlew batch-job:clean batch-job:bootJar --no-daemon
-      - .buildkite/build-push-docker.sh batch-job
+    command: ./gradlew batch-job:clean batch-job:bootJar --no-daemon
     environment:
       DOCKER_USERNAME: ${DOCKER_USERNAME}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
