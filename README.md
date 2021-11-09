@@ -16,6 +16,7 @@ Here is the basic skeleton for your app repo that each of the starter templates 
 │       ├── main
 │       ├── test
 │       ├── build.gradle # Define app dependencies here
+│       ├── Dockerfile
 ├── config
 │   ├── checkstyle
 │   ├── codestyle
@@ -24,7 +25,6 @@ Here is the basic skeleton for your app repo that each of the starter templates 
 ├── helm
 ├── performance-test
 ├── docker-compose.yml
-├── Dockerfile
 ├── build.gradle # Define global dependencies here
 ```
 

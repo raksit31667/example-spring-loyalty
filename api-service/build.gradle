@@ -6,7 +6,6 @@ plugins {
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'org.unbroken-dome.test-sets' version '4.0.0'
-    id 'com.google.cloud.tools.jib' version '3.1.4'
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
 }
 
@@ -160,24 +159,6 @@ jacocoTestReport {
         classDirectories.setFrom(classDirectories.files.collect {
             fileTree(dir: it, exclude: jacocoExcludedClasses)
         })
-    }
-}
-
-task docker(type: com.google.cloud.tools.jib.gradle.BuildImageTask) {
-    jibExtension = project.extensions.getByName('jib')
-    doFirst {
-        jib {
-            from {
-                image = "openjdk:17-jdk-slim"
-            }
-            to {
-                image = "registry-1.docker.io/raksit31667/example-spring-loyalty-api-service"
-                auth {
-                    username = dockerUsername
-                    password = dockerPassword
-                }
-            }
-        }
     }
 }
 
