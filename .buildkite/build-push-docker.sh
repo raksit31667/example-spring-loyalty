@@ -6,7 +6,7 @@ current_dir="$(dirname "$0")"
 
 service_name="$1"
 
-docker login --username $DOCKER_USERNAME --password DOCKER_PASSWORD
+docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
 
 docker build -t "example-spring-loyalty-$service_name" "./$service_name"
 
