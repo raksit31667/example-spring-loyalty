@@ -57,11 +57,15 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: http
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: http
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: jaeger-agent
