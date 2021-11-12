@@ -45,7 +45,7 @@ spec:
                       key: DB_PASSWORD
               ports:
                 - name: http
-                  containerPort: 8080
+                  containerPort: 8081
                   protocol: TCP
               resources:
                 {{- toYaml .Values.resources | nindent 16 }}
