@@ -2,7 +2,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
   batch:
-    initialize-schema: always
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
 zonky:
   test:
     database:

@@ -23,9 +23,10 @@ management:
 
 spring:
   batch:
-    initialize-schema: always
+    jdbc:
+      initialize-schema: always
     job:
-      enabled: false
+      enabled: true
 
 info:
   application:

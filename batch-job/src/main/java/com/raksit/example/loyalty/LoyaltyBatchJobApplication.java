@@ -11,6 +11,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class LoyaltyBatchJobApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(LoyaltyBatchJobApplication.class, args);
+    System.exit(SpringApplication.exit(SpringApplication.run(LoyaltyBatchJobApplication.class, args)));
   }
 }
