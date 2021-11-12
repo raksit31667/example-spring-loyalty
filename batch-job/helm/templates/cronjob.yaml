@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "example-spring-loyalty-batch-job.fullname" . }}
+  labels:
+  {{- include "example-spring-loyalty-batch-job.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.schedule }}
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        metadata:
+          labels:
+            {{- include "example-spring-loyalty-batch-job.selectorLabels" . | nindent 12 }}
+        spec:
+          serviceAccountName: {{ include "example-spring-loyalty-batch-job.serviceAccountName" . }}
+          restartPolicy: Never
+          containers:
+            - name: {{ .Chart.Name }}
+              image: "{{ .Values.image.repository }}:latest"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              env:
+                - name: SPRING_PROFILES_ACTIVE
+                  value: dev
+                - name: DB_HOSTNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: example-spring-loyalty-db
+                      key: DB_HOSTNAME
+                - name: DB_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: example-spring-loyalty-db
+                      key: DB_NAME
+                - name: DB_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: example-spring-loyalty-db
+                      key: DB_USERNAME
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: example-spring-loyalty-db
+                      key: DB_PASSWORD
+              ports:
+                - name: http
+                  containerPort: 8080
+                  protocol: TCP
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
