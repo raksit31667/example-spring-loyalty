@@ -29,11 +29,16 @@ import org.springframework.batch.item.file.builder.MultiResourceItemReaderBuilde
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Configuration
 @EnableBatchProcessing
@@ -44,9 +49,11 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   public MultiResourceItemReader<LoyaltyTransaction> loyaltyTransactionMultiResourceItemReader(
       AmazonS3 amazonS3,
       ApplicationContext applicationContext,
-      AmazonS3ConfigurationProperties amazonS3ConfigurationProperties) {
+      AmazonS3ConfigurationProperties amazonS3ConfigurationProperties,
+      @Value("#{jobParameters['migrationDate']}") String migrationDate) {
 
-    Resource[] resources = amazonS3.listObjectsV2(amazonS3ConfigurationProperties.getBucketName())
+    Resource[] resources = amazonS3.listObjectsV2(amazonS3ConfigurationProperties.getBucketName(),
+            Optional.ofNullable(migrationDate).orElseGet(this::getYesterdayFormattedDate))
         .getObjectSummaries().stream()
         .map(s3ObjectSummary -> s3ResourcePatternResolver(amazonS3, applicationContext)
             .getResource(getS3ResourceUrl(s3ObjectSummary, amazonS3ConfigurationProperties)))
@@ -87,11 +94,16 @@ public class MigrateLegacyLoyaltyJobConfiguration {
     return new PathMatchingSimpleStorageResourcePatternResolver(amazonS3, applicationContext);
   }
 
+  private String getYesterdayFormattedDate() {
+    return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now().minusDays(1));
+  }
+
   private String getS3ResourceUrl(
       S3ObjectSummary s3ObjectSummary,
       AmazonS3ConfigurationProperties amazonS3ConfigurationProperties) {
 
-    return String.format("s3://%s/%s", amazonS3ConfigurationProperties.getBucketName(), s3ObjectSummary.getKey());
+    return String.format("s3://%s/%s",
+        amazonS3ConfigurationProperties.getBucketName(), s3ObjectSummary.getKey());
   }
 
   @Bean
@@ -119,7 +131,8 @@ public class MigrateLegacyLoyaltyJobConfiguration {
         .reader(loyaltyTransactionMultiResourceItemReader(
             amazonS3,
             applicationContext,
-            amazonS3ConfigurationProperties
+            amazonS3ConfigurationProperties,
+            null
         ))
         .processor(loyaltyUserItemProcessor(legacyLoyaltyClient))
         .writer(userRepositoryItemWriter(userRepository))

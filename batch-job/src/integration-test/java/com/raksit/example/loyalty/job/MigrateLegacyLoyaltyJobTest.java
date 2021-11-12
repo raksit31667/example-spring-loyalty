@@ -14,6 +14,8 @@ import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.mock.LegacyLoyaltyMockServer;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +56,7 @@ public class MigrateLegacyLoyaltyJobTest {
   private static final String S3_BUCKET_NAME = "old-loyalty-transactions";
 
   @BeforeEach
-  void setUp() throws JsonProcessingException {
+  void setUp() {
     legacyLoyaltyMockServer = new LegacyLoyaltyMockServer();
     amazonS3.createBucket(S3_BUCKET_NAME);
   }
@@ -75,7 +77,10 @@ public class MigrateLegacyLoyaltyJobTest {
   @Test
   void shouldCreateUsers_whenExecute_givenLoyaltyTransactionAndLegacyLoyaltyUserExist() throws Exception {
     // Given
-    amazonS3.putObject(S3_BUCKET_NAME, "Loyalty_Transactions_2.csv",
+    final String yesterday = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        .format(LocalDateTime.now().minusDays(1));
+
+    amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_2.csv",
         ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv"));
 
     LegacyLoyaltyUser user = new LegacyLoyaltyUser("b724424a",
@@ -104,7 +109,10 @@ public class MigrateLegacyLoyaltyJobTest {
   @Test
   void shouldSkipFailedUser_whenExecute_givenSystemCannotUpdatePoints() throws Exception {
     // Given
-    amazonS3.putObject(S3_BUCKET_NAME, "Loyalty_Transactions_2.csv",
+    final String yesterday = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        .format(LocalDateTime.now().minusDays(1));
+
+    amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_2.csv",
         ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv"));
 
     LegacyLoyaltyUser user = new LegacyLoyaltyUser("b724424a",
