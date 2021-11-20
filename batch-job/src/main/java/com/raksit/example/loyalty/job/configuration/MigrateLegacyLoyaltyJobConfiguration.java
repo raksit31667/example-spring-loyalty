@@ -142,6 +142,7 @@ public class MigrateLegacyLoyaltyJobConfiguration {
         .listener(new UserRepositoryItemWriteLoggerListener())
         .faultTolerant()
         .skipPolicy(new AlwaysSkipItemSkipPolicy())
+        .allowStartIfComplete(true)
         .build();
   }
 
