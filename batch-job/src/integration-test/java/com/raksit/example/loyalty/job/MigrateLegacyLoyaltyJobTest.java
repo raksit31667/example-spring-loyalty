@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.raksit.example.loyalty.annotation.IntegrationTest;
@@ -14,9 +15,12 @@ import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.mock.LegacyLoyaltyMockServer;
 import com.raksit.example.loyalty.user.User;
 import com.raksit.example.loyalty.user.UserRepository;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,8 +84,12 @@ public class MigrateLegacyLoyaltyJobTest {
     final String yesterday = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         .format(LocalDateTime.now().minusDays(1));
 
+    final File file = ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv");
+    final ObjectMetadata objectMetadata = new ObjectMetadata();
+    objectMetadata.setContentLength(file.length());
+
     amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_2.csv",
-        ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv"));
+        new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
 
     LegacyLoyaltyUser user = new LegacyLoyaltyUser("b724424a",
         "John", "Doe", "john.doe@example.com", "+6678901234", true);
@@ -112,8 +120,12 @@ public class MigrateLegacyLoyaltyJobTest {
     final String yesterday = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         .format(LocalDateTime.now().minusDays(1));
 
+    final File file = ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv");
+    final ObjectMetadata objectMetadata = new ObjectMetadata();
+    objectMetadata.setContentLength(file.length());
+
     amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_2.csv",
-        ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_2.csv"));
+        new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
 
     LegacyLoyaltyUser user = new LegacyLoyaltyUser("b724424a",
         "John", "Doe", "john.doe@example.com", "+6678901234", true);

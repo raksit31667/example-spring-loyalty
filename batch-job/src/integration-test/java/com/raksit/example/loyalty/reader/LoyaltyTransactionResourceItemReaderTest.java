@@ -8,10 +8,13 @@ import static org.hamcrest.Matchers.nullValue;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.raksit.example.loyalty.annotation.IntegrationTest;
 import com.raksit.example.loyalty.extension.AmazonS3ClientExtension;
 import com.raksit.example.loyalty.legacy.LoyaltyTransaction;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +32,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.util.ResourceUtils;
 import org.testcontainers.containers.localstack.LocalStackContainer.Service;
+import org.testcontainers.shaded.org.apache.commons.io.FileUtils;
 
 @ExtendWith(AmazonS3ClientExtension.class)
 @IntegrationTest
@@ -63,8 +67,14 @@ public class LoyaltyTransactionResourceItemReaderTest {
     // Given
     final String yesterday = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         .format(LocalDateTime.now().minusDays(1));
+
+    final File file = ResourceUtils.getFile(
+        "classpath:loyalty-transactions/Loyalty_Transactions_1.csv");
+    final ObjectMetadata objectMetadata = new ObjectMetadata();
+    objectMetadata.setContentLength(file.length());
+
     amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_1.csv",
-        ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_1.csv"));
+        new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
 
     // When
@@ -86,10 +96,16 @@ public class LoyaltyTransactionResourceItemReaderTest {
     // Given
     final String yesterday = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         .format(LocalDateTime.now().minusDays(1));
+
+    final File file = ResourceUtils.getFile(
+        "classpath:loyalty-transactions/Loyalty_Transactions_1.csv");
+    final ObjectMetadata objectMetadata = new ObjectMetadata();
+    objectMetadata.setContentLength(file.length());
+
     amazonS3.putObject(S3_BUCKET_NAME,  "1970-01-01/Loyalty_Transactions_1.csv",
-        ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_1.csv"));
+        new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
     amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_1.csv",
-        ResourceUtils.getFile("classpath:loyalty-transactions/Loyalty_Transactions_1.csv"));
+        new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution(
         new JobParametersBuilder().addString("migrationDate", "1970-01-01", false)
             .toJobParameters());
