@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@FeignClient(value = "legacy", url = "${legacy.url}")
+@FeignClient(value = "legacy", url = "${legacy.url}", configuration = LegacyLoyaltyClientConfiguration.class)
 public interface LegacyLoyaltyClient {
 
   @GetMapping(value = "/loyalty/users/{id}", produces = APPLICATION_JSON_VALUE)
