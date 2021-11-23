@@ -3,6 +3,8 @@ package com.raksit.example.loyalty.activity.consumer;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -10,6 +12,7 @@ import static org.mockito.Mockito.when;
 import com.raksit.example.loyalty.activity.config.ActivityConfigurationProperties;
 import com.raksit.example.loyalty.activity.event.Activity;
 import com.raksit.example.loyalty.activity.event.ActivityPerformed;
+import com.raksit.example.loyalty.metric.LoyaltyPointEarnedMetrics;
 import com.raksit.example.loyalty.transaction.entity.Transaction;
 import com.raksit.example.loyalty.transaction.repository.TransactionRepository;
 import com.raksit.example.loyalty.user.User;
@@ -37,6 +40,9 @@ class ActivityPerformedConsumerTest {
 
   @Mock
   private ActivityConfigurationProperties activityConfigurationProperties;
+
+  @Mock
+  private LoyaltyPointEarnedMetrics loyaltyPointEarnedMetrics;
 
   @Captor
   private ArgumentCaptor<Transaction> transactionArgumentCaptor;
@@ -77,6 +83,35 @@ class ActivityPerformedConsumerTest {
   }
 
   @Test
+  void shouldIncrementLoyaltyPointsEarnedMetric_whenAccept_givenActivityPerformedEventMatchesActivityPointsMapping() {
+    // Given
+    final String userId = UUID.randomUUID().toString();
+    final long nowEpochSeconds = System.currentTimeMillis();
+    final String activityId = RandomStringUtils.random(10);
+    final ActivityPerformed activityPerformed = ActivityPerformed.builder()
+        .activity(Activity.builder()
+            .id(activityId)
+            .name(RandomStringUtils.random(10))
+            .userId(userId)
+            .build())
+        .performedOn(nowEpochSeconds)
+        .build();
+    final User user = new User("firstName", "lastName", "email", "phone");
+    user.setId(UUID.fromString(userId));
+    when(userRepository.findById(UUID.fromString(userId)))
+        .thenReturn(Optional.of(user));
+    when(activityConfigurationProperties.getPoints(activityId))
+        .thenReturn(Optional.of(20L));
+
+    // When
+    activityPerformedConsumer.accept(activityPerformed);
+
+    // Then
+    verify(loyaltyPointEarnedMetrics).initializeMetric(userId, activityId);
+    verify(loyaltyPointEarnedMetrics).incrementMetric(userId, activityId, 20L);
+  }
+
+  @Test
   void shouldDoNothing_whenAccept_givenActivityPerformedEventUserIdDoesNotExist() {
     // Given
     final String userId = UUID.randomUUID().toString();
@@ -98,6 +133,8 @@ class ActivityPerformedConsumerTest {
 
     // Then
     verify(transactionRepository, never()).save(any(Transaction.class));
+    verify(loyaltyPointEarnedMetrics, never()).initializeMetric(anyString(), anyString());
+    verify(loyaltyPointEarnedMetrics, never()).incrementMetric(anyString(), anyString(), anyLong());
   }
 
   @Test
@@ -126,5 +163,7 @@ class ActivityPerformedConsumerTest {
 
     // Then
     verify(transactionRepository, never()).save(any(Transaction.class));
+    verify(loyaltyPointEarnedMetrics).initializeMetric(userId, activityId);
+    verify(loyaltyPointEarnedMetrics, never()).incrementMetric(anyString(), anyString(), anyLong());
   }
 }

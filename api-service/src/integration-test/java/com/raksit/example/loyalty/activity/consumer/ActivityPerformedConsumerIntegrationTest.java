@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import com.raksit.example.loyalty.activity.config.ActivityConfigurationProperties;
 import com.raksit.example.loyalty.activity.event.Activity;
 import com.raksit.example.loyalty.activity.event.ActivityPerformed;
 import com.raksit.example.loyalty.annotation.IntegrationTest;
@@ -27,9 +26,6 @@ public class ActivityPerformedConsumerIntegrationTest {
 
   @Autowired
   private TransactionRepository transactionRepository;
-
-  @Autowired
-  private ActivityConfigurationProperties activityConfigurationProperties;
 
   @Autowired
   private ActivityPerformedConsumer activityPerformedConsumer;

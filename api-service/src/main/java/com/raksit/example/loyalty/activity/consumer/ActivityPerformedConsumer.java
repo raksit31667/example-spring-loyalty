@@ -2,6 +2,7 @@ package com.raksit.example.loyalty.activity.consumer;
 
 import com.raksit.example.loyalty.activity.config.ActivityConfigurationProperties;
 import com.raksit.example.loyalty.activity.event.ActivityPerformed;
+import com.raksit.example.loyalty.metric.LoyaltyPointEarnedMetrics;
 import com.raksit.example.loyalty.transaction.entity.Transaction;
 import com.raksit.example.loyalty.transaction.repository.TransactionRepository;
 import com.raksit.example.loyalty.user.User;
@@ -24,12 +25,16 @@ public class ActivityPerformedConsumer implements Consumer<ActivityPerformed> {
 
   private final ActivityConfigurationProperties activityConfigurationProperties;
 
+  private final LoyaltyPointEarnedMetrics loyaltyPointEarnedMetrics;
+
   public ActivityPerformedConsumer(UserRepository userRepository,
       TransactionRepository transactionRepository,
-      ActivityConfigurationProperties activityConfigurationProperties) {
+      ActivityConfigurationProperties activityConfigurationProperties,
+      LoyaltyPointEarnedMetrics loyaltyPointEarnedMetrics) {
     this.userRepository = userRepository;
     this.transactionRepository = transactionRepository;
     this.activityConfigurationProperties = activityConfigurationProperties;
+    this.loyaltyPointEarnedMetrics = loyaltyPointEarnedMetrics;
   }
 
   @Override
@@ -44,6 +49,8 @@ public class ActivityPerformedConsumer implements Consumer<ActivityPerformed> {
       return;
     }
 
+    loyaltyPointEarnedMetrics.initializeMetric(user.get().getId().toString(), activityPerformed.getActivity().getId());
+
     final Optional<Long> points = activityConfigurationProperties.getPoints(
         activityPerformed.getActivity().getId());
 
@@ -55,6 +62,9 @@ public class ActivityPerformedConsumer implements Consumer<ActivityPerformed> {
 
     transactionRepository.save(new Transaction(user.get(), points.get(),
         Instant.ofEpochSecond(activityPerformed.getPerformedOn())));
+
     log.info("Process completed: user {} earned {} points", user.get().getId(), points.get());
+    loyaltyPointEarnedMetrics.incrementMetric(user.get().getId().toString(),
+        activityPerformed.getActivity().getId(), points.get());
   }
 }

@@ -133,6 +133,7 @@ def jacocoExcludedClasses = [
         "com/raksit/example/loyalty/config/*",
         "com/raksit/example/loyalty/activity/event/*",
         "com/raksit/example/loyalty/transaction/entity/*",
+        "com/raksit/example/loyalty/metric/*",
         "com/raksit/example/loyalty/tracing/LogCorrelationConfiguration*"
 ]
 
