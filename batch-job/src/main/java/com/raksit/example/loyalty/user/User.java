@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Getter
 @Setter
@@ -20,11 +21,15 @@ public class User {
   @Id
   @GeneratedValue
   private UUID id;
+
   private String firstName;
   private String lastName;
   private String email;
   private String phone;
   private Long points;
+
+  @Transient
+  private Boolean isActive;
 
   public User(String firstName, String lastName, String email, String phone) {
     this.firstName = firstName;

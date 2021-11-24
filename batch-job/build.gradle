@@ -61,7 +61,7 @@ dependencies {
     testImplementation 'io.zonky.test:embedded-database-spring-test:2.1.0'
     testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0'
     testImplementation 'org.mock-server:mockserver-netty:5.11.2'
-    testImplementation 'org.testcontainers:localstack:1.16.0'
+    testImplementation 'org.testcontainers:localstack:1.16.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
@@ -142,6 +142,7 @@ def jacocoExcludedClasses = [
         "com/raksit/example/loyalty/job/configuration/*",
         "com/raksit/example/loyalty/job/launcher/JobLauncherController*",
         "com/raksit/example/loyalty/job/listener/*",
+        "com/raksit/example/loyalty/job/writer/*",
         "com/raksit/example/loyalty/legacy/*"
 ]
 

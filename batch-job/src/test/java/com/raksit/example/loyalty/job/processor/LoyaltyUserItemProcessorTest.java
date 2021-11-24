@@ -44,10 +44,11 @@ class LoyaltyUserItemProcessorTest {
     assertThat(actual.getEmail(), equalTo("john.doe@example.com"));
     assertThat(actual.getPhone(), equalTo("+6678901234"));
     assertThat(actual.getPoints(), equalTo(100L));
+    assertThat(actual.getIsActive(), equalTo(true));
   }
 
   @Test
-  void shouldReturnNull_whenProcess_givenLoyaltyTransactionAndUserInactiveInLegacy() {
+  void shouldReturnUserWithIsActiveFalse_whenProcess_givenLoyaltyTransactionAndUserInactiveInLegacy() {
     // Given
     final String userId = RandomStringUtils.random(10);
     final LoyaltyTransaction loyaltyTransaction = new LoyaltyTransaction(userId, 100L);
@@ -59,6 +60,11 @@ class LoyaltyUserItemProcessorTest {
     User actual = loyaltyUserItemProcessor.process(loyaltyTransaction);
 
     // Then
-    assertThat(actual, nullValue());
+    assertThat(actual.getFirstName(), equalTo("John"));
+    assertThat(actual.getLastName(), equalTo("Doe"));
+    assertThat(actual.getEmail(), equalTo("john.doe@example.com"));
+    assertThat(actual.getPhone(), equalTo("+6678901234"));
+    assertThat(actual.getPoints(), equalTo(100L));
+    assertThat(actual.getIsActive(), equalTo(false));
   }
 }

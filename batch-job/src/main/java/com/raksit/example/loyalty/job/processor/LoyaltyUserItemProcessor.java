@@ -18,13 +18,10 @@ public class LoyaltyUserItemProcessor implements ItemProcessor<LoyaltyTransactio
   public User process(LoyaltyTransaction loyaltyTransaction) {
     final LegacyLoyaltyUser legacyLoyaltyUser = legacyLoyaltyClient.findUserById(loyaltyTransaction.getMemberId());
 
-    if (!legacyLoyaltyUser.getIsActive()) {
-      return null;
-    }
-
     final User user = new User(legacyLoyaltyUser.getFirstName(), legacyLoyaltyUser.getLastName(),
         legacyLoyaltyUser.getEmail(), legacyLoyaltyUser.getPhone());
     user.setPoints(loyaltyTransaction.getPoints());
+    user.setIsActive(legacyLoyaltyUser.getIsActive());
     return user;
   }
 }

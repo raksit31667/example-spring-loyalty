@@ -8,6 +8,8 @@ import com.raksit.example.loyalty.job.listener.MigrateLegacyLoyaltyStepLoggerLis
 import com.raksit.example.loyalty.job.listener.UserRepositoryItemReadLoggerListener;
 import com.raksit.example.loyalty.job.listener.UserRepositoryItemWriteLoggerListener;
 import com.raksit.example.loyalty.job.processor.LoyaltyUserItemProcessor;
+import com.raksit.example.loyalty.job.writer.ActiveUserRepositoryItemWriter;
+import com.raksit.example.loyalty.job.writer.InactiveUserRepositoryItemWriter;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
 import com.raksit.example.loyalty.legacy.LoyaltyTransaction;
 import com.raksit.example.loyalty.user.User;
@@ -20,8 +22,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
-import org.springframework.batch.item.data.RepositoryItemWriter;
-import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -29,6 +29,8 @@ import org.springframework.batch.item.file.builder.MultiResourceItemReaderBuilde
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.support.CompositeItemWriter;
+import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -112,8 +114,11 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   }
 
   @Bean
-  public RepositoryItemWriter<User> userRepositoryItemWriter(UserRepository userRepository) {
-    return new RepositoryItemWriterBuilder<User>().repository(userRepository).build();
+  public CompositeItemWriter<User> userCompositeItemWriter(UserRepository userRepository) {
+    return new CompositeItemWriterBuilder<User>()
+        .delegates(new InactiveUserRepositoryItemWriter(userRepository),
+            new ActiveUserRepositoryItemWriter(userRepository))
+        .build();
   }
 
   @Bean
@@ -135,7 +140,7 @@ public class MigrateLegacyLoyaltyJobConfiguration {
             null
         ))
         .processor(loyaltyUserItemProcessor(legacyLoyaltyClient))
-        .writer(userRepositoryItemWriter(userRepository))
+        .writer(userCompositeItemWriter(userRepository))
         .listener(new MigrateLegacyLoyaltyStepLoggerListener())
         .listener(new UserRepositoryItemReadLoggerListener())
         .listener(new LoyaltyUserItemProcessLoggerListener())
