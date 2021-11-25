@@ -26,10 +26,10 @@ public class InactiveUserRepositoryItemWriter implements ItemWriter<User> {
         userRepository.deleteAll(users);
       }
     };
-    final List<User> activeUsers = userRepository.findAllByEmailIn(users.stream()
+    final List<User> inactiveUsers = userRepository.findAllByEmailIn(users.stream()
         .filter(user -> !user.getIsActive())
         .map(User::getEmail)
         .collect(Collectors.toList()));
-    writer.write(activeUsers);
+    writer.write(inactiveUsers);
   }
 }
