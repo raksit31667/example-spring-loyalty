@@ -15,7 +15,7 @@ our own AWS account.
 
 ## Decision
 
-We will use Buildkite as a CICD pipeline
+We use Buildkite as a CICD pipeline
 
 ## Consequences
 
