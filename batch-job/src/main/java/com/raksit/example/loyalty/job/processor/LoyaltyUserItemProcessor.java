@@ -3,7 +3,7 @@ package com.raksit.example.loyalty.job.processor;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyClient;
 import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
 import com.raksit.example.loyalty.legacy.LoyaltyTransaction;
-import com.raksit.example.loyalty.user.User;
+import com.raksit.example.loyalty.user.entity.User;
 import org.springframework.batch.item.ItemProcessor;
 
 public class LoyaltyUserItemProcessor implements ItemProcessor<LoyaltyTransaction, User> {

@@ -5,8 +5,8 @@ import com.raksit.example.loyalty.activity.event.ActivityPerformed;
 import com.raksit.example.loyalty.metric.LoyaltyPointEarnedMetrics;
 import com.raksit.example.loyalty.transaction.entity.Transaction;
 import com.raksit.example.loyalty.transaction.repository.TransactionRepository;
-import com.raksit.example.loyalty.user.User;
-import com.raksit.example.loyalty.user.UserRepository;
+import com.raksit.example.loyalty.user.entity.User;
+import com.raksit.example.loyalty.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

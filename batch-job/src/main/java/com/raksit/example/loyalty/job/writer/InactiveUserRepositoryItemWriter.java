@@ -1,7 +1,7 @@
 package com.raksit.example.loyalty.job.writer;
 
-import com.raksit.example.loyalty.user.User;
-import com.raksit.example.loyalty.user.UserRepository;
+import com.raksit.example.loyalty.user.entity.User;
+import com.raksit.example.loyalty.user.repository.UserRepository;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.stereotype.Component;

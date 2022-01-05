@@ -1,6 +1,6 @@
 package com.raksit.example.loyalty.transaction.entity;
 
-import com.raksit.example.loyalty.user.User;
+import com.raksit.example.loyalty.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

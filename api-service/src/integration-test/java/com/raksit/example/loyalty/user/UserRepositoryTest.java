@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.raksit.example.loyalty.annotation.IntegrationTest;
+import com.raksit.example.loyalty.user.entity.User;
+import com.raksit.example.loyalty.user.repository.UserRepository;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

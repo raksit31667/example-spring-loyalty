@@ -5,8 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.raksit.example.loyalty.annotation.IntegrationTest;
 import com.raksit.example.loyalty.job.writer.InactiveUserRepositoryItemWriter;
-import com.raksit.example.loyalty.user.User;
-import com.raksit.example.loyalty.user.UserRepository;
+import com.raksit.example.loyalty.user.entity.User;
+import com.raksit.example.loyalty.user.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;

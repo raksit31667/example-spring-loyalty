@@ -1,5 +1,6 @@
-package com.raksit.example.loyalty.user;
+package com.raksit.example.loyalty.user.repository;
 
+import com.raksit.example.loyalty.user.entity.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
