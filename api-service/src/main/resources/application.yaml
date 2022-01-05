@@ -69,3 +69,8 @@ cloud:
       static: ap-southeast-1
     stack:
       auto: false
+
+split:
+  io:
+    api:
+      key: \${SPLIT_API_KEY}

@@ -1,1 +1,8 @@
-export BUILDKITE_AGENT_TOKEN=your-buildkite-agent-token-here
+export BUILDKITE_AGENT_TOKEN=<your-buildkite-agent-token-here>
+export DOCKER_USERNAME=<your-docker-username-here>
+export DOCKER_PASSWORD=<your-docker-password-here>
+export DB_HOSTNAME=<your-database-hostname-here>
+export DB_NAME=<your-database-name-here>
+export DB_USERNAME=<your-database-username-here>
+export DB_PASSWORD=<your-database-password-here>
+export SPLIT_API_KEY=<your-split-api-key-here>

@@ -15,3 +15,8 @@ cloud:
 activity:
   point-map:
     abcd: 20
+
+split:
+  io:
+    api:
+      key: xxx
