@@ -1,6 +1,7 @@
 package com.raksit.example.loyalty.user;
 
 import com.raksit.example.loyalty.annotation.IntegrationTest;
+import com.raksit.example.loyalty.error.ErrorCode;
 import com.raksit.example.loyalty.user.entity.User;
 import com.raksit.example.loyalty.user.repository.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -59,5 +60,13 @@ public class UserControllerTest {
         .andExpect(jsonPath("$.data.email").value(savedUser.getEmail()))
         .andExpect(jsonPath("$.data.phone").value(savedUser.getPhone()))
         .andExpect(jsonPath("$.data.points").value(savedUser.getPoints()));
+  }
+
+  @Test
+  void shouldReturnBadRequest_whenFindUserById_givenInvalidUserId() throws Exception {
+    mockMvc.perform(get(FIND_USER_BY_ID_ENDPOINT + "abc"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.code").value(ErrorCode.INVALID_USER_ID.name()))
+        .andExpect(jsonPath("$.message").value("invalid user id"));
   }
 }

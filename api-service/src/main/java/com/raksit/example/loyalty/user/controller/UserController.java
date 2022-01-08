@@ -25,7 +25,7 @@ public class UserController {
   }
 
   @GetMapping("/{userId}")
-  public Response<UserDTO> findUserById(@PathVariable String userId) {
+  public Response<UserDTO> findUserById(@PathVariable @ValidUserId String userId) {
     if (featureToggle.isToggledOn("find-user-by-id")) {
       return new Response<>(userService.findUserById(userId));
     }
