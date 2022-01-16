@@ -7,6 +7,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'org.unbroken-dome.test-sets' version '4.0.0'
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
+    id 'info.solidsoft.pitest' version '1.7.0'
 }
 
 repositories {
@@ -96,6 +97,24 @@ integrationTest {
     reports {
         html.enabled = true
     }
+}
+
+pitest {
+    excludedClasses = [
+            "com.raksit.example.loyalty.LoyaltyApplication*",
+            "com.raksit.example.loyalty.user.controller.*",
+            "com.raksit.example.loyalty.user.dto.*",
+            "com.raksit.example.loyalty.config.*",
+            "com.raksit.example.loyalty.error.ErrorResponse*",
+            "com.raksit.example.loyalty.feature.*",
+            "com.raksit.example.loyalty.activity.event.*",
+            "com.raksit.example.loyalty.transaction.entity.*",
+            "com.raksit.example.loyalty.metric.*",
+            "com.raksit.example.loyalty.tracing.LogCorrelationConfiguration*"
+    ]
+    junit5PluginVersion = '0.15'
+    outputFormats = ['HTML']
+    timestampedReports = false
 }
 
 bootRun {

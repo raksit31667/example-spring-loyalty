@@ -53,8 +53,8 @@ Here is the basic skeleton for your app repo that each of the starter templates 
 - Your app's performance testing scripts, written in Scala, is nested beneath the `perfomance-test`
   directory. Please follow the Gatling DSL guideline [here](https://gatling.io/docs/current/).
 
-- It is also recommended updating `docker-compose-local.yml` if your app requires external components,
-  such as database, and message queue to test locally.
+- It is also recommended updating `docker-compose-local.yml` if your app requires external
+  components, such as database, and message queue to test locally.
 
 - The `build.gradle` in root path is used for defining global configuration. In this case, I
   provided simple SonarQube and Docker build & publish plugins.
@@ -66,17 +66,32 @@ Here is the basic skeleton for your app repo that each of the starter templates 
 
 ### Compile and Build
 
-The default Spring active profile is set to `local`, add `-Dspring.profiles.active=<your-custom-profile>` 
+The default Spring active profile is set to `local`,
+add `-Dspring.profiles.active=<your-custom-profile>`
 to customise the active profile.
+
 ```
 $ ./gradlew clean build
 ```
 
 To specify module in order to run Gradle tasks:
+
 ```
 $ ./gradlew api-service:clean api-service:build
 
 $ ./gradlew batch-job:clean batch-job:build
+```
+
+### Run mutation testing
+
+References: [PIT Mutation Testing](https://pitest.org/)
+
+We use PIT to run our unit tests against automatically modified versions of the application code.
+When the application code changes, it should produce different results and cause the unit tests to
+fail. If a unit test does not fail in this situation, it may indicate an issue with the test suite.
+
+```
+$ ./gradlew pitest
 ```
 
 ### Style Guide
@@ -132,6 +147,7 @@ docker compose -f docker-compose-buildkite-agent.yml up
 ```
 
 ### Deployment
+
 Each module contains Helm chart located in `helm` directory. To install/upgrade Helm chart, run:
 
 ```
