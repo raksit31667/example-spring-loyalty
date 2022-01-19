@@ -4,10 +4,10 @@ plugins {
     id 'checkstyle'
     id 'pmd'
     id 'jacoco'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.unbroken-dome.test-sets' version '4.0.0'
     id 'com.google.cloud.tools.jib' version '3.1.4'
-    id 'com.gorylenko.gradle-git-properties' version '2.3.1'
+    id 'com.gorylenko.gradle-git-properties' version '2.3.2'
 }
 
 repositories {
@@ -30,7 +30,7 @@ repositories {
 ext {
     set('springBootVersion', '2.5.0')
     set('springCloudVersion', '2020.0.3')
-    set('springCloudAwsVersion', '2.3.2')
+    set('springCloudAwsVersion', '2.3.3')
 }
 
 dependencyManagement {
@@ -50,15 +50,15 @@ dependencies {
     implementation 'org.postgresql:postgresql'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.projectlombok:lombok:1.18.22'
-    implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
     implementation 'io.micrometer:micrometer-registry-prometheus:1.7.3'
-    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.12.0'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws'
-    implementation 'com.amazonaws:aws-java-sdk-sts:1.12.70'
+    implementation 'com.amazonaws:aws-java-sdk-sts:1.12.141'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
-    testImplementation 'io.zonky.test:embedded-database-spring-test:2.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'io.zonky.test:embedded-database-spring-test:2.1.1'
     testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0'
     testImplementation 'org.mock-server:mockserver-netty:5.11.2'
     testImplementation 'org.testcontainers:localstack:1.16.2'
