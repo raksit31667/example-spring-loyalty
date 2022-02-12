@@ -1,0 +1,11 @@
+steps:
+  - label: ":lock: API service security check"
+    key: api-service-security-check
+    command: docker-compose run api-service-security-check
+    artifact_paths:
+      - "api-service/build/check-reports/*"
+  - label: ":lock: Batch job security check"
+    key: batch-job-security-check
+    command: docker-compose run batch-job-security-check
+    artifact_paths:
+      - "batch-job/build/check-reports/*"
