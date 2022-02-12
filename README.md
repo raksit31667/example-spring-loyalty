@@ -1,6 +1,9 @@
 # example-spring-loyalty
 
-[![Build status](https://badge.buildkite.com/889411af93ce4fb117084d8cd0a0c6dd38603bc151279d5b1a.svg)](https://buildkite.com/raksit31667/example-spring-loyalty)
+| Pipeline               | Status                                                                                                                                                                   |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Continuous integration | [![Build status](https://badge.buildkite.com/889411af93ce4fb117084d8cd0a0c6dd38603bc151279d5b1a.svg)](https://buildkite.com/raksit31667/example-spring-loyalty)          |
+| Daily security checks  | [![Build status](https://badge.buildkite.com/c60bd219502a8001bdff738372fc205f3fc38ec895471be532.svg)](https://buildkite.com/raksit31667/example-spring-loyalty-security) |
 
 Example application loyalty program powered by Spring Boot
 
