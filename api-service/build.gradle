@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.0'
+    id 'org.springframework.boot' version '2.5.9'
     id 'java'
     id 'checkstyle'
     id 'pmd'
@@ -22,7 +22,6 @@ version = '0.0.1'
 sourceCompatibility = 17
 
 ext {
-    set('springBootVersion', '2.5.0')
     set('springCloudVersion', '2020.0.3')
     set('springCloudAwsVersion', '2.3.2')
 }
@@ -43,7 +42,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.22'
     implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
     implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
-    implementation 'dev.akkinoc.spring.boot:logback-access-spring-boot-starter:3.2.0'
+    implementation 'dev.akkinoc.spring.boot:logback-access-spring-boot-starter:3.2.1'
     implementation 'io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.3.1'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws'
     implementation 'com.amazonaws:aws-java-sdk-sts:1.12.141'
