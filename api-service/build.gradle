@@ -47,7 +47,13 @@ dependencies {
     implementation 'io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.3.1'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws'
     implementation 'com.amazonaws:aws-java-sdk-sts:1.12.141'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kinesis:2.2.0'
+    implementation ('org.springframework.cloud:spring-cloud-stream-binder-kinesis:2.2.0') {
+        exclude group: 'org.apache.avro', module: 'avro'
+        exclude group: 'org.apache.thrift', module: 'libthrift'
+        exclude group: 'org.apache.avro', module: 'avro'
+        exclude group: 'org.apache.avro', module: 'avro'
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
     implementation 'io.split.client:java-client:4.4.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
