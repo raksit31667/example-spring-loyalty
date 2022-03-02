@@ -16,4 +16,11 @@
         <cve>CVE-2021-42340</cve>
         <cve>CVE-2022-23181</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses false positives identified on libthrift.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.thrift/libthrift@.*$</packageUrl>
+        <cve>CVE-2020-13949</cve>
+    </suppress>
 </suppressions>
