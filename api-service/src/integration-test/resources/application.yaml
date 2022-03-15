@@ -20,3 +20,8 @@ split:
   io:
     api:
       key: xxx
+
+feature:
+  flags:
+    EXAMPLE_SPRING_LOYALTY_EXAMPLE_FEATURE: false
+    EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID: false

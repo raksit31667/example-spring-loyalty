@@ -1,14 +1,17 @@
 package com.raksit.example.loyalty.user.controller;
 
-import com.raksit.example.loyalty.feature.FeatureToggle;
+import com.raksit.example.loyalty.feature.FeatureToggleService;
 import com.raksit.example.loyalty.response.Response;
 import com.raksit.example.loyalty.user.dto.UserDTO;
 import com.raksit.example.loyalty.user.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.raksit.example.loyalty.feature.FeatureName.EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID;
 
 @RestController
 @RequestMapping("/users")
@@ -17,18 +20,18 @@ public class UserController {
 
   private final UserService userService;
 
-  private final FeatureToggle featureToggle;
+  private final FeatureToggleService featureToggleService;
 
-  public UserController(UserService userService, FeatureToggle featureToggle) {
+  public UserController(UserService userService, FeatureToggleService splitFeatureToggleService) {
     this.userService = userService;
-    this.featureToggle = featureToggle;
+    this.featureToggleService = splitFeatureToggleService;
   }
 
   @GetMapping("/{userId}")
-  public Response<UserDTO> findUserById(@PathVariable @ValidUserId String userId) {
-    if (featureToggle.isToggledOn("find-user-by-id")) {
-      return new Response<>(userService.findUserById(userId));
+  public ResponseEntity<Response<UserDTO>> findUserById(@PathVariable @ValidUserId String userId) {
+    if (featureToggleService.isEnabled(EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID)) {
+      return ResponseEntity.ok(new Response<>(userService.findUserById(userId)));
     }
-    return new Response<>(null);
+    return ResponseEntity.noContent().build();
   }
 }

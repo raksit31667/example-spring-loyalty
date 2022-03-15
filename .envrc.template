@@ -6,3 +6,5 @@ export DB_NAME=<your-database-name-here>
 export DB_USERNAME=<your-database-username-here>
 export DB_PASSWORD=<your-database-password-here>
 export SPLIT_API_KEY=<your-split-api-key-here>
+export EXAMPLE_SPRING_LOYALTY_EXAMPLE_FEATURE_IS_ENABLED=true
+export EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID_IS_ENABLED=false
