@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://plugins.gradle.org/m2' }
+    maven { url 'https://repo.spring.io/snapshot' }
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+group = 'com.raksit.example'
+version = '0.0.1'
+sourceCompatibility = 17
+
+test {
+    testLogging.showStandardStreams = false
+    useJUnitPlatform()
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+    reports {
+        html.enabled = true
+    }
+}
+
+dependencies {
+    implementation 'org.springframework:spring-web:5.3.15'
+    implementation 'org.postgresql:postgresql:42.3.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'org.testcontainers:junit-jupiter:1.16.2'
+    testImplementation 'org.testcontainers:testcontainers:1.16.2'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+}
