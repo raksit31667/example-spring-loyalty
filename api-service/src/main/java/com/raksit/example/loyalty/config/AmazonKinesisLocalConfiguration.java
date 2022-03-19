@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
-@Profile("local")
+@Profile({"local", "functional-test"})
 @Configuration
 public class AmazonKinesisLocalConfiguration {
 
@@ -18,7 +18,7 @@ public class AmazonKinesisLocalConfiguration {
   public AmazonKinesisAsync amazonKinesisAsync() {
     return AmazonKinesisAsyncClientBuilder.standard()
         .withEndpointConfiguration(
-            new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", Regions.AP_SOUTHEAST_1.getName())
+            new AwsClientBuilder.EndpointConfiguration("http://localstack:4566", Regions.AP_SOUTHEAST_1.getName())
         )
         .build();
   }
