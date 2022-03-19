@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.concurrent.TimeoutException;
 
-@Profile({"dev", "prod"})
+@Profile({"dev", "functional-test", "prod"})
 @Configuration
 public class SplitClientConfiguration {
 

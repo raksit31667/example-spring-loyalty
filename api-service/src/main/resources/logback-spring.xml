@@ -10,7 +10,7 @@
       <appender-ref ref="STDOUT"/>
     </root>
   </springProfile>
-  <springProfile name="dev | qa | uat | prod">
+  <springProfile name="dev | functional-test | prod">
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
         <providers>

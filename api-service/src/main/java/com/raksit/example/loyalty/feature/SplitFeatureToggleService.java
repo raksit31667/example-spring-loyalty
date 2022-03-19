@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Primary
-@Profile({"dev", "prod"})
+@Profile({"dev", "functional-test", "prod"})
 @Component
 public class SplitFeatureToggleService implements FeatureToggleService {
 
