@@ -1,0 +1,55 @@
+version: '3'
+services:
+  app:
+    image: raksit31667/example-spring-loyalty-api-service:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - localstack
+    environment:
+      - DB_HOSTNAME=db
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - SPRING_PROFILES_ACTIVE=functional-test
+      - SPLIT_API_KEY=${SPLIT_API_KEY?}
+      - AWS_DEFAULT_REGION=ap-southeast-1
+      - AWS_REGION=ap-southeast-1
+      - AWS_ACCESS_KEY_ID=foobar
+      - AWS_SECRET_ACCESS_KEY=foobar
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+  db:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  localstack:
+    image: localstack/localstack
+    environment:
+      - AWS_DEFAULT_REGION=ap-southeast-1
+      - EDGE_PORT=4566
+      - SERVICES=kinesis, dynamodb
+    ports:
+      - "4566:4566"
+    volumes:
+      - localstack:/tmp/localstack
+      - './setup-localstack.sh:/docker-entrypoint-initaws.d/setup-localstack.sh'
+
+volumes:
+  localstack:
