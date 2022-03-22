@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.9'
+    id 'org.springframework.boot' version "${springBootVersion}"
     id 'java'
     id 'checkstyle'
     id 'pmd'
@@ -25,12 +25,6 @@ repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/snapshot' }
     maven { url 'https://repo.spring.io/milestone' }
-}
-
-ext {
-    set('springBootVersion', '2.5.9')
-    set('springCloudVersion', '2020.0.3')
-    set('springCloudAwsVersion', '2.3.3')
 }
 
 dependencyManagement {

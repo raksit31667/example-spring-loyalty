@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.9'
+    id 'org.springframework.boot' version "${springBootVersion}"
     id 'java'
     id 'checkstyle'
     id 'pmd'
@@ -20,12 +20,6 @@ repositories {
 group = 'com.raksit.example'
 version = '0.0.1'
 sourceCompatibility = 17
-
-ext {
-    set('springBootVersion', '2.5.9')
-    set('springCloudVersion', '2020.0.3')
-    set('springCloudAwsVersion', '2.3.2')
-}
 
 dependencyManagement {
     imports {
