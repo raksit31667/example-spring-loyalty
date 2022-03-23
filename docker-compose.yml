@@ -21,7 +21,7 @@ services:
   api-service-security-check:
     image: openjdk:17-jdk-slim
     working_dir: /api-service
-    command: ./gradlew api-service:clean api-service:dependencyCheckAnalyze
+    command: ./gradlew api-service:clean api-service:dependencyCheckPurge api-service:dependencyCheckAnalyze
     volumes:
       - .:/api-service
       - /var/run/docker.sock:/var/run/docker.sock
@@ -30,7 +30,7 @@ services:
   batch-job-security-check:
     image: openjdk:17-jdk-slim
     working_dir: /batch-job
-    command: ./gradlew batch-job:clean batch-job:dependencyCheckAnalyze
+    command: ./gradlew batch-job:clean batch-job:dependencyCheckPurge batch-job:dependencyCheckAnalyze
     volumes:
       - .:/batch-job
       - /var/run/docker.sock:/var/run/docker.sock
