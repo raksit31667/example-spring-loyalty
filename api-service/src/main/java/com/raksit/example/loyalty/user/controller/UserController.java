@@ -1,6 +1,6 @@
 package com.raksit.example.loyalty.user.controller;
 
-import com.raksit.example.loyalty.feature.FeatureToggleService;
+import com.raksit.example.feature.FeatureToggleService;
 import com.raksit.example.loyalty.response.Response;
 import com.raksit.example.loyalty.user.dto.UserDTO;
 import com.raksit.example.loyalty.user.service.UserService;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.raksit.example.loyalty.feature.FeatureName.EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID;
+import static com.raksit.example.feature.FeatureName.EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID;
 
 @RestController
 @RequestMapping("/users")

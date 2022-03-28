@@ -15,6 +15,13 @@ repositories {
     maven { url 'https://plugins.gradle.org/m2' }
     maven { url 'https://repo.spring.io/snapshot' }
     maven { url 'https://repo.spring.io/milestone' }
+    maven {
+        url = uri("https://maven.pkg.github.com/raksit31667/example-spring-loyalty-feature-toggle")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 group = 'com.raksit.example'
@@ -48,7 +55,7 @@ dependencies {
         exclude group: 'org.apache.avro', module: 'avro'
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
-    implementation 'io.split.client:java-client:4.4.0'
+    implementation 'com.raksit.example:example-spring-loyalty-feature-toggle:0.0.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'io.zonky.test:embedded-database-spring-test:2.1.1'

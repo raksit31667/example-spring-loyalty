@@ -1,14 +1,14 @@
 package com.raksit.example.loyalty.user;
 
-import static com.raksit.example.loyalty.feature.FeatureName.EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID;
+import static com.raksit.example.feature.FeatureName.EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.raksit.example.feature.FeatureToggleService;
 import com.raksit.example.loyalty.annotation.IntegrationTest;
 import com.raksit.example.loyalty.error.ErrorCode;
-import com.raksit.example.loyalty.feature.FeatureToggleService;
 import com.raksit.example.loyalty.user.entity.User;
 import com.raksit.example.loyalty.user.repository.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
