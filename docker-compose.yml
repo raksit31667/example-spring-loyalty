@@ -4,6 +4,9 @@ services:
     image: openjdk:17-jdk-slim
     working_dir: /api-service
     command: ./gradlew api-service:clean api-service:check api-service:zipReports
+    environment:
+      GITHUB_USERNAME: ${GITHUB_USERNAME}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
     volumes:
       - .:/api-service
       - /var/run/docker.sock:/var/run/docker.sock
@@ -22,6 +25,9 @@ services:
     image: openjdk:17-jdk-slim
     working_dir: /api-service
     command: ./gradlew api-service:clean api-service:dependencyCheckPurge api-service:dependencyCheckAnalyze
+    environment:
+      GITHUB_USERNAME: ${GITHUB_USERNAME}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
     volumes:
       - .:/api-service
       - /var/run/docker.sock:/var/run/docker.sock
@@ -41,6 +47,8 @@ services:
     working_dir: /api-service
     command: ./gradlew api-service:clean api-service:bootJar --no-daemon
     environment:
+      GITHUB_USERNAME: ${GITHUB_USERNAME}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
       DOCKER_USERNAME: ${DOCKER_USERNAME}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
     volumes:
