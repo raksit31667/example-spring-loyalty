@@ -62,6 +62,10 @@ dependencies {
     testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0'
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    // Security patch
+    implementation 'org.springframework.cloud:spring-cloud-function-core:3.2.3'
+    implementation 'org.springframework.cloud:spring-cloud-function-context:3.2.3'
 }
 
 processResources {
