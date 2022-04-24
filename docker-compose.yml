@@ -1,7 +1,7 @@
 version: '3'
 services:
   api-service-check:
-    image: openjdk:17-jdk-slim
+    image: openjdk:17.0.2-slim
     working_dir: /api-service
     command: ./gradlew api-service:clean api-service:check api-service:zipReports
     environment:
@@ -13,7 +13,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   batch-job-check:
-    image: openjdk:17-jdk-slim
+    image: openjdk:17.0.2-slim
     working_dir: /batch-job
     command: ./gradlew batch-job:clean batch-job:check batch-job:zipReports
     volumes:
@@ -22,7 +22,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   api-service-security-check:
-    image: openjdk:17-jdk-slim
+    image: openjdk:17.0.2-slim
     working_dir: /api-service
     command: ./gradlew api-service:clean api-service:dependencyCheckPurge api-service:dependencyCheckAnalyze
     environment:
@@ -34,7 +34,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   batch-job-security-check:
-    image: openjdk:17-jdk-slim
+    image: openjdk:17.0.2-slim
     working_dir: /batch-job
     command: ./gradlew batch-job:clean batch-job:dependencyCheckPurge batch-job:dependencyCheckAnalyze
     volumes:
@@ -43,7 +43,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   api-service-build-push-docker:
-    image: openjdk:17-jdk-slim
+    image: openjdk:17.0.2-slim
     working_dir: /api-service
     command: ./gradlew api-service:clean api-service:bootJar --no-daemon
     environment:
@@ -57,7 +57,7 @@ services:
       - ~/.aws:/root/.aws
       - gradle-cache:/root/.gradle
   batch-job-build-push-docker:
-    image: openjdk:17-jdk-slim
+    image: openjdk:17.0.2-slim
     working_dir: /batch-job
     command: ./gradlew batch-job:clean batch-job:bootJar --no-daemon
     environment:
