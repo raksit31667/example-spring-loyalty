@@ -22,8 +22,6 @@ allprojects {
         maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
     }
-
-    ext['spring-framework.version'] = '5.3.19' // pending for Spring Boot 2.6.7
 }
 
 subprojects {
