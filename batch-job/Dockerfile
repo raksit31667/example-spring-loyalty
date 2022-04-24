@@ -1,4 +1,4 @@
-FROM openjdk:17-slim
+FROM openjdk:17.0.2-slim
 
 WORKDIR /app
 EXPOSE 8081
