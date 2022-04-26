@@ -22,6 +22,8 @@ management:
       service: example-spring-loyalty-batch-job
 
 spring:
+  application:
+    name: example-spring-loyalty-batch-job
   batch:
     jdbc:
       initialize-schema: always
