@@ -40,7 +40,7 @@ import org.testcontainers.containers.localstack.LocalStackContainer.Service;
 @ExtendWith(AmazonS3ClientExtension.class)
 @SpringBatchTest
 @IntegrationTest
-public class MigrateLegacyLoyaltyJobTest {
+class MigrateLegacyLoyaltyJobTest {
 
   @Autowired
   private UserRepository userRepository;

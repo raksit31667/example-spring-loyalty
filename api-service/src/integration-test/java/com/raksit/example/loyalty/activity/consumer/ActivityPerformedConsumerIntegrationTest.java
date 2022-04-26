@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @IntegrationTest
-public class ActivityPerformedConsumerIntegrationTest {
+class ActivityPerformedConsumerIntegrationTest {
 
   @Autowired
   private UserRepository userRepository;

@@ -36,7 +36,7 @@ import org.testcontainers.shaded.org.apache.commons.io.FileUtils;
 
 @ExtendWith(AmazonS3ClientExtension.class)
 @IntegrationTest
-public class LoyaltyTransactionResourceItemReaderTest {
+class LoyaltyTransactionResourceItemReaderTest {
 
   @Autowired
   private AmazonS3 amazonS3;

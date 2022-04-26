@@ -17,7 +17,7 @@ import org.springframework.batch.test.StepScopeTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @IntegrationTest
-public class InactiveUserRepositoryItemWriterTest {
+class InactiveUserRepositoryItemWriterTest {
 
   @Autowired
   private UserRepository userRepository;
