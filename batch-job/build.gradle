@@ -98,6 +98,7 @@ integrationTest {
     reports {
         html.enabled = true
     }
+    environment('AWS_REGION', 'ap-southeast-1')
 }
 
 bootRun {

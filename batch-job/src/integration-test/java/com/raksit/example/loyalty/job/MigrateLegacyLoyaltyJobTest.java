@@ -188,7 +188,7 @@ class MigrateLegacyLoyaltyJobTest {
 
     @Primary
     @Bean
-    public AmazonS3 amazonS3() {
+    public AmazonS3 amazonS3ForLegacyLoyaltyJob() {
       return AmazonS3ClientBuilder.standard()
           .withEndpointConfiguration(localStackContainer.getEndpointConfiguration(Service.S3))
           .withCredentials(localStackContainer.getDefaultCredentialsProvider())

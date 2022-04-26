@@ -10,3 +10,4 @@ export EXAMPLE_SPRING_LOYALTY_EXAMPLE_FEATURE_IS_ENABLED=true
 export EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID_IS_ENABLED=false
 export GITHUB_USERNAME=raksit31667
 export GITHUB_TOKEN=<your-github-personal-token-here>
+export AWS_REGION=ap-southeast-1

@@ -39,7 +39,7 @@ import org.testcontainers.shaded.org.apache.commons.io.FileUtils;
 class LoyaltyTransactionResourceItemReaderTest {
 
   @Autowired
-  private AmazonS3 amazonS3;
+  private AmazonS3 amazonS3ForLegacyLoyaltyJob;
 
   @Autowired
   private MultiResourceItemReader<LoyaltyTransaction> loyaltyTransactionMultiResourceItemReader;
@@ -48,17 +48,17 @@ class LoyaltyTransactionResourceItemReaderTest {
 
   @BeforeEach
   void setUp() {
-    amazonS3.createBucket(S3_BUCKET_NAME);
+    amazonS3ForLegacyLoyaltyJob.createBucket(S3_BUCKET_NAME);
   }
 
   @AfterEach
   void tearDown() {
-    amazonS3.listObjectsV2(S3_BUCKET_NAME)
+    amazonS3ForLegacyLoyaltyJob.listObjectsV2(S3_BUCKET_NAME)
         .getObjectSummaries()
         .stream()
         .map(S3ObjectSummary::getKey)
-        .forEach(key -> amazonS3.deleteObject(S3_BUCKET_NAME, key));
-    amazonS3.deleteBucket(S3_BUCKET_NAME);
+        .forEach(key -> amazonS3ForLegacyLoyaltyJob.deleteObject(S3_BUCKET_NAME, key));
+    amazonS3ForLegacyLoyaltyJob.deleteBucket(S3_BUCKET_NAME);
   }
 
   @Test
@@ -73,7 +73,7 @@ class LoyaltyTransactionResourceItemReaderTest {
     final ObjectMetadata objectMetadata = new ObjectMetadata();
     objectMetadata.setContentLength(file.length());
 
-    amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_1.csv",
+    amazonS3ForLegacyLoyaltyJob.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_1.csv",
         new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
 
@@ -102,9 +102,9 @@ class LoyaltyTransactionResourceItemReaderTest {
     final ObjectMetadata objectMetadata = new ObjectMetadata();
     objectMetadata.setContentLength(file.length());
 
-    amazonS3.putObject(S3_BUCKET_NAME,  "1970-01-01/Loyalty_Transactions_1.csv",
+    amazonS3ForLegacyLoyaltyJob.putObject(S3_BUCKET_NAME,  "1970-01-01/Loyalty_Transactions_1.csv",
         new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
-    amazonS3.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_1.csv",
+    amazonS3ForLegacyLoyaltyJob.putObject(S3_BUCKET_NAME, yesterday + "/Loyalty_Transactions_1.csv",
         new ByteArrayInputStream(FileUtils.readFileToByteArray(file)), objectMetadata);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution(
         new JobParametersBuilder().addString("migrationDate", "1970-01-01", false)
@@ -130,7 +130,7 @@ class LoyaltyTransactionResourceItemReaderTest {
 
     @Primary
     @Bean
-    public AmazonS3 amazonS3() {
+    public AmazonS3 amazonS3ForLegacyLoyaltyJob() {
       return AmazonS3ClientBuilder.standard()
           .withEndpointConfiguration(localStackContainer.getEndpointConfiguration(Service.S3))
           .withCredentials(localStackContainer.getDefaultCredentialsProvider())

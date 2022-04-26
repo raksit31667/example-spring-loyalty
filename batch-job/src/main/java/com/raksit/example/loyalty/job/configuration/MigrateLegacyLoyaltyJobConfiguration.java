@@ -49,15 +49,15 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   @StepScope
   @Bean
   public MultiResourceItemReader<LoyaltyTransaction> loyaltyTransactionMultiResourceItemReader(
-      AmazonS3 amazonS3,
+      AmazonS3 amazonS3ForLegacyLoyaltyJob,
       ApplicationContext applicationContext,
       AmazonS3ConfigurationProperties amazonS3ConfigurationProperties,
       @Value("#{jobParameters['migrationDate']}") String migrationDate) {
 
-    Resource[] resources = amazonS3.listObjectsV2(amazonS3ConfigurationProperties.getBucketName(),
+    Resource[] resources = amazonS3ForLegacyLoyaltyJob.listObjectsV2(amazonS3ConfigurationProperties.getBucketName(),
             Optional.ofNullable(migrationDate).orElseGet(this::getYesterdayFormattedDate))
         .getObjectSummaries().stream()
-        .map(s3ObjectSummary -> s3ResourcePatternResolver(amazonS3, applicationContext)
+        .map(s3ObjectSummary -> s3ResourcePatternResolver(amazonS3ForLegacyLoyaltyJob, applicationContext)
             .getResource(getS3ResourceUrl(s3ObjectSummary, amazonS3ConfigurationProperties)))
         .toArray(Resource[]::new);
     return new MultiResourceItemReaderBuilder<LoyaltyTransaction>()
@@ -90,10 +90,10 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   }
 
   private ResourcePatternResolver s3ResourcePatternResolver(
-      AmazonS3 amazonS3,
+      AmazonS3 amazonS3ForLegacyLoyaltyJob,
       ApplicationContext applicationContext) {
 
-    return new PathMatchingSimpleStorageResourcePatternResolver(amazonS3, applicationContext);
+    return new PathMatchingSimpleStorageResourcePatternResolver(amazonS3ForLegacyLoyaltyJob, applicationContext);
   }
 
   private String getYesterdayFormattedDate() {
@@ -125,7 +125,7 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   public Step step(
       UserRepository userRepository,
       LegacyLoyaltyClient legacyLoyaltyClient,
-      AmazonS3 amazonS3,
+      AmazonS3 amazonS3ForLegacyLoyaltyJob,
       ApplicationContext applicationContext,
       AmazonS3ConfigurationProperties amazonS3ConfigurationProperties,
       StepBuilderFactory stepBuilderFactory) {
@@ -134,7 +134,7 @@ public class MigrateLegacyLoyaltyJobConfiguration {
         .get("step")
         .<LoyaltyTransaction, User>chunk(3)
         .reader(loyaltyTransactionMultiResourceItemReader(
-            amazonS3,
+            amazonS3ForLegacyLoyaltyJob,
             applicationContext,
             amazonS3ConfigurationProperties,
             null
