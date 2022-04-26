@@ -67,6 +67,39 @@ Here is the basic skeleton for your app repo that each of the starter templates 
 
 ## Development guidelines
 
+### Starting local server
+
+Install Homebrew formulae [direnv](https://direnv.net/) that can load and unload environment
+variables depending on the current directory.
+
+Then, clone `.envrc.template` with:
+
+```shell
+$ cp .envrc.template .envrc
+```
+
+Fill environment variables in `.envrc`, then load environment variables by running:
+
+```shell
+$ direnv allow
+```
+
+Finally, start local server on `local` active profile by running:
+
+```shell
+$ docker-compose -f docker-compose-sidecar.yml up -d && ./gradlew clean api-service:bootRun
+```
+
+```shell
+$ docker-compose -f docker-compose-sidecar.yml up -d && ./gradlew clean batch-job:bootRun
+```
+
+For other active profiles, specify profile on System property as:
+
+```shell
+$ ./gradlew clean api-service:bootRun -Dspring.profile.active=<your-profile-name-comma-separated>
+```
+
 ### Compile and Build
 
 The default Spring active profile is set to `local`,

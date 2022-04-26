@@ -43,7 +43,7 @@ services:
     environment:
       - AWS_DEFAULT_REGION=ap-southeast-1
       - EDGE_PORT=4566
-      - SERVICES=kinesis, dynamodb
+      - SERVICES=kinesis, dynamodb, s3
     ports:
       - '4566:4566'
     volumes:
