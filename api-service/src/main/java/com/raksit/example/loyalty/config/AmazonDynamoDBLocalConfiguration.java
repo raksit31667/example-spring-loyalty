@@ -4,6 +4,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsync;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -15,10 +16,11 @@ public class AmazonDynamoDBLocalConfiguration {
 
   @Primary
   @Bean
-  public AmazonDynamoDBAsync amazonDynamoDBAsync() {
+  public AmazonDynamoDBAsync amazonDynamoDBAsync(@Value("${localstack.host}") String localstackHost) {
     return AmazonDynamoDBAsyncClientBuilder.standard()
         .withEndpointConfiguration(
-            new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", Regions.AP_SOUTHEAST_1.getName())
+            new AwsClientBuilder.EndpointConfiguration(String.format("http://%s:4566", localstackHost),
+                Regions.AP_SOUTHEAST_1.getName())
         )
         .build();
   }

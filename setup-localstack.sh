@@ -15,7 +15,3 @@ awslocal dynamodb create-table \
 --tags Key=Owner,Value=localstack
 
 awslocal s3api create-bucket --bucket old-loyalty-transactions --region ap-southeast-1 --create-bucket-configuration LocationConstraint=ap-southeast-1
-
-awslocal dynamodb list-tables
-awslocal kinesis list-streams
-awslocal s3api list-buckets

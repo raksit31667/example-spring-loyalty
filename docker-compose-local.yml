@@ -44,11 +44,17 @@ services:
       - AWS_DEFAULT_REGION=ap-southeast-1
       - EDGE_PORT=4566
       - SERVICES=kinesis, dynamodb, s3
+    healthcheck:
+      test: ["CMD-SHELL", "/tmp/healthcheck-localstack.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - '4566:4566'
     volumes:
       - localstack:/tmp/localstack
       - './setup-localstack.sh:/docker-entrypoint-initaws.d/setup-localstack.sh'
+      - './healthcheck-localstack.sh:/tmp/healthcheck-localstack.sh'
 
 volumes:
   localstack:
