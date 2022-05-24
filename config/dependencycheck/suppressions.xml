@@ -7,4 +7,9 @@
     <packageUrl regex="true">^pkg:maven/org\.apache\.thrift/libthrift@.*$</packageUrl>
     <cve>CVE-2020-13949</cve>
   </suppress>
+  <suppress>
+    <notes><![CDATA[Spring framework]]></notes>
+    <packageUrl regex="true">^pkg:maven/org\.springframework/spring.*$</packageUrl>
+    <cve>CVE-2016-1000027</cve>
+  </suppress>
 </suppressions>
