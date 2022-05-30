@@ -16,7 +16,7 @@ import static com.raksit.example.feature.FeatureName.EXAMPLE_SPRING_LOYALTY_FIND
 @RestController
 @RequestMapping("/users")
 @Validated
-public class UserController {
+public class UserController implements UserSwaggerApi {
 
   private final UserService userService;
 
@@ -27,6 +27,7 @@ public class UserController {
     this.featureToggleService = splitFeatureToggleService;
   }
 
+  @Override
   @GetMapping("/{userId}")
   public ResponseEntity<Response<UserDTO>> findUserById(@PathVariable @ValidUserId String userId) {
     if (featureToggleService.isEnabled(EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID)) {

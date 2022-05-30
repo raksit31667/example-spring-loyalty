@@ -17,4 +17,4 @@ activity:
     abcd: 20
 
 localstack:
-  host: \${LOCALSTACK_HOST:localhost}
+  host: ${LOCALSTACK_HOST:localhost}
