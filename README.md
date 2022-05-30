@@ -150,6 +150,10 @@ variables, then run this following command in the root directory to apply variab
 direnv allow
 ```
 
+### API documentation
+
+See available API endpoints in [Swagger UI](http://localhost:8080/swagger-ui/index.html#/).
+
 ### CICD
 
 [Buildkite](https://buildkite.com/) is a platform for running fast, secure, and scalable continuous
