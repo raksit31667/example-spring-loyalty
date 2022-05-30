@@ -11,3 +11,9 @@ export EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID_IS_ENABLED=false
 export GITHUB_USERNAME=raksit31667
 export GITHUB_TOKEN=<your-github-personal-token-here>
 export AWS_REGION=ap-southeast-1
+export AWS_ACCESS_KEY_ID=foobar
+export AWS_SECRET_ACCESS_KEY=foobar
+
+# Uncomment them if you are using Colima as Docker Desktop alternatives
+# export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+# export DOCKER_HOST="unix://${HOME}/.colima/docker.sock"
