@@ -73,7 +73,7 @@ cloud:
 split:
   io:
     api:
-      key: \${SPLIT_API_KEY}
+      key: \${SPLIT_API_KEY:-}
 
 feature:
   flags:

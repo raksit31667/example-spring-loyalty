@@ -14,11 +14,11 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - SPRING_PROFILES_ACTIVE=functional-test
-      - SPLIT_API_KEY=${SPLIT_API_KEY?}
       - AWS_DEFAULT_REGION=ap-southeast-1
       - AWS_REGION=ap-southeast-1
       - AWS_ACCESS_KEY_ID=foobar
       - AWS_SECRET_ACCESS_KEY=foobar
+      - LOCALSTACK_HOST=localstack
     deploy:
       resources:
         limits:
