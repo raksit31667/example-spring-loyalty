@@ -11,8 +11,12 @@ public class UserService {
 
   private final UserRepository userRepository;
 
-  public UserService(UserRepository userRepository) {
+  private final UserBannerService userBannerService;
+
+  public UserService(UserRepository userRepository,
+      UserBannerService userBannerService) {
     this.userRepository = userRepository;
+    this.userBannerService = userBannerService;
   }
 
   public UserDTO findUserById(String userId) {
@@ -24,6 +28,7 @@ public class UserService {
             .email(user.getEmail())
             .phone(user.getPhone())
             .points(user.getPoints())
+            .bannerImage(userBannerService.getBase64BannerImage(userId))
             .build()
         ).orElseThrow();
   }

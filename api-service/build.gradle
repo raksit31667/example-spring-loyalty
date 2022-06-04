@@ -51,6 +51,7 @@ dependencies {
     implementation 'io.awspring.cloud:spring-cloud-starter-aws'
     implementation platform('software.amazon.awssdk:bom:2.15.0')
     implementation 'software.amazon.awssdk:kinesis'
+    implementation 'software.amazon.awssdk:s3'
     implementation ('org.springframework.cloud:spring-cloud-stream-binder-kinesis:2.2.0') {
         exclude group: 'org.apache.avro', module: 'avro'
         exclude group: 'org.apache.thrift', module: 'libthrift'

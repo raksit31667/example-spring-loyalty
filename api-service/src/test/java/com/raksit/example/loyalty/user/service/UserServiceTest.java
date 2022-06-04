@@ -25,6 +25,9 @@ class UserServiceTest {
   @Mock
   private UserRepository userRepository;
 
+  @Mock
+  private UserBannerService userBannerService;
+
   @InjectMocks
   private UserService userService;
 
@@ -39,6 +42,8 @@ class UserServiceTest {
     user.setPoints(100L);
     when(userRepository.findById(UUID.fromString(userId)))
         .thenReturn(Optional.of(user));
+    when(userBannerService.getBase64BannerImage(userId))
+        .thenReturn("data:image/png;base64,R5ay8lR8GNIaUi60FgrEjQ==");
 
     // When
     final UserDTO actual = userService.findUserById(userId);
@@ -50,6 +55,7 @@ class UserServiceTest {
     assertThat(actual.getEmail(), equalTo(user.getEmail()));
     assertThat(actual.getPhone(), equalTo(user.getPhone()));
     assertThat(actual.getPoints(), equalTo(user.getPoints()));
+    assertThat(actual.getBannerImage(), equalTo("data:image/png;base64,R5ay8lR8GNIaUi60FgrEjQ=="));
   }
 
   @Test

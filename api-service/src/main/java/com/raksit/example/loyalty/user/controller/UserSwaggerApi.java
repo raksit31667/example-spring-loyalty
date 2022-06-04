@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 public interface UserSwaggerApi {
 
@@ -27,5 +28,6 @@ public interface UserSwaggerApi {
           )
       )
   })
-  ResponseEntity<Response<UserDTO>> findUserById(@Parameter(description = "user ID") String userId);
+  ResponseEntity<Response<UserDTO>> findUserById(
+      @Parameter(description = "user ID") @PathVariable @ValidUserId String userId);
 }

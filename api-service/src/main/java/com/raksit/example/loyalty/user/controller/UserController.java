@@ -7,7 +7,6 @@ import com.raksit.example.loyalty.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +28,7 @@ public class UserController implements UserSwaggerApi {
 
   @Override
   @GetMapping("/{userId}")
-  public ResponseEntity<Response<UserDTO>> findUserById(@PathVariable @ValidUserId String userId) {
+  public ResponseEntity<Response<UserDTO>> findUserById(String userId) {
     if (featureToggleService.isEnabled(EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID)) {
       return ResponseEntity.ok(new Response<>(userService.findUserById(userId)));
     }
