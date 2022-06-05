@@ -7,9 +7,11 @@ import com.raksit.example.loyalty.annotation.IntegrationTest;
 import com.raksit.example.loyalty.user.entity.User;
 import com.raksit.example.loyalty.user.repository.UserRepository;
 import java.util.Optional;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Disabled
 @IntegrationTest
 class UserRepositoryTest {
 
