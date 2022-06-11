@@ -58,10 +58,17 @@ opentracing:
       decision: true
     enable-w3c-propagation: true
     log-spans: true
+#    enabled: false
   spring:
     cloud:
       jdbc:
         enabled: false
+#      async:
+#        enabled: false
+#      feign:
+#        enabled: false
+#    web:
+#      enabled: false
 
 cloud:
   aws:

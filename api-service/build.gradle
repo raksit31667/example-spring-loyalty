@@ -128,7 +128,8 @@ pitest {
             "com.raksit.example.loyalty.activity.event.*",
             "com.raksit.example.loyalty.transaction.entity.*",
             "com.raksit.example.loyalty.metric.*",
-            "com.raksit.example.loyalty.tracing.LogCorrelationConfiguration*"
+            "com.raksit.example.loyalty.tracing.LogCorrelationConfiguration*",
+            "com.raksit.example.loyalty.tracing.NoopTracerConfiguration*"
     ]
     junit5PluginVersion = '0.15'
     outputFormats = ['HTML']
