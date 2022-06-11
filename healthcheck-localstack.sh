@@ -4,3 +4,4 @@ awslocal dynamodb wait table-exists --table-name example-spring-loyalty-lock
 awslocal dynamodb wait table-exists --table-name example-spring-loyalty-checkpoint
 
 awslocal s3api wait bucket-exists --bucket old-loyalty-transactions
+awslocal s3api wait bucket-exists --bucket example-spring-loyalty-banner

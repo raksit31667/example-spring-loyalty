@@ -65,6 +65,8 @@ opentracing:
 
 cloud:
   aws:
+    s3:
+      bucket-name: example-spring-loyalty-banner
     region:
       static: ap-southeast-1
     stack:

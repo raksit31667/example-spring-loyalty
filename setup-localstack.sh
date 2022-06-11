@@ -15,3 +15,4 @@ awslocal dynamodb create-table \
 --tags Key=Owner,Value=localstack
 
 awslocal s3api create-bucket --bucket old-loyalty-transactions --region ap-southeast-1 --create-bucket-configuration LocationConstraint=ap-southeast-1
+awslocal s3api create-bucket --bucket example-spring-loyalty-banner --region ap-southeast-1 --create-bucket-configuration LocationConstraint=ap-southeast-1
