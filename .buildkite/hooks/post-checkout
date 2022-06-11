@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -eu
+echo ':hammer_and_pick: Setting up project environment variables'
+
+export BUILD_NUMBER=${BUILDKITE_TRIGGERED_FROM_BUILD_NUMBER:-$BUILDKITE_BUILD_NUMBER}
+export SEMANTIC_VERSION="0.0.$BUILD_NUMBER"

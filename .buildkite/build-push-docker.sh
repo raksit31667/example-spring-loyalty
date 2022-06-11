@@ -8,8 +8,8 @@ service_name="$1"
 
 docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
 
-docker build -t "example-spring-loyalty-$service_name" "./$service_name"
+docker build -t "example-spring-loyalty-$service_name" "./$service_name" --build-arg SEMANTIC_VERSION=${SEMANTIC_VERSION}
 
-docker tag "example-spring-loyalty-$service_name" "raksit31667/example-spring-loyalty-$service_name:latest"
+docker tag "example-spring-loyalty-$service_name" "raksit31667/example-spring-loyalty-$service_name:${SEMANTIC_VERSION}"
 
-docker push "raksit31667/example-spring-loyalty-$service_name:latest"
+docker push "raksit31667/example-spring-loyalty-$service_name:${SEMANTIC_VERSION}"

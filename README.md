@@ -201,5 +201,5 @@ docker compose -f docker-compose-buildkite-agent.yml up
 Each module contains Helm chart located in `helm` directory. To install/upgrade Helm chart, run:
 
 ```
-helm upgrade --install example-spring-loyalty-<module-name> <module-name>/helm
+helm upgrade --install example-spring-loyalty-<module-name> <module-name>/helm --set image.tag=<your-semantic-version>
 ```

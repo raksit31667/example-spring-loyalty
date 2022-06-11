@@ -7,6 +7,7 @@ services:
     environment:
       GITHUB_USERNAME: ${GITHUB_USERNAME}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
+      SEMANTIC_VERSION: ${SEMANTIC_VERSION}
     volumes:
       - .:/api-service
       - /var/run/docker.sock:/var/run/docker.sock
@@ -16,6 +17,8 @@ services:
     image: openjdk:17.0.2-slim
     working_dir: /batch-job
     command: ./gradlew batch-job:clean batch-job:check batch-job:zipReports
+    environment:
+      SEMANTIC_VERSION: ${SEMANTIC_VERSION}
     volumes:
       - .:/batch-job
       - /var/run/docker.sock:/var/run/docker.sock
@@ -28,6 +31,7 @@ services:
     environment:
       GITHUB_USERNAME: ${GITHUB_USERNAME}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
+      SEMANTIC_VERSION: ${SEMANTIC_VERSION}
     volumes:
       - .:/api-service
       - /var/run/docker.sock:/var/run/docker.sock
@@ -37,6 +41,8 @@ services:
     image: openjdk:17.0.2-slim
     working_dir: /batch-job
     command: ./gradlew batch-job:clean batch-job:dependencyCheckPurge batch-job:dependencyCheckAnalyze
+    environment:
+      SEMANTIC_VERSION: ${SEMANTIC_VERSION}
     volumes:
       - .:/batch-job
       - /var/run/docker.sock:/var/run/docker.sock
@@ -51,6 +57,7 @@ services:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       DOCKER_USERNAME: ${DOCKER_USERNAME}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+      SEMANTIC_VERSION: ${SEMANTIC_VERSION}
     volumes:
       - .:/api-service
       - /var/run/docker.sock:/var/run/docker.sock
@@ -63,6 +70,7 @@ services:
     environment:
       DOCKER_USERNAME: ${DOCKER_USERNAME}
       DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+      SEMANTIC_VERSION: ${SEMANTIC_VERSION}
     volumes:
       - .:/batch-job
       - /var/run/docker.sock:/var/run/docker.sock

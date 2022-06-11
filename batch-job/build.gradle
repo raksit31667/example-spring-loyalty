@@ -16,9 +16,10 @@ repositories {
     maven { url 'https://repo.spring.io/milestone' }
 }
 
+def semanticVersion = System.getenv("SEMANTIC_VERSION")
+
 group = 'com.raksit.example'
-version = '0.0.1'
-sourceCompatibility = 17
+version = semanticVersion == null ? '0.0.1-SNAPSHOT' : semanticVersion
 
 repositories {
     mavenCentral()

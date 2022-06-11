@@ -25,9 +25,10 @@ repositories {
     }
 }
 
+def semanticVersion = System.getenv("SEMANTIC_VERSION")
+
 group = 'com.raksit.example'
-version = '0.0.1'
-sourceCompatibility = 17
+version = semanticVersion == null ? '0.0.1-SNAPSHOT' : semanticVersion
 
 dependencyManagement {
     imports {
