@@ -150,6 +150,16 @@ variables, then run this following command in the root directory to apply variab
 direnv allow
 ```
 
+### Git hooks
+
+We use [ghooks.gradle](https://github.com/gtramontina/ghooks.gradle) for Git hooks Gradle plugin.
+
+To download Git hooks plugin, run:
+
+```shell
+./gradlew your-module:clean your-module:build
+```
+
 ### API documentation
 
 See available API endpoints in [Swagger UI](http://localhost:8080/swagger-ui/index.html#/).

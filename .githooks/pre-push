@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo "--- Running Git pre-push hook ---"
+
+./gradlew api-service:clean api-service:build
