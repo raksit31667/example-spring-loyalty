@@ -87,11 +87,11 @@ $ direnv allow
 Finally, start local server on `local` active profile by running:
 
 ```shell
-$ docker-compose -f docker-compose-sidecar.yml up -d && ./gradlew clean api-service:bootRun
+$ docker-compose -f docker-compose-local.yml up -d && ./gradlew clean api-service:bootRun
 ```
 
 ```shell
-$ docker-compose -f docker-compose-sidecar.yml up -d && ./gradlew clean batch-job:bootRun
+$ docker-compose -f docker-compose-local.yml up -d && ./gradlew clean batch-job:bootRun
 ```
 
 For other active profiles, specify profile on System property as:
