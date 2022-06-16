@@ -62,7 +62,6 @@ dependencies {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
     implementation 'com.raksit.example:example-spring-loyalty-feature-toggle:0.0.9'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3' // CVE-2021-0341
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0'
@@ -73,8 +72,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     // Security patch
-    implementation 'org.springframework.cloud:spring-cloud-function-core:3.2.3'
-    implementation 'org.springframework.cloud:spring-cloud-function-context:3.2.3'
+    implementation 'org.springframework.cloud:spring-cloud-function-core:3.2.6'
+    implementation 'org.springframework.cloud:spring-cloud-function-context:3.2.6'
 }
 
 task zipReports(type: Zip) {
