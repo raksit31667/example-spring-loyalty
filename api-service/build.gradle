@@ -61,7 +61,7 @@ dependencies {
         exclude group: 'org.apache.avro', module: 'avro'
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
-    implementation 'com.raksit.example:example-spring-loyalty-feature-toggle:0.0.1'
+    implementation 'com.raksit.example:example-spring-loyalty-feature-toggle:0.0.9'
     implementation 'com.squareup.okhttp3:okhttp:4.9.3' // CVE-2021-0341
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
