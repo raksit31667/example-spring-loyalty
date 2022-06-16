@@ -60,6 +60,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
+task zipReports(type: Zip) {
+    archiveFileName = "${rootProject.name}-${project.name}-reports.zip"
+    destinationDirectory = file("$buildDir/check-reports")
+
+    from("$buildDir/reports")
+}
+
 processResources {
     filesMatching('application.yaml') {
         expand(project.properties)
@@ -166,17 +173,7 @@ jacocoTestReport {
             fileTree(dir: it, exclude: jacocoExcludedClasses)
         })
     }
-}
-
-task zipReports(type: Zip) {
-    archiveFileName = "${rootProject.name}-${project.name}-reports.zip"
-    destinationDirectory = file("$buildDir/check-reports")
-
-    from("$buildDir/reports")
-}
-
-zipReports {
-    dependsOn check
+    finalizedBy zipReports
 }
 
 check.dependsOn(jacocoTestCoverageVerification, integrationTest)
