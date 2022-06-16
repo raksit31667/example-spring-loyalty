@@ -65,6 +65,19 @@ Here is the basic skeleton for your app repo that each of the starter templates 
 - The [Buildkite](https://buildkite.com/) CICD pipeline script can be found beneath the `.buildkite`
   directory. The build step specifications are based from `docker-compose.yml`.
 
+## Prerequisites
+
+In Buildkite managed secrets S3 bucket, create a new folder
+called `example-spring-loyalty`. Then, create a new file called `env` with the
+following credentials:
+
+   ```
+   export GITHUB_USERNAME=<your-github-username>
+   export GITHUB_TOKEN=<your-github-token>
+   export DOCKER_USERNAME=<your-docker-hub-username>
+   export DOCKER_PASSWORD=<your-docker-hub-password>
+   ```
+
 ## Development guidelines
 
 ### Starting local server
