@@ -27,17 +27,60 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?sslmode=disable
     depends_on:
       - db
-  jaeger:
-    image: jaegertracing/all-in-one:1.7
+  jaeger-remote-storage:
+    image: jaegertracing/jaeger-remote-storage
+    command:
+      - "--log-level=debug"
+    environment:
+      - SPAN_STORAGE_TYPE=memory
+    ports:
+      - "17271:17271"
+
+  jaeger-collector:
+    image: jaegertracing/jaeger-collector
+    command:
+      - "--grpc-storage.server=jaeger-remote-storage:17271"
+      - "--collector.zipkin.host-port=:9411"
+      - "--log-level=debug"
+    ports:
+      - "14269"
+      - "14268:14268"
+      - "14250"
+      - "9411:9411"
+    environment:
+      - SPAN_STORAGE_TYPE=grpc-plugin
+      - LOG_LEVEL=debug
+    restart: on-failure
+    depends_on:
+      - jaeger-remote-storage
+
+  jaeger-query:
+    image: jaegertracing/jaeger-query
+    command:
+      - "--grpc-storage.server=jaeger-remote-storage:17271"
+      - "--log-level=debug"
+    ports:
+      - "16686:16686"
+      - "16687"
+    environment:
+      - SPAN_STORAGE_TYPE=grpc-plugin
+    restart: on-failure
+    depends_on:
+      - jaeger-remote-storage
+  jaeger-agent:
+    image: jaegertracing/jaeger-agent
     ports:
       - "5775:5775/udp"
       - "6831:6831/udp"
       - "6832:6832/udp"
       - "5778:5778"
-      - "16686:16686"
-      - "14268:14268"
-      - "14250:14250"
-      - "9411:9411"
+    restart: on-failure
+    command:
+      - --reporter.grpc.host-port=jaeger-collector:14250
+      - --reporter.type=grpc
+      - --agent.tags=deployment.environment=local
+    depends_on:
+      - jaeger-collector
   localstack:
     image: localstack/localstack
     environment:

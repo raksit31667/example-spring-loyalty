@@ -90,6 +90,7 @@ spec:
           args:
             - --reporter.grpc.host-port=dns:///jaeger-collector-headless.observability:14250
             - --reporter.type=grpc
+            - "--agent.tags=deployment.environment={{ .Values.environment }}"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -9,8 +9,8 @@ spring:
 
 opentracing:
   jaeger:
-    udp-sender:
-      host: localhost
+    http-sender:
+      url: http://localhost:14268/api/traces
 
 activity:
   point-map:
