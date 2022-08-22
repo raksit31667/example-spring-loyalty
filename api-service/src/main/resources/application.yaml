@@ -37,10 +37,12 @@ management:
     enabled-by-default: true
     web:
       exposure:
-        include: '*'
+        include: 'health,prometheus'
   metrics:
     tags.*:
       service: example-spring-loyalty
+  server:
+    port: 9090
 
 info:
   application:
