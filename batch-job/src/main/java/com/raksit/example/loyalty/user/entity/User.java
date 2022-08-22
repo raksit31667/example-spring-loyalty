@@ -1,5 +1,6 @@
 package com.raksit.example.loyalty.user.entity;
 
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import javax.persistence.Transient;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name="\"user\"")
 public class User {
 
   @Id

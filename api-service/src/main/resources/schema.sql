@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS "user" (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   first_name VARCHAR NOT NULL,
   last_name VARCHAR NOT NULL,
@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMPTZ
 );
 
-CREATE TABLE IF NOT EXISTS transaction
+CREATE TABLE IF NOT EXISTS "transaction"
 (
     id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id      UUID        NOT NULL REFERENCES users,
+    user_id      UUID        NOT NULL REFERENCES "user",
     points       BIGINT      NOT NULL,
     performed_on TIMESTAMPTZ NOT NULL,
     created_at   TIMESTAMPTZ NOT NULL
