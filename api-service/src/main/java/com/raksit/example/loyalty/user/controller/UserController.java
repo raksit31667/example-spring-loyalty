@@ -21,9 +21,9 @@ public class UserController implements UserSwaggerApi {
 
   private final FeatureToggleService featureToggleService;
 
-  public UserController(UserService userService, FeatureToggleService splitFeatureToggleService) {
+  public UserController(UserService userService, FeatureToggleService featureToggleService) {
     this.userService = userService;
-    this.featureToggleService = splitFeatureToggleService;
+    this.featureToggleService = featureToggleService;
   }
 
   @Override
