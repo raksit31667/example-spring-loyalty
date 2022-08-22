@@ -2,10 +2,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    defer-datasource-initialization: true
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
+  flyway:
+    enabled: false
+  sql:
+    init:
+      mode: always
 
 legacy:
   url: http://localhost:9080

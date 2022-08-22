@@ -6,6 +6,15 @@ spring:
       initialize-schema: always
     job:
       enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  flyway:
+    enabled: false
+  sql:
+    init:
+      mode: always
 zonky:
   test:
     database:

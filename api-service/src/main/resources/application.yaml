@@ -20,6 +20,11 @@ spring:
     username: \${DB_USERNAME}
     password: \${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: false
 
 management:
   health:

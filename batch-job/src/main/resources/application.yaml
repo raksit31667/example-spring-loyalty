@@ -16,7 +16,7 @@ management:
     enabled-by-default: true
     web:
       exposure:
-        include: '*'
+        include: 'health,prometheus'
   metrics:
     tags.*:
       service: example-spring-loyalty-batch-job
@@ -34,6 +34,11 @@ spring:
     username: \${DB_USERNAME}
     password: \${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: false
 
 info:
   application:
