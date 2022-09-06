@@ -175,6 +175,7 @@ jacoco {
 
 def jacocoExcludedClasses = [
         "com/raksit/example/loyalty/LoyaltyApplication*",
+        "com/raksit/example/loyalty/user/controller/*",
         "com/raksit/example/loyalty/user/dto/*",
         "com/raksit/example/loyalty/config/*",
         "com/raksit/example/loyalty/error/ErrorResponse*",
