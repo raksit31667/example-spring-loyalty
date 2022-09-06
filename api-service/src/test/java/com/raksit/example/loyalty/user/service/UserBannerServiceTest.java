@@ -2,6 +2,7 @@ package com.raksit.example.loyalty.user.service;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Base64;
@@ -13,7 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.ResponseBytes;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
@@ -52,5 +55,31 @@ class UserBannerServiceTest {
 
     // Then
     assertThat(actual, equalTo(String.format("data:image/png;base64,%s", base64Banner)));
+  }
+
+  @Test
+  void shouldReturnEmpty_whenGetBase64BannerImage_givenS3ClientThrowsAwsServiceException() {
+    // Given
+    String userId = UUID.randomUUID().toString();
+    when(s3Client.getObjectAsBytes(any(GetObjectRequest.class))).thenThrow(AwsServiceException.class);
+
+    // When
+    String actual = userBannerService.getBase64BannerImage(userId);
+
+    // Then
+    assertThat(actual, equalTo(""));
+  }
+
+  @Test
+  void shouldReturnEmpty_whenGetBase64BannerImage_givenS3ClientThrowsSdkClientException() {
+    // Given
+    String userId = UUID.randomUUID().toString();
+    when(s3Client.getObjectAsBytes(any(GetObjectRequest.class))).thenThrow(SdkClientException.class);
+
+    // When
+    String actual = userBannerService.getBase64BannerImage(userId);
+
+    // Then
+    assertThat(actual, equalTo(""));
   }
 }

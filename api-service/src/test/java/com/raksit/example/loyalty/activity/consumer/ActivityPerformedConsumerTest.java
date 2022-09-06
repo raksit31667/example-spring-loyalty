@@ -78,7 +78,7 @@ class ActivityPerformedConsumerTest {
     verify(transactionRepository).save(transactionArgumentCaptor.capture());
     Transaction transaction = transactionArgumentCaptor.getValue();
     assertThat(transaction.getUser().getId(), equalTo(user.getId()));
-    assertThat(transaction.getPoints(), equalTo(20L));
+    assertThat(transaction.getActivityPoints(), equalTo(20L));
     assertThat(transaction.getPerformedOn(), equalTo(Instant.ofEpochSecond(nowEpochSeconds)));
   }
 

@@ -17,5 +17,6 @@ public class UserDTO {
   private String email;
   private String phone;
   private Long points;
+  private Long numberOfSubscriptions;
   private String bannerImage;
 }

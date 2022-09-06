@@ -57,7 +57,7 @@ class ActivityPerformedConsumerIntegrationTest {
     Transaction transaction = transactionRepository.findAll().iterator().next();
     assertThat(transaction.getId(), notNullValue());
     assertThat(transaction.getUser().getId(), equalTo(user.getId()));
-    assertThat(transaction.getPoints(), equalTo(20L));
+    assertThat(transaction.getActivityPoints(), equalTo(20L));
     assertThat(transaction.getPerformedOn(), equalTo(Instant.ofEpochSecond(nowEpochSeconds)));
   }
 

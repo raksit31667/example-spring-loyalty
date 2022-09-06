@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Getter
 @Setter
@@ -24,13 +25,19 @@ public class User {
   private String lastName;
   private String email;
   private String phone;
-  private Long points;
+  private Long activityPoints;
+  @Transient
+  private Long numberOfSubscriptions = 0L;
 
   public User(String firstName, String lastName, String email, String phone) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.phone = phone;
-    this.points = 0L;
+    this.activityPoints = 0L;
+  }
+
+  public Long getTotalPoints() {
+    return activityPoints + numberOfSubscriptions;
   }
 }

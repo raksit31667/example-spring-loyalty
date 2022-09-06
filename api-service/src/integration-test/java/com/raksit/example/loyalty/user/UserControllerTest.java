@@ -11,9 +11,14 @@ import com.raksit.example.feature.FeatureToggleService;
 import com.raksit.example.loyalty.annotation.IntegrationTest;
 import com.raksit.example.loyalty.error.ErrorCode;
 import com.raksit.example.loyalty.user.entity.User;
+import com.raksit.example.loyalty.user.entity.UserSubscription;
 import com.raksit.example.loyalty.user.repository.UserRepository;
+import com.raksit.example.loyalty.user.repository.UserSubscriptionCountRepository;
+import com.raksit.example.loyalty.user.repository.UserSubscriptionRepository;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.util.Collections;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +31,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.localstack.LocalStackContainer.Service;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
@@ -39,6 +45,12 @@ class UserControllerTest {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private UserSubscriptionRepository userSubscriptionRepository;
+
+  @Autowired
+  private UserSubscriptionCountRepository userSubscriptionCountRepository;
 
   @SpyBean
   @Autowired
@@ -67,12 +79,15 @@ class UserControllerTest {
   @AfterEach
   void tearDown() {
     userRepository.deleteAll();
+    userSubscriptionRepository.deleteAll();
+    userSubscriptionCountRepository.refresh();
     s3Client.deleteBucket(DeleteBucketRequest.builder()
         .bucket(S3_BUCKET_NAME)
         .build());
     Mockito.reset(featureToggleService);
   }
 
+  @Transactional
   @Test
   void shouldReturnUser_whenFindUserById_givenUserWithIdExists() throws Exception {
     // Given
@@ -80,8 +95,18 @@ class UserControllerTest {
         RandomStringUtils.random(10),
         RandomStringUtils.random(10),
         RandomStringUtils.random(10));
-    user.setPoints(100L);
+    user.setActivityPoints(100L);
     final User savedUser = userRepository.save(user);
+    userSubscriptionRepository.saveAll(Collections.nCopies(10,
+      new UserSubscription(
+          user.getId(),
+          RandomStringUtils.random(5),
+          RandomStringUtils.random(5),
+          Instant.now(),
+          Instant.now()
+      )
+    ));
+    userSubscriptionCountRepository.refresh();
     doReturn(true)
         .when(featureToggleService).isEnabled(EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID);
 
@@ -94,9 +119,10 @@ class UserControllerTest {
         .andExpect(jsonPath("$.data.lastName").value(savedUser.getLastName()))
         .andExpect(jsonPath("$.data.email").value(savedUser.getEmail()))
         .andExpect(jsonPath("$.data.phone").value(savedUser.getPhone()))
-        .andExpect(jsonPath("$.data.points").value(savedUser.getPoints()));
+        .andExpect(jsonPath("$.data.points").value(savedUser.getTotalPoints()));
   }
 
+  @Transactional
   @Test
   void shouldReturnNull_whenFindUserById_givenFeatureIsDisabled() throws Exception {
     // Given
@@ -104,8 +130,18 @@ class UserControllerTest {
         RandomStringUtils.random(10),
         RandomStringUtils.random(10),
         RandomStringUtils.random(10));
-    user.setPoints(100L);
+    user.setActivityPoints(100L);
     final User savedUser = userRepository.save(user);
+    userSubscriptionRepository.saveAll(Collections.nCopies(10,
+        new UserSubscription(
+            user.getId(),
+            RandomStringUtils.random(5),
+            RandomStringUtils.random(5),
+            Instant.now(),
+            Instant.now()
+        )
+    ));
+    userSubscriptionCountRepository.refresh();
     doReturn(false)
         .when(featureToggleService).isEnabled(EXAMPLE_SPRING_LOYALTY_FIND_USER_BY_ID);
 
@@ -115,6 +151,7 @@ class UserControllerTest {
         .andExpect(status().isNoContent());
   }
 
+  @Transactional
   @Test
   void shouldReturnBadRequest_whenFindUserById_givenInvalidUserId() throws Exception {
     // Given

@@ -26,16 +26,16 @@ public class Transaction {
   @ManyToOne
   private User user;
 
-  private Long points;
+  private Long activityPoints;
 
   private Instant performedOn;
 
   @CreationTimestamp
   private Instant createdAt;
 
-  public Transaction(User user, Long points, Instant performedOn) {
+  public Transaction(User user, Long activityPoints, Instant performedOn) {
     this.user = user;
-    this.points = points;
+    this.activityPoints = activityPoints;
     this.performedOn = performedOn;
   }
 }
