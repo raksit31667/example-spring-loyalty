@@ -26,7 +26,7 @@ public class User {
   private String lastName;
   private String email;
   private String phone;
-  private Long points;
+  private Long activityPoints;
 
   @Transient
   private Boolean isActive;
@@ -36,6 +36,6 @@ public class User {
     this.lastName = lastName;
     this.email = email;
     this.phone = phone;
-    this.points = 0L;
+    this.activityPoints = 0L;
   }
 }

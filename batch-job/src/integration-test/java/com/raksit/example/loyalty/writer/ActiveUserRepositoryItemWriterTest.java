@@ -33,7 +33,7 @@ class ActiveUserRepositoryItemWriterTest {
   void shouldInsertActiveUser_whenCallWrite_givenExistingUserIsStillActive() throws Exception {
     // Given
     final User user = new User("John", "Doe", "john.doe@example.com", "+6678901234");
-    user.setPoints(100L);
+    user.setActivityPoints(100L);
     user.setIsActive(true);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
 
@@ -46,14 +46,14 @@ class ActiveUserRepositoryItemWriterTest {
     // Then
     Iterable<User> updatedUser = userRepository.findAll();
     assertThat(updatedUser.iterator().hasNext(), equalTo(true));
-    assertThat(updatedUser.iterator().next().getPoints(), equalTo(100L));
+    assertThat(updatedUser.iterator().next().getActivityPoints(), equalTo(100L));
   }
 
   @Test
   void shouldDoNothing_whenCallWrite_givenExistingUserIsNoLongerActive() throws Exception {
     // Given
     final User user = new User("John", "Doe", "john.doe@example.com", "+6678901234");
-    user.setPoints(100L);
+    user.setActivityPoints(100L);
     user.setIsActive(false);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
 

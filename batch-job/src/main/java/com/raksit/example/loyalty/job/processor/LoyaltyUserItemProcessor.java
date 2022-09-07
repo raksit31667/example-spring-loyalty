@@ -20,7 +20,7 @@ public class LoyaltyUserItemProcessor implements ItemProcessor<LoyaltyTransactio
 
     final User user = new User(legacyLoyaltyUser.getFirstName(), legacyLoyaltyUser.getLastName(),
         legacyLoyaltyUser.getEmail(), legacyLoyaltyUser.getPhone());
-    user.setPoints(loyaltyTransaction.getPoints());
+    user.setActivityPoints(loyaltyTransaction.getPoints());
     user.setIsActive(legacyLoyaltyUser.getIsActive());
     return user;
   }

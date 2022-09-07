@@ -108,9 +108,9 @@ class MigrateLegacyLoyaltyJobTest {
     assertThat(jobExecution.getJobInstance().getJobName(), equalTo("migrateLegacyLoyalty"));
     assertThat(jobExecution.getExitStatus(), equalTo(ExitStatus.COMPLETED));
     assertThat(updatedUser.isPresent(), equalTo(true));
-    assertThat(updatedUser.get().getPoints(), equalTo(100L));
+    assertThat(updatedUser.get().getActivityPoints(), equalTo(100L));
     assertThat(updatedAnotherUser.isPresent(), equalTo(true));
-    assertThat(updatedAnotherUser.get().getPoints(), equalTo(200L));
+    assertThat(updatedAnotherUser.get().getActivityPoints(), equalTo(200L));
   }
 
   @Test
@@ -145,7 +145,7 @@ class MigrateLegacyLoyaltyJobTest {
     assertThat(jobExecution.getExitStatus(), equalTo(ExitStatus.COMPLETED));
     assertThat(updatedUser.isPresent(), equalTo(false));
     assertThat(updatedAnotherUser.isPresent(), equalTo(true));
-    assertThat(updatedAnotherUser.get().getPoints(), equalTo(200L));
+    assertThat(updatedAnotherUser.get().getActivityPoints(), equalTo(200L));
   }
 
   @Test
@@ -179,7 +179,7 @@ class MigrateLegacyLoyaltyJobTest {
     assertThat(jobExecution.getJobInstance().getJobName(), equalTo("migrateLegacyLoyalty"));
     assertThat(jobExecution.getExitStatus(), equalTo(ExitStatus.COMPLETED));
     assertThat(updatedUser.isPresent(), equalTo(true));
-    assertThat(updatedUser.get().getPoints(), equalTo(100L));
+    assertThat(updatedUser.get().getActivityPoints(), equalTo(100L));
     assertThat(updatedAnotherUser.isPresent(), equalTo(false));
   }
 

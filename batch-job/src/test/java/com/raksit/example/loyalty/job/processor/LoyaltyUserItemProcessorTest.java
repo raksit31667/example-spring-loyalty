@@ -42,7 +42,7 @@ class LoyaltyUserItemProcessorTest {
     assertThat(actual.getLastName(), equalTo("Doe"));
     assertThat(actual.getEmail(), equalTo("john.doe@example.com"));
     assertThat(actual.getPhone(), equalTo("+6678901234"));
-    assertThat(actual.getPoints(), equalTo(100L));
+    assertThat(actual.getActivityPoints(), equalTo(100L));
     assertThat(actual.getIsActive(), equalTo(true));
   }
 
@@ -63,7 +63,7 @@ class LoyaltyUserItemProcessorTest {
     assertThat(actual.getLastName(), equalTo("Doe"));
     assertThat(actual.getEmail(), equalTo("john.doe@example.com"));
     assertThat(actual.getPhone(), equalTo("+6678901234"));
-    assertThat(actual.getPoints(), equalTo(100L));
+    assertThat(actual.getActivityPoints(), equalTo(100L));
     assertThat(actual.getIsActive(), equalTo(false));
   }
 }

@@ -35,7 +35,7 @@ class InactiveUserRepositoryItemWriterTest {
     // Given
     final User user = new User("John", "Doe", "john.doe@example.com", "+6678901234");
     userRepository.save(user);
-    user.setPoints(100L);
+    user.setActivityPoints(100L);
     user.setIsActive(false);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
 
@@ -54,7 +54,7 @@ class InactiveUserRepositoryItemWriterTest {
   void shouldDoNothing_whenCallWrite_givenNonExistingUserIsNoLongerActive() throws Exception {
     // Given
     final User user = new User("John", "Doe", "john.doe@example.com", "+6678901234");
-    user.setPoints(100L);
+    user.setActivityPoints(100L);
     user.setIsActive(false);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
 
@@ -74,7 +74,7 @@ class InactiveUserRepositoryItemWriterTest {
     // Given
     final User user = new User("John", "Doe", "john.doe@example.com", "+6678901234");
     userRepository.save(user);
-    user.setPoints(100L);
+    user.setActivityPoints(100L);
     user.setIsActive(true);
     StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
 
