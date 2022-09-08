@@ -142,12 +142,13 @@ jacoco {
 
 def jacocoExcludedClasses = [
         "com/raksit/example/loyalty/LoyaltyBatchJobApplication*",
-        "com/raksit/example/loyalty/user/*",
         "com/raksit/example/loyalty/job/configuration/*",
-        "com/raksit/example/loyalty/job/launcher/JobLauncherController*",
-        "com/raksit/example/loyalty/job/listener/*",
-        "com/raksit/example/loyalty/job/writer/*",
-        "com/raksit/example/loyalty/legacy/*"
+        "com/raksit/example/loyalty/job/migratelegacy/MigrateLegacyLoyaltyJobConfiguration*",
+        "com/raksit/example/loyalty/job/migratelegacy/user/*",
+        "com/raksit/example/loyalty/job/migratelegacy/launcher/*",
+        "com/raksit/example/loyalty/job/migratelegacy/listener/*",
+        "com/raksit/example/loyalty/job/migratelegacy/writer/*",
+        "com/raksit/example/loyalty/job/migratelegacy/legacy/*"
 ]
 
 jacocoTestCoverageVerification {

@@ -5,7 +5,7 @@ import static org.mockserver.model.HttpResponse.response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.raksit.example.loyalty.legacy.LegacyLoyaltyUser;
+import com.raksit.example.loyalty.job.migratelegacy.legacy.LegacyLoyaltyUser;
 import feign.Request.HttpMethod;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.MediaType;
