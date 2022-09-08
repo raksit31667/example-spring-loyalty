@@ -6,21 +6,22 @@ spring:
       initialize-schema: always
     job:
       enabled: false
-  jpa:
-    hibernate:
-      ddl-auto: none
-    defer-datasource-initialization: true
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: ${DB_DRIVER_CLASS_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   flyway:
     enabled: false
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
       mode: always
-zonky:
-  test:
-    database:
-      postgres:
-        docker:
-          image: postgres:alpine
+
 legacy:
   url: http://localhost:9999
 
