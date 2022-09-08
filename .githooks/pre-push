@@ -5,3 +5,5 @@ set -euo pipefail
 echo "--- Running Git pre-push hook ---"
 
 ./gradlew api-service:clean api-service:build
+
+./gradlew batch-job:clean batch-job:build
