@@ -9,8 +9,9 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Getter
 @Setter
@@ -19,7 +20,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class ExpiredUserSubscription {
 
   @Id
-  @GeneratedValue(strategy = IDENTITY)
+  @GeneratedValue(strategy = SEQUENCE, generator = "expired_user_subscription_id_seq")
+  @SequenceGenerator(name = "expired_user_subscription_id_seq",
+      sequenceName = "expired_user_subscription_id_seq", allocationSize = 1)
   private Long id;
 
   private UUID userId;
