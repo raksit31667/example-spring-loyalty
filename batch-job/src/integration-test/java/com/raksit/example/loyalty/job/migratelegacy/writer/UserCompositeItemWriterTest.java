@@ -15,7 +15,9 @@ import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.batch.test.MetaDataInstanceFactory;
 import org.springframework.batch.test.StepScopeTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("migrate-legacy-loyalty")
 @IntegrationTest
 class UserCompositeItemWriterTest {
 

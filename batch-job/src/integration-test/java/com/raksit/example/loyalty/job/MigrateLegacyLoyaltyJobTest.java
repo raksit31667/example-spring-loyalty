@@ -34,11 +34,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.ResourceUtils;
 import org.testcontainers.containers.localstack.LocalStackContainer.Service;
 
 @ExtendWith(AmazonS3ClientExtension.class)
 @SpringBatchTest
+@ActiveProfiles("migrate-legacy-loyalty")
 @IntegrationTest
 class MigrateLegacyLoyaltyJobTest {
 

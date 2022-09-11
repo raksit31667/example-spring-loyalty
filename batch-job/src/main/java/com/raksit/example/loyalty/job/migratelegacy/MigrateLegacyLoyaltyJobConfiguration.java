@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -45,6 +46,7 @@ import java.util.Optional;
 
 @Configuration
 @EnableBatchProcessing
+@Profile("migrate-legacy-loyalty")
 public class MigrateLegacyLoyaltyJobConfiguration {
 
   @StepScope
@@ -123,7 +125,7 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   }
 
   @Bean
-  public Step step(
+  public Step migrateLegacyLoyaltyStep(
       UserRepository userRepository,
       LegacyLoyaltyClient legacyLoyaltyClient,
       AmazonS3 amazonS3ForLegacyLoyaltyJob,
@@ -132,7 +134,7 @@ public class MigrateLegacyLoyaltyJobConfiguration {
       StepBuilderFactory stepBuilderFactory) {
 
     return stepBuilderFactory
-        .get("step")
+        .get("migrateLegacyLoyaltyStep")
         .<LoyaltyTransaction, User>chunk(3)
         .reader(loyaltyTransactionMultiResourceItemReader(
             amazonS3ForLegacyLoyaltyJob,
@@ -153,10 +155,12 @@ public class MigrateLegacyLoyaltyJobConfiguration {
   }
 
   @Bean
-  public Job migrateLegacyLoyalty(Step step, JobBuilderFactory jobBuilderFactory) {
+  public Job migrateLegacyLoyalty(
+      Step migrateLegacyLoyaltyStep,
+      JobBuilderFactory jobBuilderFactory) {
     return jobBuilderFactory
         .get("migrateLegacyLoyalty")
-        .flow(step)
+        .flow(migrateLegacyLoyaltyStep)
         .end()
         .listener(new MigrateLegacyLoyaltyJobLoggerListener())
         .build();

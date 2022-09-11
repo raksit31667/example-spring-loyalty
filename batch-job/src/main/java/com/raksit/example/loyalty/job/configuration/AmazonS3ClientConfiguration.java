@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class AmazonS3ClientConfiguration {
 
-  @Profile({"dev", "prod"})
+  @Profile({"dev & migrate-legacy-loyalty", "prod & migrate-legacy-loyalty"})
   @Primary
   @Bean
   public AmazonS3 amazonS3ForLegacyLoyaltyJob(
@@ -24,6 +24,14 @@ public class AmazonS3ClientConfiguration {
         .withCredentials(new STSProfileCredentialsServiceProvider(new RoleInfo()
             .withRoleArn(amazonS3ConfigurationProperties.getRoleArn())
             .withRoleSessionName("example-spring-loyalty")))
+        .build();
+  }
+
+  @Profile({"dev & subscription-import", "prod & subscription-import"})
+  @Primary
+  @Bean
+  public AmazonS3 amazonS3ForUserSubscriptionImportJob() {
+    return AmazonS3ClientBuilder.standard()
         .build();
   }
 
