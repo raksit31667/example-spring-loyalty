@@ -119,7 +119,6 @@ bootRun {
 }
 
 checkstyle {
-    toolVersion = "8.33"
     ignoreFailures = false
     sourceSets = [sourceSets.main]
     maxErrors = 0
@@ -148,7 +147,12 @@ def jacocoExcludedClasses = [
         "com/raksit/example/loyalty/job/migratelegacy/launcher/*",
         "com/raksit/example/loyalty/job/migratelegacy/listener/*",
         "com/raksit/example/loyalty/job/migratelegacy/writer/*",
-        "com/raksit/example/loyalty/job/migratelegacy/legacy/*"
+        "com/raksit/example/loyalty/job/migratelegacy/legacy/*",
+        "com/raksit/example/loyalty/job/subscriptionimport/UserSubscriptionImportJobConfiguration*",
+        "com/raksit/example/loyalty/job/subscriptionimport/subscription/entity/*",
+        "com/raksit/example/loyalty/job/subscriptionimport/subscription/repository/*",
+        "com/raksit/example/loyalty/job/subscriptionimport/subscription/view/*",
+        "com/raksit/example/loyalty/job/subscriptionimport/step/*"
 ]
 
 jacocoTestCoverageVerification {

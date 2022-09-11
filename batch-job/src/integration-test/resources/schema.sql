@@ -9,3 +9,19 @@ CREATE TABLE IF NOT EXISTS "user"
     created_at      TIMESTAMPTZ,
     updated_at      TIMESTAMPTZ
 );
+
+CREATE TABLE IF NOT EXISTS "user_subscription"
+(
+    id            BIGSERIAL NOT NULL PRIMARY KEY,
+    user_id       uuid      NOT NULL,
+    product_id    VARCHAR   NOT NULL,
+    product_name  VARCHAR   NOT NULL,
+    subscribed_on TIMESTAMPTZ,
+    active_until  TIMESTAMPTZ
+);
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS "user_subscription_count" AS
+SELECT user_id, COUNT(*) as number_of_subscriptions
+FROM "user_subscription"
+GROUP BY user_id
+WITH DATA;
