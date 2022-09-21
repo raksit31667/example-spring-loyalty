@@ -61,7 +61,7 @@ dependencies {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
     implementation 'com.raksit.example:example-spring-loyalty-feature-toggle:0.0.9'
-    implementation 'org.yaml:snakeyaml:1.31' // CVE-2022-25857
+    implementation 'org.yaml:snakeyaml:1.32' // CVE-2022-38751
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
