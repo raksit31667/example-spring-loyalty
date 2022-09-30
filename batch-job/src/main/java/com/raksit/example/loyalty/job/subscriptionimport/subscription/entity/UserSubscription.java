@@ -22,7 +22,7 @@ public class UserSubscription {
   @Id
   @GeneratedValue(strategy = SEQUENCE, generator = "user_subscription_id_seq")
   @SequenceGenerator(name = "user_subscription_id_seq",
-      sequenceName = "user_subscription_id_seq", allocationSize = 1)
+      sequenceName = "user_subscription_id_seq", allocationSize = 1000)
   private Long id;
 
   private UUID userId;

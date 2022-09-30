@@ -7,7 +7,7 @@ spring:
     job:
       enabled: false
   datasource:
-    url: ${DB_URL}
+    url: ${DB_URL}?reWriteBatchedInserts=true
     driver-class-name: ${DB_DRIVER_CLASS_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
