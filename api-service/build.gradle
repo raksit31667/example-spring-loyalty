@@ -61,7 +61,6 @@ dependencies {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
     implementation 'com.raksit.example:example-spring-loyalty-feature-toggle:0.0.9'
-    implementation 'org.yaml:snakeyaml:1.32' // CVE-2022-38751
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
@@ -74,6 +73,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-function-core:3.2.6'
     implementation 'org.springframework.cloud:spring-cloud-function-context:3.2.6'
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.263'
+    implementation 'org.yaml:snakeyaml:1.32' // CVE-2022-38751
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1' // CVE-2022-42003
 }
 
 task zipReports(type: Zip) {

@@ -48,7 +48,6 @@ dependencies {
     implementation 'dev.akkinoc.spring.boot:logback-access-spring-boot-starter:3.2.1'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws'
     implementation 'com.amazonaws:aws-java-sdk-sts:1.12.266'
-    implementation 'org.yaml:snakeyaml:1.32' // CVE-2022-38751
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
@@ -59,6 +58,8 @@ dependencies {
 
     // Security patch
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.263'
+    implementation 'org.yaml:snakeyaml:1.32' // CVE-2022-38751
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1' // CVE-2022-42003
 }
 
 task zipReports(type: Zip) {
