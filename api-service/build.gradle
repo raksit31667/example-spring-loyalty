@@ -41,7 +41,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.postgresql:postgresql:42.4.1'
+    implementation 'org.postgresql:postgresql'
     implementation 'org.projectlombok:lombok:1.18.22'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
     implementation 'io.swagger.core.v3:swagger-annotations:2.2.0'

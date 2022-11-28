@@ -27,7 +27,7 @@ test {
 
 dependencies {
     implementation 'org.springframework:spring-web:5.3.15'
-    implementation 'org.postgresql:postgresql:42.4.1'
+    implementation 'org.postgresql:postgresql'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.testcontainers:junit-jupiter:1.16.2'
     testImplementation 'org.testcontainers:testcontainers:1.16.2'
