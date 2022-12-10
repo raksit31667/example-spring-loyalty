@@ -41,7 +41,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.postgresql:postgresql'
+    implementation 'org.postgresql:postgresql:42.5.1'
     implementation 'org.projectlombok:lombok:1.18.22'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
     implementation 'io.swagger.core.v3:swagger-annotations:2.2.0'
@@ -70,11 +70,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     // Security patch
-    implementation 'org.springframework.cloud:spring-cloud-function-core:3.2.6'
-    implementation 'org.springframework.cloud:spring-cloud-function-context:3.2.6'
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.263'
-    implementation 'org.yaml:snakeyaml:1.32' // CVE-2022-38751
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1' // CVE-2022-42003
+    implementation 'org.yaml:snakeyaml:1.33'
 }
 
 task zipReports(type: Zip) {
