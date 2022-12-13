@@ -19,7 +19,7 @@ serviceAccount:
   create: true
   # Annotations to add to the service account
   annotations: {
-    eks.amazonaws.com/role-arn: arn:aws:iam::564702493239:role/eks-quickstart-ServiceAccountRole
+    eks.amazonaws.com/role-arn: arn:aws:iam::564702493239:role/eks-raksit31667-ServiceAccountRole
   }
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
