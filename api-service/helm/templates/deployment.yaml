@@ -50,6 +50,11 @@ spec:
                 secretKeyRef:
                   name: example-spring-loyalty-db
                   key: DB_PASSWORD
+            - name: SPLIT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: split-io
+                  key: SPLIT_API_KEY
           ports:
             - name: http
               containerPort: 8080
