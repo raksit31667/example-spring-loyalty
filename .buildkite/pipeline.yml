@@ -4,18 +4,30 @@ steps:
     command: docker-compose run api-service-check
     artifact_paths:
       - "api-service/build/check-reports/*"
+
   - label: ":white_check_mark: Batch job Check"
     key: batch-job-check
     command: docker-compose run batch-job-check
     artifact_paths:
       - "batch-job/build/check-reports/*"
+
   - label: ":docker: API service Build & Push Docker image"
+    key: api-service-build-push-docker
     depends_on: api-service-check
     command:
       - docker-compose run api-service-build-push-docker
       - .buildkite/build-push-docker.sh api-service
+
   - label: ":docker: Batch job Build & Push Docker image"
+    key: batch-job-build-push-docker
     depends_on: batch-job-check
     command:
       - docker-compose run batch-job-build-push-docker
       - .buildkite/build-push-docker.sh batch-job
+
+  - label: ":helm: Deploy API service"
+    command: deploy.sh
+    depends_on: api-service-build-push-docker
+    plugins:
+      - cultureamp/aws-assume-role#v0.1.0:
+          role: "arn:aws:iam::564702493239:role/ExampleSpringLoyaltyInfra"
