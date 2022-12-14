@@ -31,3 +31,10 @@ steps:
     plugins:
       - cultureamp/aws-assume-role#v0.1.0:
           role: "arn:aws:iam::564702493239:role/ExampleSpringLoyaltyInfra"
+
+  - label: ":helm: Deploy Batch job"
+    command: .buildkite/deploy.sh batch-job
+    depends_on: batch-job-build-push-docker
+    plugins:
+      - cultureamp/aws-assume-role#v0.1.0:
+          role: "arn:aws:iam::564702493239:role/ExampleSpringLoyaltyInfra"
