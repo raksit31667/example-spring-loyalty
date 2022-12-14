@@ -26,7 +26,7 @@ steps:
       - .buildkite/build-push-docker.sh batch-job
 
   - label: ":helm: Deploy API service"
-    command: .buildkite/deploy.sh
+    command: .buildkite/deploy.sh api-service
     depends_on: api-service-build-push-docker
     plugins:
       - cultureamp/aws-assume-role#v0.1.0:
